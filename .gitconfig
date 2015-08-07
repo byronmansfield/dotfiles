@@ -1,0 +1,45 @@
+[user]
+	name = Byron Mansfield
+	email = byron@byronmansfield.com
+[core]
+	editor = vim
+	whitespace = fix,-indent-with-non-tab,trailing-space,cr-at-eol
+	excludesfile = /Users/dietrying0/.gitignore_global
+[web]
+	browser = google-chrome
+[difftool]
+	prompt = false
+[diff]
+	tool = vimdiff
+[color]
+	sh = auto
+	ui = auto
+[color "branch"]
+	current = yellow bold
+	local = green bold
+	remote = cyan bold
+[color "diff"]
+	meta = yellow bold
+	frag = magenta bold
+	old = red bold
+	new = green bold
+	whitespace = red reverse
+[color "status"]
+	added = green bold
+	changed = yellow bold
+	untracked = red bold
+[color "sh"]
+	dirty = red
+	changed = red
+	untracked = cyan
+[filter "media"]
+	clean = git-media-clean %f
+	smudge = git-media-smudge %f
+[gitflow "prefix"]
+	feature = feature-
+	release = release-
+	hotfix = hotfix-
+	support = support-
+	versiontag = v
+[alias]
+	d = difftool
