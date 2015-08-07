@@ -89,6 +89,20 @@ fi
 # export PATH="$PATH:$HOME/.rvm/bin" # Add RVM to PATH for scripting
 # [[ -s "$HOME/.rvm/scripts/rvm" ]] && source "$HOME/.rvm/scripts/rvm" # Load RVM into a shell session *as a function*
 
+# ================================================================
+# INITIALIZE boot2docker shell variables
+# ================================================================
+[ "$(command -v boot2docker)" ] \
+  && [ "$(ps ax | grep boot2docker-vm | grep -v "grep")" ] \
+    && $(boot2docker shellinit 2> /dev/null)
+
+eval "$(docker-machine env vbox)"
+
+# ================================================================
+# RBENV
+# ================================================================
+eval "$(rbenv init -)"
+
 export CHROME_BIN="/Applications/Google Chrome.app/Contents/MacOS/Google Chrome"
 
 export PATH="/usr/local/bin:/usr/bin:/bin:/usr/sbin:/sbin:/usr/local/git/bin"
