@@ -7,21 +7,9 @@ export ZSH=$HOME/.oh-my-zsh
 # time that oh-my-zsh is loaded.
 ZSH_THEME="robbyrussell"
 
-# ================================================================
-# SET USER BIN
-# ================================================================
-if [ -d "$HOME/bin" ]; then
-	export PATH="$HOME/bin:$PATH"
-fi
-
 # Set vim as default editor
-export EDITOR='vim'
-
-# The next line updates PATH for the Google Cloud SDK.
-# source '$HOME/google-cloud-sdk/path.bash.inc'
-
-# The next line enables bash completion for gcloud.
-# source '$HOME/google-cloud-sdk/completion.bash.inc'
+export VISUAL=vim
+export EDITOR=$VISUAL
 
 # Uncomment the following line to use case-sensitive completion.
 # CASE_SENSITIVE="true"
@@ -36,7 +24,7 @@ export EDITOR='vim'
 # DISABLE_LS_COLORS="true"
 
 # Uncomment the following line to disable auto-setting terminal title.
-export DISABLE_AUTO_TITLE="true"
+# DISABLE_AUTO_TITLE="true"
 
 # Uncomment the following line to enable command auto-correction.
 # ENABLE_CORRECTION="true"
@@ -61,51 +49,17 @@ export DISABLE_AUTO_TITLE="true"
 # Custom plugins may be added to ~/.oh-my-zsh/custom/plugins/
 # Example format: plugins=(rails git textmate ruby lighthouse)
 # Add wisely, as too many plugins slow down shell startup.
-plugins=(git git-flow jsontools node-api npm osx tmux)
+plugins=(git tmux docker)
 
 source $ZSH/oh-my-zsh.sh
 
-# User configuration
 # ================================================================
-# GO PATH
+# USER CONFIGURATIONS
 # ================================================================
-if [ -z "${GOPATH}" ]; then
-  export GOPATH=/usr/local/go
-  export PATH=$PATH:$GOPATH/bin
-fi
-
-# ================================================================
-# NODE PATH
-# ================================================================
-if test -n "$(command -v npm)"; then
-	export NODE_PATH="/usr/local/lib/node_modules:$HOME/node_modules";
-	PATH="$PATH:/usr/local/lib/node_modules/npm/bin:$HOME/node_modules/.bin";
-	PATH="$PATH:/usr/local/share/npm/bin"
-fi
-
-# ================================================================
-# RVM SETUP
-# ================================================================
-# export PATH="$PATH:$HOME/.rvm/bin" # Add RVM to PATH for scripting
-# [[ -s "$HOME/.rvm/scripts/rvm" ]] && source "$HOME/.rvm/scripts/rvm" # Load RVM into a shell session *as a function*
-
-# ================================================================
-# INITIALIZE boot2docker shell variables
-# ================================================================
-[ "$(command -v boot2docker)" ] \
-  && [ "$(ps ax | grep boot2docker-vm | grep -v "grep")" ] \
-    && $(boot2docker shellinit 2> /dev/null)
-
-eval "$(docker-machine env vbox)"
-
-# ================================================================
-# RBENV
-# ================================================================
-eval "$(rbenv init -)"
 
 export CHROME_BIN="/Applications/Google Chrome.app/Contents/MacOS/Google Chrome"
 
-export PATH="/usr/local/bin:/usr/bin:/bin:/usr/sbin:/sbin:/usr/local/git/bin"
+export PATH="/usr/bin:/bin:/usr/sbin:/sbin:/usr/local/bin"
 
 # export MANPATH="/usr/local/man:$MANPATH"
 
@@ -126,46 +80,92 @@ export PATH="/usr/local/bin:/usr/bin:/bin:/usr/sbin:/sbin:/usr/local/git/bin"
 # export SSH_KEY_PATH="~/.ssh/dsa_id"
 
 # ================================================================
-# ALIAS
+# SET USER HOME BIN
+# ================================================================
+if [ -d "$HOME/bin" ]; then
+	export PATH="$HOME/bin:$PATH"
+fi
+
+# ================================================================
+# GO
+# ================================================================
+if [ -z "${GOPATH}" ]; then
+  export GOPATH=/usr/local/go
+  export PATH="$PATH:$GOPATH/bin"
+fi
+
+## ================================================================
+# NODEJS
+# ================================================================
+if test -n "$(command -v npm)"; then
+	export NODE_PATH="/usr/local/lib/node_modules:$HOME/node_modules";
+	export NPM_PACKAGES="/usr/local/share/npm";
+	PATH="$PATH:/usr/local/lib/node_modules/npm/bin:$HOME/node_modules/.bin";
+	PATH="$PATH:$NPM_PACKAGES/bin"
+fi
+
+# Unset manpath so we can inherit from /etc/manpath via the `manpath`
+# command
+unset MANPATH # delete if you already modified MANPATH elsewhere in your config
+MANPATH="$NPM_PACKAGES/share/man:$(manpath)"
+
+# ================================================================
+# RBENV
+# ================================================================
+[ "$(command -v rbenv)" ] && eval "$(rbenv init -)"
+
+# ================================================================
+# RVM SETUP
+# ================================================================
+# Since switching from rvm to rbenv I have commented this out
+# export PATH="$PATH:$HOME/.rvm/bin" # Add RVM to PATH for scripting
+# [[ -s "$HOME/.rvm/scripts/rvm" ]] && source "$HOME/.rvm/scripts/rvm" # Load RVM into a shell session *as a function*
+
+# ================================================================
+# GOOGLE CLOUD SDK
 # ================================================================
 
-# Push and pop directories on directory stack
-alias pu='pushd'
-alias po='popd'
+# The next line updates PATH for the Google Cloud SDK.
+# source '$HOME/google-cloud-sdk/path.bash.inc'
 
-# Basic directory operations
-alias ...='cd ../..'
-alias -- -='cd -'
+# The next line enables bash completion for gcloud.
+# source '$HOME/google-cloud-sdk/completion.bash.inc'
 
-# Super user
-alias _='sudo'
-alias please='sudo'
+# ================================================================
+# INITIALIZE boot2docker shell variables
+# ================================================================
+[ "$(command -v boot2docker)" ] \
+  && [ "$(ps ax | grep boot2docker-vm | grep -v "grep")" ] \
+    && $(boot2docker shellinit 2> /dev/null)
 
-#alias g='grep -in'
+[ "$(command -v docker-machine)" ] && eval "$(docker-machine env vbox)"
 
-# Show history
-if [ "$HIST_STAMPS" = "mm/dd/yyyy" ]
-then
-    alias history='fc -fl 1'
-elif [ "$HIST_STAMPS" = "dd.mm.yyyy" ]
-then
-    alias history='fc -El 1'
-elif [ "$HIST_STAMPS" = "yyyy-mm-dd" ]
-then
-    alias history='fc -il 1'
-else
-    alias history='fc -l 1'
-fi
-# List direcory contents
-alias lsa='ls -lah'
-alias l='ls -lah'
-alias ll='ls -lh'
-alias la='ls -lAh'
-alias sl=ls # often screw this up
+# ================================================================
+# LOAD LOCAL ENV
+# ================================================================
+[ -f "${HOME}"/.env ] && source $HOME/.env
 
-alias afind='ack-grep -il'
+# ================================================================
+# WORK STUFF
+# ================================================================
 
-# My custom ones
-alias fe='cd ~/code/clariture/frontend'
-alias yofe='cd ~/code/ch-yo-angular'
+# aws
+[[ -f ~/.work/.aws ]] && source ~/.work/.aws
 
+# chef
+export TESTKITCHEN_EC2_PEM=$HOME/.ssh/testkitchen.pem
+
+# Set personal aliases, overriding those provided by oh-my-zsh libs,
+# plugins, and themes. Aliases can be placed here, though oh-my-zsh
+# users are encouraged to define aliases within the ZSH_CUSTOM folder.
+# For a full list of active aliases, run `alias`.
+
+# ================================================================
+# ALIASES
+# ================================================================
+[[ -f ~/.aliases ]] && source ~/.aliases
+
+# ================================================================
+# FUNCTIONS
+# ================================================================
+[[ -f ~/.functions ]] && source ~/.functions

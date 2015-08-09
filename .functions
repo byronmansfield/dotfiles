@@ -1,0 +1,269 @@
+# ================================================================
+# FUNCTIONS
+# ================================================================
+
+# myIP address
+function myip() {
+  ifconfig lo0 | grep 'inet ' | sed -e 's/:/ /' | awk '{print "lo0       : " $2}'
+	ifconfig en0 | grep 'inet ' | sed -e 's/:/ /' | awk '{print "en0 (IPv4): " $2 " " $3 " " $4 " " $5 " " $6}'
+	ifconfig en0 | grep 'inet6 ' | sed -e 's/ / /' | awk '{print "en0 (IPv6): " $2 " " $3 " " $4 " " $5 " " $6}'
+	ifconfig en1 | grep 'inet ' | sed -e 's/:/ /' | awk '{print "en1 (IPv4): " $2 " " $3 " " $4 " " $5 " " $6}'
+	ifconfig en1 | grep 'inet6 ' | sed -e 's/ / /' | awk '{print "en1 (IPv6): " $2 " " $3 " " $4 " " $5 " " $6}'
+}
+
+# turn hidden files on/off in Finder
+function hiddenOn() { 
+	defaults write com.apple.Finder AppleShowAllFiles YES ; 
+}
+function hiddenOff() { 
+	defaults write com.apple.Finder AppleShowAllFiles NO ; 
+}
+
+# postgres functions
+function psqlstart() { 
+	/usr/local/pgsql/bin/pg_ctl -D /usr/local/pgsql/data -l logfile start ; 
+}
+function psqlstop() { 
+	/usr/local/pgsql/bin/pg_ctl stop ; 
+}
+
+# Simple calculator
+function calc() {
+	local result=""
+	result="$(printf "scale=10;$*\n" | bc --mathlib | tr -d '\\\n')"
+	#                       └─ default (when `--mathlib` is used) is 20
+	#
+	if [[ "$result" == *.* ]]; then
+		# improve the output for decimal numbers
+		printf "$result" |
+		sed -e 's/^\./0./'        `# add "0" for cases like ".5"` \
+				-e 's/^-\./-0./'      `# add "0" for cases like "-.5"`\
+				-e 's/0*$//;s/\.$//'   # remove trailing zeros
+	else
+		printf "$result"
+	fi
+	printf "\n"
+}
+
+# A better git clone
+# clones a repository, cds into it, and opens it in my editor.
+#
+# Note: subl is already setup as a shortcut to Sublime. Replace with your own editor if different
+# 
+# - arg 1 - url|username|repo remote endpoint, username on github, or name of
+#           repository.
+# - arg 2 - (optional) name of repo
+#
+# usage:
+#   $ clone things
+#     .. git clone git@github.com:byronmansfield/things.git things
+#     .. cd things
+#     .. vim .
+#
+#   $ clone yeoman generator
+#     .. git clone git@github.com:yeoman/generator.git generator
+#     .. cd generator
+#     .. vim .
+#
+#   $ clone git@github.com:byronmansfield/dotfiles.git
+#     .. git clone git@github.com:byronmansfield/dotfiles.git dotfiles
+#     .. cd dots
+#     .. vim .
+
+function clone {
+  local username="byronmansfield"
+
+  local url=$1;
+  local repo=$2;
+
+  if [[ ${url:0:4} == 'http' || ${url:0:3} == 'git' ]]
+  then
+    # just clone this thing.
+    repo=$(echo $url | awk -F/ '{print $NF}' | sed -e 's/.git$//');
+  elif [[ -z $repo ]]
+  then
+    # my own stuff.
+    repo=$url;
+    url="git@github.com:$username/$repo";
+  else
+    # not my own, but I know whose it is.
+    url="git@github.com:$url/$repo.git";
+  fi
+
+  git clone $url $repo && cd $repo && vim .;
+}
+
+# simple git log
+# usage glr v0.2.2 v0.2.3
+function glr() {
+	git log $1 $2 --pretty=format:'* %h %s' --date=short --no-merges 
+}
+
+# git log with per-commit cmd-clickable GitHub URLs (iTerm)
+function gf() {
+  local remote="$(git remote -v | awk '/^origin.*\(push\)$/ {print $2}')"
+  [ "$remote" ] || return
+  local user_repo="$(echo "$remote" | perl -pe 's/.*://;s/\.git$//')"
+  git log $* --name-status --color | awk "$(cat <<AWK
+    /^.*commit [0-9a-f]{40}/ {sha=substr(\$2,1,7)}
+    /^[MA]\t/ {printf "%s\thttps://github.com/$user_repo/blob/%s/%s\n", \$1, sha, \$2; next}
+    /.*/ {print \$0}
+AWK
+  )" | less -F
+}
+
+# Syntax-highlight JSON strings or files
+function json() {
+	if [ -p /dev/stdin ]; then
+		# piping, e.g. `echo '{"foo":42}' | json`
+		python -mjson.tool | pygmentize -l javascript
+	else
+		# e.g. `json '{"foo":42}'`
+		python -mjson.tool <<< "$*" | pygmentize -l javascript
+	fi
+}
+
+# get gzipped size
+function gz() {
+	echo "orig size    (bytes): "
+	cat "$1" | wc -c
+	echo "gzipped size (bytes): "
+	gzip -c "$1" | wc -c
+}
+
+# All the dig info
+function digga() {
+	dig +nocmd "$1" any +multiline +noall +answer
+}
+
+# Add note to Notes.app (OS X 10.8)
+# Usage: `note 'title' 'body'` or `echo 'body' | note`
+# Title is optional
+function note() {
+	local title
+	local body
+	if [ -t 0 ]; then
+		title="$1"
+		body="$2"
+	else
+		title=$(cat)
+	fi
+	osascript >/dev/null <<EOF
+tell application "Notes"
+        tell account "iCloud"
+                tell folder "Notes"
+                        make new note with properties {name:"$title", body:"$title" & "<br><br>" & "$body"}
+                end tell
+        end tell
+end tell
+EOF
+}
+
+# Add reminder to Reminders.app (OS X 10.8)
+# Usage: `remind 'foo'` or `echo 'foo' | remind`
+function remind() {
+	local text
+	if [ -t 0 ]; then
+		text="$1" # argument
+	else
+		text=$(cat) # pipe
+	fi
+	osascript >/dev/null <<EOF
+tell application "Reminders"
+        tell the default list
+                make new reminder with properties {name:"$text"}
+        end tell
+end tell
+EOF
+}
+
+# Install Grunt plugins and add them as `devDependencies` to `package.json`
+# Usage: `gi contrib-watch contrib-uglify zopfli`
+function gi() {
+	npm install --save-dev ${*/#/grunt-}
+}
+
+# Install Gulp plugins and add them as `devDependencies` to `package.json`
+# Usage: `gp uglify clean cache csso`
+function gp() {
+	npm install --save-dev ${*/#/gulp-}
+}
+
+# Install Yeoman generators
+# Usage: `yi webapp gruntfile angular`
+function yi() {
+	npm install --save-dev ${*/#/generator-}
+}
+
+# `m` with no arguments opens the current directory in TextMate, otherwise
+# opens the given location
+function m() {
+	if [ $# -eq 0 ]; then
+		mate .
+	else
+		mate "$@"
+	fi
+}
+
+# `s` with no arguments opens the current directory in Sublime Text, otherwise
+# opens the given location
+function s() {
+	if [ $# -eq 0 ]; then
+		subl .
+	else
+		subl "$@"
+	fi
+}
+
+# `v` with no arguments opens the current directory in Vim, otherwise opens the
+# given location
+function v() {
+	if [ $# -eq 0 ]; then
+		vim .
+	else
+		vim "$@"
+	fi
+}
+
+# `o` with no arguments opens current directory, otherwise opens the given
+# location
+function o() {
+	if [ $# -eq 0 ]; then
+		open .
+	else
+		open "$@"
+	fi
+}
+
+# Create animated GIFs from any video
+# Uses http://gist.github.com/SlexAxton/4989674
+gifify() {
+  if [[ -n "$1" ]]; then
+    if [[ $2 == '--good' ]]; then
+      ffmpeg -i $1 -r 10 -vcodec png out-static-%05d.png
+      time convert -verbose +dither -layers Optimize -resize 600x600\> out-static*.png  GIF:- | gifsicle --colors 128 --delay=5 --loop --optimize=3 --multifile - > $1.gif
+      rm out-static*.png
+    else
+      ffmpeg -i $1 -s 600x400 -pix_fmt rgb24 -r 10 -f gif - | gifsicle --optimize=3 --delay=3 > $1.gif
+    fi
+  else
+    echo "proper usage: gifify <input_movie.mov>. You DO need to include an extension."
+  fi
+}
+
+# GitHub URL for current repo.
+function gurl() {
+  local remotename="${@:-origin}"
+  local remote="$(git remote -v | awk '/^'"$remotename"'.*\(push\)$/ {print $2}')"
+  [ "$remote" ] || return
+  local user_repo="$(echo "$remote" | perl -pe 's/.*://;s/\.git$//')"
+  echo "https://github.com/$user_repo"
+}
+
+# open last commit in GitHub, in the browser.
+function gfu() {
+  local n="${@:-1}"
+  n=$((n-1))
+  open $(git log -n 1 --skip=$n --pretty=oneline | awk "{printf \"$(gurl)/commit/%s\", substr(\$1,1,7)}")
+}
+

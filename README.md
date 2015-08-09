@@ -1,6 +1,12 @@
 # My own personal dotfiles
 
-There are my dotfiles to help me sync them between computers and keep them versioned. 
+These are my personal dotfiles to help me sync them between computers and keep them versioned
+
+## Installation
+
+```bash
+git clone https://github.com/byronmansfield/dotfiles.git $HOME/dotfiles
+```
 
 ## Tools Used
 
@@ -8,6 +14,7 @@ A short list of some of my favorite tools I use in my shell that I can't live wi
 
 * TMUX
 * VIM
+* ZSH
 * OH-MY-ZSH
 
 ## Personal Configurations
