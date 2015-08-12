@@ -19,6 +19,14 @@ function hiddenOff() {
 	defaults write com.apple.Finder AppleShowAllFiles NO ; 
 }
 
+# hide desktop icons
+function hideDesktop() {
+	defaults write com.apple.finder CreateDesktop -bool false;killall Finder;say icons hidden
+}
+function showDesktop() {
+	defaults write com.apple.finder CreateDesktop -bool true;killall Finder;say icons visible
+}
+
 # postgres functions
 function psqlstart() { 
 	/usr/local/pgsql/bin/pg_ctl -D /usr/local/pgsql/data -l logfile start ; 
