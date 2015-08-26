@@ -16,6 +16,12 @@
 [color]
 	sh = auto
 	ui = auto
+  diff = auto
+  status = auto
+  branch = auto
+  interactive = auto
+  ui = true
+  pager = true
 [color "branch"]
 	current = yellow bold
 	local = green bold

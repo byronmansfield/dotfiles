@@ -42,6 +42,10 @@ alias afind='ack-grep -il'
 # bundle exec
 alias be='bundle exec'
 
+# Other
+alias C='clear'
+alias home='cd ~'
+
 # open some apps
 alias chrome="open -a google\ chrome"
 alias chromium="open -a chromium"
@@ -49,3 +53,64 @@ alias chromium="open -a chromium"
 # Hide/show all desktop icons (useful when presenting)
 alias hidedesktop="defaults write com.apple.finder CreateDesktop -bool false && killall Finder"
 alias showdesktop="defaults write com.apple.finder CreateDesktop -bool true && killall Finder"
+
+## Zsh Stuff
+alias eZ='vim ~/.zshrc'
+alias eOMZ='vim ~/.oh-my-zsh/themes/msjche.zsh-theme'
+alias Z='source ~/.zshrc'
+
+## Vim Stuff
+alias eV='vim ~/.vimrc'
+alias e='vim'
+alias V='source ~/.vimrc'
+
+## Tmux
+alias eT='vim ~/.tmux.conf'
+
+## Aliases
+alias eA='vim ~/.aliases'
+alias A='source ~/.aliases'
+
+## Git
+
+# The current branch name
+# Usage example: git pull origin $(current_branch)
+# Using '--quiet' with 'symbolic-ref' will not cause a fatal error (128) if
+# it's not a symbolic ref, but in a Git repo.
+function current_branch() {
+  local ref
+  ref=$($_omz_git_git_cmd symbolic-ref --quiet HEAD 2> /dev/null)
+  local ret=$?
+  if [[ $ret != 0 ]]; then
+    [[ $ret == 128 ]] && return  # no git repo.
+    ref=$($_omz_git_git_cmd rev-parse --short HEAD 2> /dev/null) || return
+  fi
+  echo ${ref#refs/heads/}
+}
+
+alias g='git'
+alias add='git add'
+alias addall='git add --all'
+alias branch='git branch'
+alias gba='git branch -a'
+alias gitremote='git branch --remote'
+alias gco='git checkout'
+alias gd='git diff'
+alias fetch='git fetch'
+alias setup='git branch --set-upstream-to=origin/$(current_branch)'
+alias pull='git pull'
+alias push='git push origin $(current_branch)'
+alias reset='git reset HEAD'
+alias resethard='git reset HEAD --hard'
+alias status='git status'
+alias stash='git stash'
+alias stashapply='git stash apply'
+alias dropstash='git stash drop'
+alias liststash='git stash list'
+alias stashpop='git stash pop'
+alias subupdate='git submodule update'
+alias tag='git tag -a -m'
+alias pushtags='git push --tags'
+alias deletetag='git tag -d'
+alias pushdeletedtag='push origin :refs/tags/'
+

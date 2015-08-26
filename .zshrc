@@ -5,7 +5,9 @@ export ZSH=$HOME/.oh-my-zsh
 # Look in ~/.oh-my-zsh/themes/
 # Optionally, if you set this to "random", it'll load a random theme each
 # time that oh-my-zsh is loaded.
-ZSH_THEME="robbyrussell"
+# ZSH_THEME="robbyrussell"
+ZSH_THEME="byron"
+# ZSH_THEME="msjche"    #kardan agnoster af-magic bira clean candy gentoo terminalparty
 
 # Set vim as default editor
 export VISUAL=vim
@@ -143,17 +145,20 @@ MANPATH="$NPM_PACKAGES/share/man:$(manpath)"
 # ================================================================
 # LOAD LOCAL ENV
 # ================================================================
-[ -f "${HOME}"/.env ] && source $HOME/.env
+[ -f "${HOME}"/.env ] && . $HOME/.env
 
 # ================================================================
 # WORK STUFF
 # ================================================================
 
 # aws
-[[ -f ~/.work/.aws ]] && source ~/.work/.aws
+[[ -f ~/.work/.aws ]] && . ~/.work/.aws
 
-# chef
-export TESTKITCHEN_EC2_PEM=$HOME/.ssh/testkitchen.pem
+# other work related exports i need for projects
+[[ -f ~/.work/.exports ]] && . ~/.work/.exports
+
+# set chef repo
+export CHEF_REPO=$HOME/code/demandbase/chef-repo
 
 # Set personal aliases, overriding those provided by oh-my-zsh libs,
 # plugins, and themes. Aliases can be placed here, though oh-my-zsh
