@@ -45,6 +45,7 @@ alias be='bundle exec'
 # Other
 alias C='clear'
 alias home='cd ~'
+alias path='echo $PATH'
 
 # open some apps
 alias chrome="open -a google\ chrome"
@@ -70,6 +71,10 @@ alias eT='vim ~/.tmux.conf'
 ## Aliases
 alias eA='vim ~/.aliases'
 alias A='source ~/.aliases'
+
+## Functions
+alias eF='vim ~/.functions'
+alias F='source ~/.functions'
 
 ## Git
 
@@ -114,3 +119,8 @@ alias pushtags='git push --tags'
 alias deletetag='git tag -d'
 alias pushdeletedtag='push origin :refs/tags/'
 
+## DB Projects
+alias perfmanhome='cd ~/code/demandbase/perfman'
+alias apihome='cd ~/code/demandbase/dashboard-api'
+alias chefhome='cd ~/code/demandbase/chef-repo'
+alias perfmanstage='ENV=staging API_URL=https://dashboard-api.staging.demandbase.com AUTH_URL=https://auth.staging.demandbase.co GD_API=https://bi.demandbase.com grunt serve:staging'
