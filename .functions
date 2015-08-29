@@ -60,10 +60,18 @@ function showDesktop() {
 
 # postgres functions
 function psqlstart() { 
-	/usr/local/pgsql/bin/pg_ctl -D /usr/local/pgsql/data -l logfile start ; 
+	/usr/local/bin/postgres -D /usr/local/bin/postgres/data -l logfile start ; 
 }
 function psqlstop() { 
-	/usr/local/pgsql/bin/pg_ctl stop ; 
+	/usr/local/bin/postgres/pg_ctl stop ; 
+}
+
+# webdriver functions
+function wdstart() { 
+  ~/node_modules/.bin/webdriver-manager start ; 
+}
+function wdstop() { 
+  ~/Users/bmansfield/node_modules/.bin/webdriver-manager stop ; 
 }
 
 # Simple calculator

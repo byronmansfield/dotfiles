@@ -119,8 +119,19 @@ alias pushtags='git push --tags'
 alias deletetag='git tag -d'
 alias pushdeletedtag='push origin :refs/tags/'
 
-## DB Projects
-alias perfmanhome='cd ~/code/demandbase/perfman'
-alias apihome='cd ~/code/demandbase/dashboard-api'
-alias chefhome='cd ~/code/demandbase/chef-repo'
+#-------------------- [ DB Projects ] --------------------#
+
+# cd's
+alias workcode='cd $CODESPACE/demandbase'
+alias perfmanhome='cd $WORKSPACE/perfman'
+alias apihome='cd $WORKSPACE/dashboard-api'
+alias chefhome='cd $WORKSPACE/chef-repo'
+alias personalcode='cd $CODESPACE/personal'
+alias practicecode='cd $CODESPACE/practice'
+
+# perfman
 alias perfmanstage='ENV=staging API_URL=https://dashboard-api.staging.demandbase.com AUTH_URL=https://auth.staging.demandbase.co GD_API=https://bi.demandbase.com grunt serve:staging'
+alias perfmantest='ENV=staging API_URL=https://dashboard-api.staging.demandbase.com AUTH_URL=https://auth.staging.demandbase.co GD_API=https://bi.demandbase.com grunt test:spec'
+
+# dashboard api
+alias apiup='ENV=dev bundle exec rackup' 

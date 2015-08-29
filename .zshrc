@@ -12,6 +12,8 @@ ZSH_THEME="byron"
 # Set vim as default editor
 export VISUAL=vim
 export EDITOR=$VISUAL
+export CODESPACE=$HOME/code
+export WORKSPACE=$CODESPACE/demandbase
 
 # Uncomment the following line to use case-sensitive completion.
 # CASE_SENSITIVE="true"
@@ -60,8 +62,6 @@ source $ZSH/oh-my-zsh.sh
 # ================================================================
 
 export CHROME_BIN="/Applications/Google Chrome.app/Contents/MacOS/Google Chrome"
-
-export PATH="/usr/local/bin:/usr/bin:/bin:/usr/sbin:/sbin"
 
 # export MANPATH="/usr/local/man:$MANPATH"
 
@@ -159,6 +159,12 @@ MANPATH="$NPM_PACKAGES/share/man:$(manpath)"
 
 # set chef repo
 export CHEF_REPO=$HOME/code/demandbase/chef-repo
+
+# ================================================================
+# PATH
+# ================================================================
+
+export PATH="/usr/local/bin:/usr/bin:/bin:/usr/sbin:/sbin:$GOPATH/bin:$PATH"
 
 # Set personal aliases, overriding those provided by oh-my-zsh libs,
 # plugins, and themes. Aliases can be placed here, though oh-my-zsh
