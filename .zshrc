@@ -112,11 +112,6 @@ unset MANPATH # delete if you already modified MANPATH elsewhere in your config
 MANPATH="$NPM_PACKAGES/share/man:$(manpath)"
 
 # ================================================================
-# RBENV
-# ================================================================
-[ "$(command -v rbenv)" ] && eval "$(rbenv init -)"
-
-# ================================================================
 # RVM SETUP
 # ================================================================
 # Since switching from rvm to rbenv I have commented this out
@@ -152,10 +147,10 @@ MANPATH="$NPM_PACKAGES/share/man:$(manpath)"
 # ================================================================
 
 # aws
-[[ -f ~/.work/.aws ]] && . ~/.work/.aws
+[[ -f ~/.work/.aws ]] && source ~/.work/.aws
 
 # other work related exports i need for projects
-[[ -f ~/.work/.exports ]] && . ~/.work/.exports
+[[ -f ~/.work/.exports ]] && source ~/.work/.exports
 
 # set chef repo
 export CHEF_REPO=$HOME/code/demandbase/chef-repo
@@ -180,3 +175,11 @@ export PATH="/usr/local/bin:/usr/bin:/bin:/usr/sbin:/sbin:$GOPATH/bin:$PATH"
 # FUNCTIONS
 # ================================================================
 [[ -f ~/.functions ]] && source ~/.functions
+
+# ================================================================
+# RBENV
+# ================================================================
+eval "$(rbenv init -)"
+
+# Load archey (if installed)
+archey
