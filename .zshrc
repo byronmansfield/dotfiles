@@ -91,10 +91,9 @@ fi
 # ================================================================
 # GO
 # ================================================================
-if [ -z "${GOPATH}" ]; then
-  export GOPATH=/usr/local/go
-  export PATH="$PATH:$GOPATH/bin"
-fi
+export GOROOT=/usr/local/go
+export PATH="$PATH:$GOROOT/bin"
+export GOPATH=$HOME/gocode
 
 ## ================================================================
 # NODEJS
