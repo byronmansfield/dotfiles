@@ -144,4 +144,7 @@ alias apiup='ENV=dev bundle exec rackup'
 
 # knife
 alias ksearch='knife search' 
-alias klogin='knife ssh' 
+alias klogin='knife ssh'
+
+# others
+alias tumblr='/usr/bin/firefox -new-window https://www.tumblr.com/dashboard' 
