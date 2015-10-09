@@ -13,11 +13,18 @@ urxvt*visualBell: False
 urxvt*skipScroll: True
 
 ! Fonts
-urxvt*font: xft:Hack-Regular:pixelsize=13:antialias=true
-urxvt*imFont: xft:Hack-Regular:pixelsize=15:antialias=true
-urxvt*boldFont: xft:Hack-Bold:pixelsize=15:antialias=true
-urxvt*italicFont: xft:Hack-Italic:pixelsize=13:antialias=true
-urxvt*BoldItalicFont: xft:Hack-BoldItalic:pixelsize=15:antialias=true
+! urxvt*font: xft:Hack-Regular:pixelsize=13:antialias=true
+! urxvt*imFont: xft:Hack-Regular:pixelsize=15:antialias=true
+! urxvt*boldFont: xft:Hack-Bold:pixelsize=15:antialias=true
+! urxvt*italicFont: xft:Hack-Italic:pixelsize=13:antialias=true
+! urxvt*BoldItalicFont: xft:Hack-BoldItalic:pixelsize=15:antialias=true
+
+urxvt*font: xft:Menlo for Powerline:pixelsize=13
+urxvt*imFont: xft:Menlo for Powerline:pixelsize=15
+urxvt*boldFont: xft:Menlo Bold for Powerline:pixelsize=15
+urxvt*italicFont: xft:Menlo Italic for Powerline:pixelsize=13
+urxvt*BoldItalicFont: xft:Menlo Bold Italic for Powerline:pixelsize=15
+
 
 ! :Bind C-0, C-+ and C-= to activate small, medium, and big font size
 URxvt.keysym.C-0: command:\033]710;xft:Menlo for Powerline:pixelsize=12\007

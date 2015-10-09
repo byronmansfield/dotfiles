@@ -178,7 +178,8 @@ export PATH="/usr/local/bin:/usr/bin:/bin:/usr/sbin:/sbin:$GOPATH/bin:$PATH"
 # ================================================================
 # RBENV
 # ================================================================
-# eval "$(rbenv init -)"
+export PATH="$PATH:$HOME/.rbenv/bin"
+eval "$(rbenv init -)"
 
 # Load archey (if installed)
 # archey

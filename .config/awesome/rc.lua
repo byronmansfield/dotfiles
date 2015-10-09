@@ -74,7 +74,7 @@ end
 -- [ Tags ] --
 tags = {}
 for s = 1, screen.count() do
-    tags[s] = awful.tag({ "     ", "     ", "     ", "     ", "     ", "     ", "     ", "     ", "     " }, s, layouts[1])
+    tags[s] = awful.tag({ "   ", "    ", "    ", "    ", "    ", "    ", "    ", "    ", "    " }, s, layouts[1])
 end
 
 -- [ Menu ] --
@@ -88,14 +88,12 @@ myawesomemenu = {
 }
 
 mysystemmenu = {
-  { "Shutdown", function () sexec("sudo shutdown -h 0") end},
+  { "Suspend", terminal .. "sudo pm-suspend"},
+  { "Hibernate", terminal .. "sudo pm-hibernate"},
+  { "Lock", terminal .. "slimlock"},
   { " ", function () awful.menu.hide(instance) end, nil},
-  { "Reboot", function () sexec("sudo reboot") end},
-  { "Suspend", function () sexec("sudo pm-suspend") end},
-  { "Hibernate", function () sexec("sudo pm-hibernate") end},
-  { " ", function () awful.menu.hide(instance) end, nil},
-  { "Lock", function () sexec("slimlock") end},
-  { "Power Off", function () sexec("sudo poweroff") end}
+  { "Reboot", terminal .. "reboot"},
+  { "Shutdown", terminal .. "shutdown -h now"}
 }
 
 mymainmenu = awful.menu({ items = {
