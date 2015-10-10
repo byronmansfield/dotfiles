@@ -74,15 +74,15 @@ end
 -- [ Tags ] --
 tags = {}
 for s = 1, screen.count() do
-    tags[s] = awful.tag({ "   ", "    ", "    ", "    ", "    ", "    ", "    ", "    ", "    " }, s, layouts[1])
+    tags[s] = awful.tag({ "    ", "    ", "    ", "    ", "    ", "    ", "    ", "    ", "    " }, s, layouts[1])
 end
 
 -- [ Menu ] --
 myawesomemenu = {
 	{ "manual", terminal .. " -e man awesome" },
 	{ "edit config", editor_cmd .. " " .. awesome.conffile },
-	{ "Edit rc.lua", function () sexec(editor .. "/home/bmansfield/.config/awesome/rc.lua") end},
-	{ "Edit theme.lua", function () sexec(editor ..  "/home/bmansfield/.config/awesome/theme.lua") end },
+	{ "Edit rc.lua", function () sexec(editor .. "~/.config/awesome/rc.lua") end},
+	{ "Edit theme.lua", function () sexec(editor ..  "~/.config/awesome/theme.lua") end },
 	{ "restart", awesome.restart },
 	{ "quit", awesome.quit }
 }

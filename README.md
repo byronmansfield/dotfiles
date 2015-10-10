@@ -1,8 +1,13 @@
-# My own personal dotfiles
+# My own personal dotfiles repo for my Arch + Awesome set up
 
 These are my personal dotfiles to help me sync them between computers and keep them versioned
 
 ## Installation
+
+This depends on if you want to symlink everything or if you want to just make
+your home directory your repo. 
+
+For symlinking you can do the following:
 
 1. Clone repo to local home directory
 
