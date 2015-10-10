@@ -79,12 +79,12 @@ end
 
 -- [ Menu ] --
 myawesomemenu = {
-	{ "manual", terminal .. " -e man awesome" },
-	{ "edit config", editor_cmd .. " " .. awesome.conffile },
+	{ "Manual", terminal .. " -e man awesome" },
+	{ "Edit config", editor_cmd .. " " .. awesome.conffile },
 	{ "Edit rc.lua", function () sexec(editor .. "~/.config/awesome/rc.lua") end},
 	{ "Edit theme.lua", function () sexec(editor ..  "~/.config/awesome/theme.lua") end },
-	{ "restart", awesome.restart },
-	{ "quit", awesome.quit }
+	{ "Restart", awesome.restart },
+	{ "Quit", awesome.quit }
 }
 
 mysystemmenu = {
@@ -92,8 +92,8 @@ mysystemmenu = {
   { "Hibernate", terminal .. "sudo pm-hibernate"},
   { "Lock", terminal .. "slimlock"},
   { " ", function () awful.menu.hide(instance) end, nil},
-  { "Reboot", terminal .. "reboot"},
-  { "Shutdown", terminal .. "shutdown -h now"}
+  { "Reboot", "sudo reboot"},
+  { "Shutdown", "sudo shutdown -h now"}
 }
 
 mymainmenu = awful.menu({ items = {
