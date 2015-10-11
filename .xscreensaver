@@ -2,7 +2,7 @@
 # Written by xscreensaver-demo 5.32 for bmansfield on Sat Oct 10 12:57:58 2015.
 # http://www.jwz.org/xscreensaver/
 
-timeout:	0:30:00
+timeout:	0:20:00
 cycle:		0
 lock:		True
 lockTimeout:	0:30:00
@@ -24,11 +24,11 @@ fadeTicks:	20
 captureStderr:	True
 ignoreUninstalledPrograms:False
 font:		*-medium-r-*-140-*-m-*
-dpmsEnabled:	False
+dpmsEnabled:	True
 dpmsQuickOff:	False
-dpmsStandby:	2:00:00
+dpmsStandby:	1:00:00
 dpmsSuspend:	2:00:00
-dpmsOff:	4:00:00
+dpmsOff:	3:00:00
 grabDesktopImages:  True
 grabVideoFrames:    False
 chooseRandomImages: False

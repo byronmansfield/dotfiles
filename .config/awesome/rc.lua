@@ -90,7 +90,7 @@ myawesomemenu = {
 mysystemmenu = {
   { "Suspend", terminal .. "sudo pm-suspend"},
   { "Hibernate", terminal .. "sudo pm-hibernate"},
-  { "Lock", terminal .. "slimlock"},
+  { "Lock", function () sexec("xscreensaver-command --lock") end},
   { " ", function () awful.menu.hide(instance) end, nil},
   { "Reboot", "sudo reboot"},
   { "Shutdown", "sudo shutdown -h now"}
