@@ -88,12 +88,12 @@ myawesomemenu = {
 }
 
 mysystemmenu = {
-  { "Suspend", terminal .. "sudo pm-suspend"},
-  { "Hibernate", terminal .. "sudo pm-hibernate"},
+  { "Suspend", function () sexec("sudo pm-suspend") end},
+  { "Hibernate", function () sexec("sudo pm-hibernate") end},
   { "Lock", function () sexec("xscreensaver-command --lock") end},
   { " ", function () awful.menu.hide(instance) end, nil},
-  { "Reboot", "sudo reboot"},
-  { "Shutdown", "sudo shutdown -h now"}
+  { "Reboot", function () sexec("sudo reboot") end},
+  { "Shutdown", function () sexec("sudo shutdown -h now") end}
 }
 
 mymainmenu = awful.menu({ items = {
