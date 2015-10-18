@@ -13,6 +13,12 @@ urxvt*visualBell: False
 urxvt*skipScroll: True
 URxvt*buffered: True
 
+! For better copy and paste
+URxvt.perl-ext-common: default,clipboard
+URxvt.iso14755: False
+URxvt.clipboard.copycmd:  xsel -ib
+URxvt.clipboard.pastecmd: xsel -ob
+
 ! Fonts
 
 ! Hack Fonts

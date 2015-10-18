@@ -70,9 +70,9 @@ alias eL='vim ~/.zlogin'
 alias L='source ~/.zlogin'
 
 ## Vim Stuff
-alias eV='vim ~/.vimrc'
+alias eV='vim ~/.vim/vimrc'
 alias e='vim'
-alias V='source ~/.vimrc'
+alias V='source ~/.vim/vimrc'
 
 ## Tmux
 alias eT='vim ~/.tmux.conf'
@@ -153,7 +153,7 @@ alias klogin='knife ssh'
 # games
 alias rift='WINEARCH=win32 WINEPREFIX=~/.wine32 wine ~/.wine32/drive_c/Program\ Files/Glyph/GlyphClient.exe'
 alias teso='WINEARCH=win32 WINEPREFIX=~/.wine32 wine ~/.wine32/drive_c/Program\ Files/'
-alias steam-wine='WINEARCH=win32 WINEPREFIX=~/.wine32 wine ~/.wine32/drive_c/Program\ Files/Steam/Steam.exe'
+alias steam-wine='WINEARCH=win32 WINEPREFIX=~/.wine32 wine ~/.wine32/drive_c/Program\ Files/Steam/Steam.exe >/dev/null 2>&1 &'
 
 # others
 alias tumblr='/usr/bin/firefox -new-window https://www.tumblr.com/dashboard' 
