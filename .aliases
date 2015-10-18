@@ -150,10 +150,12 @@ alias apiup='ENV=dev bundle exec rackup'
 alias ksearch='knife search' 
 alias klogin='knife ssh'
 
-# games
+#-------------------- [ Games ] --------------------#
 alias rift='WINEARCH=win32 WINEPREFIX=~/.wine32 wine ~/.wine32/drive_c/Program\ Files/Glyph/GlyphClient.exe'
 alias teso='WINEARCH=win32 WINEPREFIX=~/.wine32 wine ~/.wine32/drive_c/Program\ Files/'
 alias steam-wine='WINEARCH=win32 WINEPREFIX=~/.wine32 wine ~/.wine32/drive_c/Program\ Files/Steam/Steam.exe >/dev/null 2>&1 &'
 
 # others
-alias tumblr='/usr/bin/firefox -new-window https://www.tumblr.com/dashboard' 
+alias tumblr='/usr/bin/firefox -new-window https://www.tumblr.com/dashboard'
+
+alias mixer='alsamixer -D equal'
