@@ -28,9 +28,10 @@ ln -s ~/dotfiles/.functions ~/.functions
 
 A short list of some of my favorite tools I use in my shell that I can't live without. I will probably grow this list as I grow as a developer and add in stuff from my other computers.
 
+* URXVT
 * Tmux
 * Vim
-* Z-shell
+* ZSH
 * OH-MY-ZSH
 
 ## Personal Configurations
@@ -39,8 +40,8 @@ There are a few personalized configurations that I am really fond of and find he
 
 * Tmux copy and paste
 * Tmux ressurect
-* Z-shells aliases
-* helpful functions
+* Z-shell's aliases
+* handy functions
 * Git config
 
 ## $PATH
@@ -50,10 +51,11 @@ Short list of tools I must have in my path
 * GO
 * Node + NPM
 * rbenv
+* chef
 * Docker
 
 # To-Do's
 
-- [ ] write shell script to handle symlinking all the files
+- [ ] write bash script to ease setup
 - [ ] convert some of the function to shell scripts in $HOME/bin and include
 	them in repo
