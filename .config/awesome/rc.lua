@@ -9,6 +9,8 @@ local awful = require("awful")
 awful.rules = require("awful.rules")
 require("awful.autofocus")
 require("volume")
+require("cpu")
+require("ram")
 local wibox = require("wibox")
 local beautiful = require("beautiful")
 local naughty = require("naughty")
@@ -74,7 +76,7 @@ end
 -- [ Tags ] --
 tags = {}
 for s = 1, screen.count() do
-    tags[s] = awful.tag({ "    ", "    ", "    ", "    ", "    ", "    ", "    ", "    ", "    " }, s, layouts[1])
+    tags[s] = awful.tag({ "     ", "     ", "     ", "     ", "     ", "     ", "     ", "     ", "     " }, s, layouts[1])
 end
 
 -- [ Menu ] --
@@ -164,6 +166,11 @@ calwidget:buttons(awful.util.table.join(awful.button({}, 1,
 		widget_cal:set_image(loop_widgets_icons[index])
 	end)))
 
+-- [ Volume ] --
+volwidget = wibox.widget.background()
+volwidget:set_bgimage(beautiful.widget_display)
+volwidget:set_widget(volume_widget)
+
 -- [ Wireless ] --
 wirelesswidgets_icon       = wibox.widget.imagebox()
 wirelesswidgets_icon:set_image(beautiful.wirelesswidgets_icon)
@@ -245,160 +252,34 @@ netspeedwidgetstimer = timer({ timeout = 3 })
 netspeedwidgetstimer:connect_signal("timeout", update_netspeedwidgets)
 netspeedwidgetstimer:start()
 
-
+-- [IP] --
 ipwidget_icon       = wibox.widget.imagebox()
 ipwidget_icon:set_image(beautiful.ipwidget_icon)
 ipwidget_icon:set_resize(false)
-ipwidget_icon_m = wibox.layout.margin(ipwidget_icon, 5, 0, 5, 0)
-ipwidget = wibox.widget.textbox()
+ipwidget_icon_m     = wibox.layout.margin(ipwidget_icon, 5, 0, 5, 0)
+ipwidget            = wibox.widget.textbox()
+
+-- [update ip] --
 function update_ipwidget()
-    local f = io.popen("/sbin/ifconfig eth0")
-    if f then
-        local ifOut = f:read('*a')
-        f:close()
-        ip = string.match(ifOut, 'inet (.+) netmask')
-        if ip then
-            ipwidget:set_text(" " .. ip)
-        else
-            ipwidget:set_text("  " .. "no-ip")
-        end
+  local f = io.popen("/sbin/ifconfig eth0")
+  if f then
+    local ifOut = f:read('*a')
+    f:close()
+    ip = string.match(ifOut, 'inet (.+) netmask')
+    if ip then
+      ipwidget:set_text(" " .. ip)
+    else
+      ipwidget:set_text("  " .. "no-ip")
     end
+  end
 end
+
 update_ipwidget()
 ipwidgettimer = timer({ timeout = 30 })
 ipwidgettimer:connect_signal("timeout", update_ipwidget)
 ipwidgettimer:start()
 
-
-batterywidget_icon       = wibox.widget.imagebox()
-batterywidget_icon:set_image(beautiful.batterywidget_icon)
-batterywidget_icon:set_resize(false)
-batterywidget_icon_m = wibox.layout.margin(batterywidget_icon, 5, 0, 5, 0)
-batterywidget = wibox.widget.textbox()
-battery="0"
-function update_batterywidget() --{{{ updates batterywidget with current battery charge level
-    local a = io.popen("cat /sys/class/power_supply/BAT"..battery.."/energy_full")
-    if a then
-        for line in a:lines() do
-            full = line
-        end
-    end
-    a:close()
-    local b = io.popen("cat /sys/class/power_supply/BAT"..battery.."/energy_now")
-    if b then
-        for line in b:lines() do
-            now = line
-        end
-    end
-    b:close()
-    if now and full then
-        batterywidget:set_text(" " .. math.floor(now*100/full).."%" .. " ")
-    end
-end --}}}
-update_batterywidget()
-batterywidgettimer = timer({ timeout = 30 })
-batterywidgettimer:connect_signal("timeout", update_batterywidget)
-batterywidgettimer:start()
-
-memorywidget_icon       = wibox.widget.imagebox()
-memorywidget_icon:set_image(beautiful.memoryusedwidget_icon)
-memorywidget_icon:set_resize(false)
-memorywidget_icon_m = wibox.layout.margin(memorywidget_icon, 5, 0, 5, 0)
-memorywidget = wibox.widget.textbox()
-function update_memorywidget()
-    local mem_free, mem_total, mem_c, mem_b
-    local mem_percent, swap_percent, line, f, count
-    count = 0
-    f = io.open("/proc/meminfo")
-    line = f:read()
-    while line and count < 4 do
-        if line:match("MemFree:") then
-            mem_free = string.match(line, "%d+")
-            count = count + 1;
-        elseif line:match("MemTotal:") then
-            mem_total = string.match(line, "%d+")
-            count = count + 1;
-        elseif line:match("Cached:") then
-            mem_c = string.match(line, "%d+")
-            count = count + 1;
-        elseif line:match("Buffers:") then
-            mem_b = string.match(line, "%d+")
-            count = count + 1;
-        end
-        line = f:read()
-    end
-    io.close(f)
-    memorywidget:set_text(" " .. math.floor(100 * (mem_total - mem_free - mem_b - mem_c ) / mem_total).. "%" .. " ")
-end
-update_memorywidget()
-memorywidgettimer = timer({ timeout = 30 })
-memorywidgettimer:connect_signal("timeout", update_memorywidget)
-memorywidgettimer:start()
-
-cpuloadwidget_icon       = wibox.widget.imagebox()
-cpuloadwidget_icon:set_image(beautiful.cpuloadwidget_icon)
-cpuloadwidget_icon:set_resize(false)
-cpuloadwidget_icon_m = wibox.layout.margin(cpuloadwidget_icon, 5, 0, 5, 0)
-cpuloadwidget = wibox.widget.textbox()
-cpuspeedwidget = wibox.widget.textbox()
-function update_cpuloadwidget()
-    if cpu0_total == null then
-        cpu0_total  = 0
-        cpu0_active = 0
-    end
-    local f = io.open('/proc/stat')
-    for l in f:lines() do
-        values = {}
-        start = 1
-        splitstart, splitend = string.find(l, ' ', start)
-        while splitstart do
-            m = string.sub(l, start, splitstart-1)
-            if m:gsub(' ','') ~= '' then
-                table.insert(values, m)
-            end
-            start = splitend+1
-            splitstart, splitend = string.find(l, ' ', start)
-        end
-        m = string.sub(l, start)
-        if m:gsub(' ','') ~= '' then
-            table.insert(values, m)
-        end
-        cpu_usage = values
-        if cpu_usage[1] == "cpu0" then
-            total_new     = cpu_usage[2]+cpu_usage[3]+cpu_usage[4]+cpu_usage[5]
-            active_new    = cpu_usage[2]+cpu_usage[3]+cpu_usage[4]
-            diff_total    = total_new-cpu0_total
-            diff_active   = active_new-cpu0_active
-            usage_percent = math.floor(diff_active/diff_total*100)
-            cpu0_total    = total_new
-            cpu0_active   = active_new
-            cpuloadwidget:set_text(" " .. usage_percent .. "% /")
-        end
-    end
-    f:close()
-end
-function update_cpuspeedwidget() --{{{ returns current cpu frequency
-    local f = io.open("/proc/cpuinfo")
-    local line = f:read()
-    while line do
-        if line:match("cpu MHz") then
-            ghz = math.floor(((string.match(line, "%d+") / 1000) * 10^1) + 0.5) / (10^1)
-        end
-        line = f:read()
-    end
-    io.close(f)
-    cpuspeedwidget:set_text(" " .. ghz .. "Ghz" .. " ")
-end --}}}
-
-update_cpuspeedwidget()
-update_cpuloadwidget()
-cpuloadwidgettimer = timer({ timeout = 3 })
-cpuloadwidgettimer:connect_signal("timeout", update_cpuloadwidget)
-cpuloadwidgettimer:start()
-cpuspeedwidgettimer = timer({ timeout = 3 })
-cpuspeedwidgettimer:connect_signal("timeout", update_cpuspeedwidget)
-cpuspeedwidgettimer:start()
-
+-- [ Date Widget ] --
 datewidget_icon       = wibox.widget.imagebox()
 datewidget_icon:set_image(beautiful.datewidget_icon)
 datewidget_icon:set_resize(false)
@@ -488,21 +369,58 @@ for s = 1, screen.count() do
     right_layout:add(netupwidget)
     right_layout:add(netdownwidget_icon_m)
     right_layout:add(netdownwidget)
-    right_layout:add(ipwidget_icon_m)
-    right_layout:add(ipwidget)
-    right_layout:add(memorywidget_icon_m)
-    right_layout:add(memorywidget)
-    right_layout:add(cpuloadwidget_icon_m)
-    right_layout:add(cpuloadwidget)
-    right_layout:add(cpuspeedwidget)
-    right_layout:add(batterywidget_icon_m)
-    right_layout:add(batterywidget)
+
+    right_layout:add(spr)
+    
+    -- [IP] --
+    -- right_layout:add(widget_display_l)
+    -- right_layout:add(ipwidget_icon_m)
+    -- right_layout:add(ipwidget)
+    -- right_layout:add(widget_display_r)
+    -- right_layout:add(spr5px)
+    --
+    -- right_layout:add(spr)
+
+    -- [Memory] --
+    right_layout:add(spr5px)
+    right_layout:add(widget_display_l)
+    -- right_layout:add(memorywidget_icon_m)
+    right_layout:add(ramwidget)
+    right_layout:add(widget_display_r)
+    right_layout:add(spr5px)
+
+    right_layout:add(spr)
+
+    -- [CPU] --
+    right_layout:add(spr5px)
+    right_layout:add(widget_display_l)
+    -- right_layout:add(cpuloadwidget_icon_m)
+    right_layout:add(cpuwidget)
+    right_layout:add(widget_display_r)
+    right_layout:add(spr5px)
+
+    -- not going to use this one at the moment
+    -- right_layout:add(cpuspeedwidget)
+
+    -- think this is just being used for space right now
     right_layout:add(datewidget_icon_m)
-    if s == 1 then right_layout:add(wibox.widget.systray()) end
-    right_layout:add(volume_widget)
+
+    -- [ Displays App Icons ] --
+    -- havn't decided if i like it enough to keep it or not
+    -- if s == 1 then right_layout:add(wibox.widget.systray()) end
+
+    right_layout:add(spr)
+    
+    -- [Volume] --
+		right_layout:add(widget_cal)
+    right_layout:add(widget_display_l)
+    right_layout:add(volwidget)
+    right_layout:add(widget_display_r)
+    right_layout:add(spr5px)
 
 		right_layout:add(spr)
 
+    -- [Calendar] --
 		right_layout:add(widget_cal)
     right_layout:add(widget_display_l)
     right_layout:add(calwidget)
@@ -511,6 +429,7 @@ for s = 1, screen.count() do
  
 		right_layout:add(spr)
 
+    -- [Clock] --
 		right_layout:add(widget_clock)
     right_layout:add(widget_display_l)
     right_layout:add(clockwidget)
@@ -607,9 +526,9 @@ globalkeys = awful.util.table.join(
     -- Menubar
     awful.key({ modkey }, "p", function() menubar.show() end),
     awful.key({ }, "XF86AudioRaiseVolume", function ()
-      awful.util.spawn("amixer set Master 9%+") end),
+      awful.util.spawn("amixer set Master 5%+") end),
     awful.key({ }, "XF86AudioLowerVolume", function ()
-      awful.util.spawn("amixer set Master 9%-") end),
+      awful.util.spawn("amixer set Master 5%-") end),
     awful.key({ }, "XF86AudioMute", function ()
       awful.util.spawn("amixer sset Master toggle") end)
 

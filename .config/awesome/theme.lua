@@ -23,8 +23,10 @@ menu            = config .. "/icons/menu/"
 icons           = config .. "/icons/newblue/"
 layoutstyle     = "layout-huge-fill/"
 
-nvidiagirl      = config .. "/background.jpg"
-theme.wallpaper = nvidiagirl
+nvidia          = config .. "/nvidia.jpg"
+keyboard        = config .. "/keyboard_girl.jpg"
+
+theme.wallpaper = keyboard
 
 theme.font      = "sans 8"
 
