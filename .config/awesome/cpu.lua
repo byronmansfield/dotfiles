@@ -6,10 +6,8 @@ local awful = require("awful")
 require("theme")
 local beautiful = require("beautiful")
 
-config          = awful.util.getdir("config")
-menu            = config .. "/icons/menu/"
-widget_display   = menu .. "/widgets/widget_display.png"
- 
+beautiful.init(os.getenv("HOME").."/.config/awesome/theme.lua")
+
 cpuloadwidget_icon        = wibox.widget.imagebox()
 cpuloadwidget             = wibox.widget.textbox()
 cpuspeedwidget            = wibox.widget.textbox()
@@ -18,7 +16,10 @@ cpuwidget                 = wibox.widget.background()
 cpuloadwidget_icon:set_image(beautiful.cpuloadwidget_icon)
 cpuloadwidget_icon:set_resize(false)
 cpuloadwidget_icon_m      = wibox.layout.margin(cpuloadwidget_icon, 5, 0, 5, 0)
-cpuwidget:set_bgimage(widget_display)
+cpuwidget:set_bgimage(beautiful.widget_display)
+
+widget_cpu = wibox.widget.imagebox()
+widget_cpu:set_image(beautiful.widget_cpu)
 
 -- Update CPU load
 function update_cpuloadwidget()
@@ -61,7 +62,7 @@ function update_cpuloadwidget()
       usage_percent = math.floor(diff_active/diff_total*100)
       cpu0_total    = total_new
       cpu0_active   = active_new
-      cpuloadwidget:set_text(" CPU: " .. usage_percent .. "%")
+      cpuloadwidget:set_text(usage_percent .. "%")
     end
   end
   f:close()

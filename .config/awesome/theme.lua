@@ -93,9 +93,22 @@ theme.sprtr  = menu .. "/separators/sprtr.png"
 theme.spr4px = menu .. "/separators/spr4px.png"
 theme.spr5px = menu .. "/separators/spr5px.png"
 
+-- [ Volume ] --
+theme.widget_volume = menu .. "/widgets/widget_speaker.png"
+
+-- [ RAM ] --
+theme.widget_ram = menu .. "/widgets/widget_ram.png"
+
+-- [ CPU ] --
+theme.widget_cpu = menu .. "/widgets/widget_cpu.png"
+
 -- [ Clock / Calendar ] --
 theme.widget_clock = menu .. "/widgets/widget_clock.png"
 theme.widget_cal   = menu .. "/widgets/widget_cal.png"
+
+-- [ Net Up / Down ] --
+theme.netup     = menu .. "/widgets/widget_netul.png"
+theme.netdown   = menu .. "/widgets/widget_netdl.png"
 
 -- [ misc ] --
 theme.awesome_icon            = icons .. "arch-blue.png"
