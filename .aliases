@@ -159,3 +159,15 @@ alias steam-wine='WINEARCH=win32 WINEPREFIX=~/.wine32 wine ~/.wine32/drive_c/Pro
 alias tumblr='/usr/bin/firefox -new-window https://www.tumblr.com/dashboard'
 
 alias mixer='alsamixer -D equal'
+
+#-------------------- [ Transmission ] --------------------#
+alias t='transmission-remote-cli' # curses interface
+alias tsm='transmission-remote -l'
+alias tsm-add='transmission-remote -a'
+tsm-remove() { transmission-remote -t "$1" -r ; }
+tsm-pause() { transmission-remote -t "$1" --stop; }
+tsm-start() { transmission-remote -t "$1" --start; }
+tsm-purge() { transmission-remote -t "$1" --remove-and-delete; }
+tsm-info() { transmission-remote -t "$1" -i; }
+tsm-clear() { transmission-remote -l | grep 100% | grep Done | awk '{print $1}' | xargs -n 1 -I % transmission-remote -t % -r; }
+

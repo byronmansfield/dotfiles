@@ -6,10 +6,8 @@ local awful = require("awful")
 require("theme")
 local beautiful = require("beautiful")
 
-config          = awful.util.getdir("config")
-menu            = config .. "/icons/menu/"
-widget_display   = menu .. "/widgets/widget_display.png"
- 
+beautiful.init(os.getenv("HOME").."/.config/awesome/theme.lua")
+
 memorywidget            = wibox.widget.textbox()
 memorywidget_icon       = wibox.widget.imagebox()
 memorywidget_icon_m     = wibox.layout.margin(memorywidget_icon, 5, 0, 5, 0)
@@ -17,7 +15,10 @@ memorywidget_icon:set_image(beautiful.memoryusedwidget_icon)
 memorywidget_icon:set_resize(false)
 
 ramwidget               = wibox.widget.background()
-ramwidget:set_bgimage(widget_display)
+ramwidget:set_bgimage(beautiful.widget_display)
+
+widget_ram = wibox.widget.imagebox()
+widget_ram:set_image(beautiful.widget_ram)
 
 -- [Updates memory widget] --
 function update_memorywidget()
@@ -43,7 +44,7 @@ function update_memorywidget()
     line = f:read()
   end
   io.close(f)
-  memorywidget:set_text(" RAM: " .. math.floor(100 * (mem_total - mem_free - mem_b - mem_c ) / mem_total).. "%" .. " ")
+  memorywidget:set_text(math.floor(100 * (mem_total - mem_free - mem_b - mem_c ) / mem_total).. "%" .. " ")
 end
 
 update_memorywidget()

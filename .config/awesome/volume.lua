@@ -3,9 +3,19 @@
 -- dependencies
 local wibox = require("wibox")
 local awful = require("awful")
- 
-volume_widget = wibox.widget.textbox()
+require("theme")
+local beautiful = require("beautiful")
+
+beautiful.init(os.getenv("HOME").."/.config/awesome/theme.lua")
+
+volume_widget   = wibox.widget.textbox()
 volume_widget:set_align("right")
+
+widget_volume = wibox.widget.imagebox()
+widget_volume:set_image(beautiful.widget_volume)
+
+volwidget       = wibox.widget.background()
+volwidget:set_bgimage(beautiful.widget_display)
 
 -- update function
 function update_volume(widget)
@@ -21,7 +31,7 @@ function update_volume(widget)
 
   if string.find(status, "on", 1, true) then
     -- For the volume numbers
-    volume = " " .. "Vol:" .. volume .. "% "
+    volume = volume .. "% "
   else
     -- For the mute button
     volume = volume .. "M"
@@ -34,3 +44,6 @@ update_volume(volume_widget)
 mytimer = timer({ timeout = 0.2 })
 mytimer:connect_signal("timeout", function () update_volume(volume_widget) end)
 mytimer:start()
+
+volwidget:set_widget(volume_widget)
+

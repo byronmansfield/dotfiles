@@ -1,41 +1,46 @@
 
-                -- [          my rc for Awesome 3.5.5         ] --
+                -- [       My Awesome 3.5.5 Config            ] --
                 -- [       author: Byron Mansfield            ] --
                 -- [    http://github.com/byronmansfield      ] --
 
--- Standard awesome library
+-- Standard Awesome library's
 local gears = require("gears")
 local awful = require("awful")
 awful.rules = require("awful.rules")
 require("awful.autofocus")
-require("volume")
-require("cpu")
-require("ram")
 local wibox = require("wibox")
 local beautiful = require("beautiful")
 local naughty = require("naughty")
 local menubar = require("menubar")
 
+-- widgets
+require("volume")
+require("cpu")
+require("ram")
+require("time")
+
 -- error handling
 if awesome.startup_errors then
-    naughty.notify({ preset = naughty.config.presets.critical,
-                     title = "Oops, there were errors during startup!",
-                     text = awesome.startup_errors })
+  naughty.notify({ preset = naughty.config.presets.critical,
+    title = "Oops, there were errors during startup!",
+    text = awesome.startup_errors
+  })
 end
 
 -- Handle runtime errors after startup
 do
-    local in_error = false
-    awesome.connect_signal("debug::error", function (err)
-        -- Make sure we don't go into an endless error loop
-        if in_error then return end
-        in_error = true
+  local in_error = false
+  awesome.connect_signal("debug::error", function (err)
+    -- Make sure we don't go into an endless error loop
+    if in_error then return end
+    in_error = true
 
-        naughty.notify({ preset = naughty.config.presets.critical,
-                         title = "Oops, an error happened!",
-                         text = err })
-        in_error = false
-    end)
+    naughty.notify({ preset = naughty.config.presets.critical,
+      title = "Oops, an error happened!",
+      text = err
+    })
+    in_error = false
+  end)
 end
 
 beautiful.init(os.getenv("HOME").."/.config/awesome/theme.lua")
@@ -68,15 +73,15 @@ local layouts =
 
 -- [ Wallpaper ] --
 if beautiful.wallpaper then
-    for s = 1, screen.count() do
-        gears.wallpaper.maximized(beautiful.wallpaper, s, true)
-    end
+  for s = 1, screen.count() do
+    gears.wallpaper.maximized(beautiful.wallpaper, s, true)
+  end
 end
 
 -- [ Tags ] --
 tags = {}
 for s = 1, screen.count() do
-    tags[s] = awful.tag({ "     ", "     ", "     ", "     ", "     ", "     ", "     ", "     ", "     " }, s, layouts[1])
+  tags[s] = awful.tag({ "     ", "     ", "     ", "     ", "     ", "     ", "     ", "     ", "     " }, s, layouts[1])
 end
 
 -- [ Menu ] --
@@ -112,8 +117,10 @@ mylauncher = awful.widget.launcher({ image = beautiful.awesome_icon, menu = myma
 menubar.utils.terminal = terminal -- Set the terminal for applications that require it
 
 -- [ Widgets ] --
+
 clockgf = beautiful.clockgf
 
+-- spacers
 spr = wibox.widget.imagebox()
 spr:set_image(beautiful.spr)
 spr4px = wibox.widget.imagebox()
@@ -121,6 +128,7 @@ spr4px:set_image(beautiful.spr4px)
 spr5px = wibox.widget.imagebox()
 spr5px:set_image(beautiful.spr5px)
 
+-- widget backgrounds / borders
 widget_display = wibox.widget.imagebox()
 widget_display:set_image(beautiful.widget_display)
 widget_display_r = wibox.widget.imagebox()
@@ -130,336 +138,224 @@ widget_display_l:set_image(beautiful.widget_display_l)
 widget_display_c = wibox.widget.imagebox()
 widget_display_c:set_image(beautiful.widget_display_c)
 
--- [ Clock / Calendar ] --
-mytextclock = awful.widget.textclock(" %I:%M", 60)
-mytextcalendar = awful.widget.textclock("%a %b %d")
-
-widget_clock = wibox.widget.imagebox()
-widget_clock:set_image(beautiful.widget_clock)
-
-clockwidget = wibox.widget.background()
-clockwidget:set_widget(mytextclock)
-clockwidget:set_bgimage(beautiful.widget_display)
-
-local index = 1
-local loop_widgets = { mytextclock }
-local loop_widgets_icons = { beautiful.widget_clock, beautiful.widget_cal }
-
-clockwidget:buttons(awful.util.table.join(awful.button({}, 1,
-	function ()
-		index = index % #loop_widgets + 1
-		clockwidget:set_widget(loop_widgets[index])
-		widget_clock:set_image(loop_widgets_icons[index])
-	end)))
-
-widget_cal = wibox.widget.imagebox()
-widget_cal:set_image(beautiful.widget_clock)
-
-calwidget = wibox.widget.background()
-calwidget:set_widget(mytextcalendar)
-calwidget:set_bgimage(beautiful.widget_display)
-
-calwidget:buttons(awful.util.table.join(awful.button({}, 1,
-	function ()
-		index = index % #loop_widgets + 1
-		calwidget:set_widget(loop_widgets[index])
-		widget_cal:set_image(loop_widgets_icons[index])
-	end)))
-
--- [ Volume ] --
-volwidget = wibox.widget.background()
-volwidget:set_bgimage(beautiful.widget_display)
-volwidget:set_widget(volume_widget)
-
--- [ Wireless ] --
-wirelesswidgets_icon       = wibox.widget.imagebox()
-wirelesswidgets_icon:set_image(beautiful.wirelesswidgets_icon)
-wirelesswidgets_icon:set_resize(false)
-wirelesswidgets_icon_m = wibox.layout.margin(wirelesswidgets_icon, 5, 0, 5, 0)
-wireless_dev = "eth0"
-ratewidget = wibox.widget.textbox()
-essidwidget = wibox.widget.textbox()
-lqwidget = wibox.widget.textbox()
-function update_wirelesswidgets() --{{{ returns wireless or ethernet connection info
-
-    essid   = "Not Connected"
-    bitrate = " "
-    quality = "0"
-
-    if wireless_dev ~= "" then
-        local f = io.popen("iwconfig " .. wireless_dev)
-        if f then
-            local iwOut = f:read('*a')
-            f:close()
-            linkq1,linkq2 = string.match(iwOut, 'Link Quality[=:](%d+)/(%d+)')
-            essid   = string.match(iwOut, '.*ESSID[=:]"(.*)" ')
-            if essid then
-                essidwidget:set_text(" " .. essid .. " ")
-                if linkq1 then
-                    quality = math.floor(100*linkq1/linkq2)
-                    lqwidget:set_text(quality .."%" .. " ")
-                end
-                if linkq1 then
-                    bitrate = string.gsub(string.match(iwOut, 'Bit Rate[=:]([%s%w%.]*%/%a+)'), "%s", "")
-                    ratewidget:set_text(bitrate .. " ")
-                end
-            end
-        end
-    end
-end --}}}
-update_wirelesswidgets()
-wirelesswidgettimer = timer({ timeout = 30 })
-wirelesswidgettimer:connect_signal("timeout", update_wirelesswidgets)
-wirelesswidgettimer:start()
-
-netupwidget_icon       = wibox.widget.imagebox()
+-- [ Network Up/Down ] --
+netupwidget_icon      = wibox.widget.imagebox()
 netupwidget_icon:set_image(beautiful.networkupwidget_icon)
 netupwidget_icon:set_resize(false)
-netupwidget_icon_m = wibox.layout.margin(netupwidget_icon, 5, 0, 5, 0)
-netupwidget = wibox.widget.textbox()
-netdownwidget_icon       = wibox.widget.imagebox()
+netupwidget_icon_m    = wibox.layout.margin(netupwidget_icon, 5, 0, 5, 0)
+netupwidget           = wibox.widget.textbox()
+
+netdownwidget_icon    = wibox.widget.imagebox()
 netdownwidget_icon:set_image(beautiful.networkdownwidget_icon)
 netdownwidget_icon:set_resize(false)
-netdownwidget_icon_m = wibox.layout.margin(netdownwidget_icon, 5, 0, 5, 0)
-netdownwidget = wibox.widget.textbox()
+netdownwidget_icon_m  = wibox.layout.margin(netdownwidget_icon, 5, 0, 5, 0)
+netdownwidget         = wibox.widget.textbox()
+
 function update_netspeedwidgets()
-    local curr_bytes_down = 0
-    local curr_bytes_up = 0
-    local net_up
-    local net_down
-    for line in io.lines('/proc/net/dev') do
-        local device,bytes_down,bytes_up = line:match('^[%s]?[%s]?[%s]?[%s]?([%w]+):[%s]?([%d]+)[%s]+[%d]+[%s]+[%d]+[%s]+[%d]+[%s]+[%d]+[%s]+[%d]+[%s]+[%d]+[%s]+[%d]+[%s]+([%d]+)[%s]')
-        if device then
-            curr_bytes_down = curr_bytes_down + bytes_down
-            curr_bytes_up = curr_bytes_up + bytes_up
-        end
+  local curr_bytes_down = 0
+  local curr_bytes_up = 0
+  local net_up
+  local net_down
+  
+  for line in io.lines('/proc/net/dev') do
+    local device,bytes_down,bytes_up = line:match('^[%s]?[%s]?[%s]?[%s]?([%w]+):[%s]?([%d]+)[%s]+[%d]+[%s]+[%d]+[%s]+[%d]+[%s]+[%d]+[%s]+[%d]+[%s]+[%d]+[%s]+[%d]+[%s]+([%d]+)[%s]')
+    if device then
+      curr_bytes_down = curr_bytes_down + bytes_down
+      curr_bytes_up = curr_bytes_up + bytes_up
     end
-    if (total_bytes_down == nil) then
-        total_bytes_down = curr_bytes_down
-    end
-    if (total_bytes_up == nil) then
-        total_bytes_up = curr_bytes_up
-    end
-    net_down = math.floor((((curr_bytes_down - total_bytes_down) / 1048576) * 10^2) + 0.5) / (10^2)
-    net_up = math.floor((((curr_bytes_up - total_bytes_up) / 1048576) * 10^2) + 0.5) / (10^2)
+  end
+  if (total_bytes_down == nil) then
     total_bytes_down = curr_bytes_down
+  end
+  if (total_bytes_up == nil) then
     total_bytes_up = curr_bytes_up
-    netdownwidget:set_text(" " .. net_down .. " ")
-    netupwidget:set_text(" " .. net_up .. " ")
+  end
+  
+  net_down = math.floor((((curr_bytes_down - total_bytes_down) / 1048576) * 10^2) + 0.5) / (10^2)
+  net_up = math.floor((((curr_bytes_up - total_bytes_up) / 1048576) * 10^2) + 0.5) / (10^2)
+  total_bytes_down = curr_bytes_down
+  total_bytes_up = curr_bytes_up
+  netdownwidget:set_text(" " .. net_down .. " ")
+  netupwidget:set_text(" " .. net_up .. " ")
 end
+
 update_netspeedwidgets()
 netspeedwidgetstimer = timer({ timeout = 3 })
 netspeedwidgetstimer:connect_signal("timeout", update_netspeedwidgets)
 netspeedwidgetstimer:start()
 
--- [IP] --
-ipwidget_icon       = wibox.widget.imagebox()
-ipwidget_icon:set_image(beautiful.ipwidget_icon)
-ipwidget_icon:set_resize(false)
-ipwidget_icon_m     = wibox.layout.margin(ipwidget_icon, 5, 0, 5, 0)
-ipwidget            = wibox.widget.textbox()
-
--- [update ip] --
-function update_ipwidget()
-  local f = io.popen("/sbin/ifconfig eth0")
-  if f then
-    local ifOut = f:read('*a')
-    f:close()
-    ip = string.match(ifOut, 'inet (.+) netmask')
-    if ip then
-      ipwidget:set_text(" " .. ip)
-    else
-      ipwidget:set_text("  " .. "no-ip")
-    end
-  end
-end
-
-update_ipwidget()
-ipwidgettimer = timer({ timeout = 30 })
-ipwidgettimer:connect_signal("timeout", update_ipwidget)
-ipwidgettimer:start()
-
--- [ Date Widget ] --
-datewidget_icon       = wibox.widget.imagebox()
-datewidget_icon:set_image(beautiful.datewidget_icon)
-datewidget_icon:set_resize(false)
-datewidget_icon_m = wibox.layout.margin(datewidget_icon, 5, 0, 5, 0)
-
 -- Create a wibox for each screen and add it
 mywibox = {}
 mypromptbox = {}
 mylayoutbox = {}
+
 mytaglist = {}
 mytaglist.buttons = awful.util.table.join(
-                    awful.button({ }, 1, awful.tag.viewonly),
-                    awful.button({ modkey }, 1, awful.client.movetotag),
-                    awful.button({ }, 3, awful.tag.viewtoggle),
-                    awful.button({ modkey }, 3, awful.client.toggletag),
-                    awful.button({ }, 4, function(t) awful.tag.viewnext(awful.tag.getscreen(t)) end),
-                    awful.button({ }, 5, function(t) awful.tag.viewprev(awful.tag.getscreen(t)) end)
-                    )
+  awful.button({ }, 1, awful.tag.viewonly),
+  awful.button({ modkey }, 1, awful.client.movetotag),
+  awful.button({ }, 3, awful.tag.viewtoggle),
+  awful.button({ modkey }, 3, awful.client.toggletag),
+  awful.button({ }, 4, function(t) awful.tag.viewnext(awful.tag.getscreen(t)) end),
+  awful.button({ }, 5, function(t) awful.tag.viewprev(awful.tag.getscreen(t)) end)
+)
+
 mytasklist = {}
 mytasklist.buttons = awful.util.table.join(
-                     awful.button({ }, 1, function (c)
-                                              if c == client.focus then
-                                                  c.minimized = true
-                                              else
-                                                  -- Without this, the following
-                                                  -- :isvisible() makes no sense
-                                                  c.minimized = false
-                                                  if not c:isvisible() then
-                                                      awful.tag.viewonly(c:tags()[1])
-                                                  end
-                                                  -- This will also un-minimize
-                                                  -- the client, if needed
-                                                  client.focus = c
-                                                  c:raise()
-                                              end
-                                          end),
-                     awful.button({ }, 3, function ()
-                                              if instance then
-                                                  instance:hide()
-                                                  instance = nil
-                                              else
-                                                  instance = awful.menu.clients({ width=250 })
-                                              end
-                                          end),
-                     awful.button({ }, 4, function ()
-                                              awful.client.focus.byidx(1)
-                                              if client.focus then client.focus:raise() end
-                                          end),
-                     awful.button({ }, 5, function ()
-                                              awful.client.focus.byidx(-1)
-                                              if client.focus then client.focus:raise() end
-                                          end))
+  
+  awful.button({ }, 1, function (c)
+    if c == client.focus then
+      c.minimized = true
+    else
+      -- Without this, the following
+      -- :isvisible() makes no sense
+      c.minimized = false
+      if not c:isvisible() then
+        awful.tag.viewonly(c:tags()[1])
+      end
+      -- This will also un-minimize
+      -- the client, if needed
+      client.focus = c
+      c:raise()
+    end
+  end),
+  
+  awful.button({ }, 3, function ()
+    if instance then
+      instance:hide()
+      instance = nil
+    else
+      instance = awful.menu.clients({ width=250 })
+    end
+  end),
+
+  awful.button({ }, 4, function ()
+    awful.client.focus.byidx(1)
+    if client.focus then client.focus:raise() end
+  end),
+
+  awful.button({ }, 5, function ()
+    awful.client.focus.byidx(-1)
+    if client.focus then client.focus:raise() end
+  end))
 
 for s = 1, screen.count() do
-    -- Create a promptbox for each screen
-    mypromptbox[s] = awful.widget.prompt()
-    -- Create an imagebox widget which will contains an icon indicating which layout we're using.
-    -- We need one layoutbox per screen.
-    mylayoutbox[s] = awful.widget.layoutbox(s)
-    mylayoutbox[s]:buttons(awful.util.table.join(
-                           awful.button({ }, 1, function () awful.layout.inc(layouts, 1) end),
-                           awful.button({ }, 3, function () awful.layout.inc(layouts, -1) end),
-                           awful.button({ }, 4, function () awful.layout.inc(layouts, 1) end),
-                           awful.button({ }, 5, function () awful.layout.inc(layouts, -1) end)))
-    -- Create a taglist widget
-    mytaglist[s] = awful.widget.taglist(s, awful.widget.taglist.filter.all, mytaglist.buttons)
+  -- Create a promptbox for each screen
+  mypromptbox[s] = awful.widget.prompt()
+  -- Create an imagebox widget which will contains an icon indicating which layout we're using.
+  -- We need one layoutbox per screen.
+  mylayoutbox[s] = awful.widget.layoutbox(s)
+  mylayoutbox[s]:buttons(awful.util.table.join(
+    awful.button({ }, 1, function () awful.layout.inc(layouts, 1) end),
+    awful.button({ }, 3, function () awful.layout.inc(layouts, -1) end),
+    awful.button({ }, 4, function () awful.layout.inc(layouts, 1) end),
+    awful.button({ }, 5, function () awful.layout.inc(layouts, -1) end))
+  )
+  -- Create a taglist widget
+  mytaglist[s] = awful.widget.taglist(s, awful.widget.taglist.filter.all, mytaglist.buttons)
 
-    -- Create a tasklist widget
-    mytasklist[s] = awful.widget.tasklist(s, awful.widget.tasklist.filter.currenttags, mytasklist.buttons)
+  -- Create a tasklist widget
+  mytasklist[s] = awful.widget.tasklist(s, awful.widget.tasklist.filter.currenttags, mytasklist.buttons)
 
-    -- Create the wibox
-    mywibox[s] = awful.wibox({ position = "top", screen = s, height = "22" })
+  -- Create the wibox
+  mywibox[s] = awful.wibox({ position = "top", screen = s, height = "22" })
 
-    -- Widgets that are aligned to the left
-    local left_layout = wibox.layout.fixed.horizontal()
-    left_layout:add(mylauncher)
-    left_layout:add(mytaglist[s])
-    left_layout:add(mypromptbox[s])
+  -- need to fix this --
+  config            = awful.util.getdir("config")
+  menu              = config .. "/icons/menu/"
+  netup     = menu .. "/widgets/widget_netul.png"
+  netdown   = menu .. "/widgets/widget_netdl.png"
+  netup_icon = wibox.widget.imagebox()
+  netup_icon:set_image(netup)
+  netdown_icon = wibox.widget.imagebox()
+  netdown_icon:set_image(netdown)
+  -- end fix this --
 
-    -- Widgets that are aligned to the right
-    local right_layout = wibox.layout.fixed.horizontal()
-    right_layout:add(wirelesswidgets_icon_m)
-    right_layout:add(essidwidget)
-    right_layout:add(lqwidget)
-    right_layout:add(ratewidget)
-    right_layout:add(netupwidget_icon_m)
-    right_layout:add(netupwidget)
-    right_layout:add(netdownwidget_icon_m)
-    right_layout:add(netdownwidget)
+  -- Widgets that are aligned to the left
+  local left_layout = wibox.layout.fixed.horizontal()
+  left_layout:add(mylauncher)
+  left_layout:add(mytaglist[s])
+  left_layout:add(mypromptbox[s])
 
-    right_layout:add(spr)
-    
-    -- [IP] --
-    -- right_layout:add(widget_display_l)
-    -- right_layout:add(ipwidget_icon_m)
-    -- right_layout:add(ipwidget)
-    -- right_layout:add(widget_display_r)
-    -- right_layout:add(spr5px)
-    --
-    -- right_layout:add(spr)
+  -- Widgets that are aligned to the right
+  local right_layout = wibox.layout.fixed.horizontal()
+  
+  right_layout:add(spr)
 
-    -- [Memory] --
-    right_layout:add(spr5px)
-    right_layout:add(widget_display_l)
-    -- right_layout:add(memorywidget_icon_m)
-    right_layout:add(ramwidget)
-    right_layout:add(widget_display_r)
-    right_layout:add(spr5px)
+  -- [Net]--
+  right_layout:add(spr5px)
+  right_layout:add(netup_icon)
+  right_layout:add(netupwidget)
+  right_layout:add(netdownwidget)
+  right_layout:add(netdown_icon)
+  right_layout:add(spr5px)
 
-    right_layout:add(spr)
+  right_layout:add(spr)
+  
+  -- [Memory] --
+  right_layout:add(widget_ram)
+  right_layout:add(widget_display_l)
+  right_layout:add(ramwidget)
+  right_layout:add(widget_display_r)
+  right_layout:add(spr5px)
 
-    -- [CPU] --
-    right_layout:add(spr5px)
-    right_layout:add(widget_display_l)
-    -- right_layout:add(cpuloadwidget_icon_m)
-    right_layout:add(cpuwidget)
-    right_layout:add(widget_display_r)
-    right_layout:add(spr5px)
+  right_layout:add(spr)
 
-    -- not going to use this one at the moment
-    -- right_layout:add(cpuspeedwidget)
+  -- [CPU] --
+  right_layout:add(widget_cpu)
+  right_layout:add(widget_display_l)
+  right_layout:add(cpuwidget)
+  right_layout:add(widget_display_r)
+  right_layout:add(spr5px)
 
-    -- think this is just being used for space right now
-    right_layout:add(datewidget_icon_m)
+  right_layout:add(spr)
+  
+  -- [Volume] --
+  right_layout:add(widget_volume)
+  right_layout:add(widget_display_l)
+  right_layout:add(volwidget)
+  right_layout:add(widget_display_r)
+  right_layout:add(spr5px)
 
-    -- [ Displays App Icons ] --
-    -- havn't decided if i like it enough to keep it or not
-    -- if s == 1 then right_layout:add(wibox.widget.systray()) end
+  right_layout:add(spr)
 
-    right_layout:add(spr)
-    
-    -- [Volume] --
-		right_layout:add(widget_cal)
-    right_layout:add(widget_display_l)
-    right_layout:add(volwidget)
-    right_layout:add(widget_display_r)
-    right_layout:add(spr5px)
+  -- [Calendar] --
+  right_layout:add(widget_cal)
+  right_layout:add(widget_display_l)
+  right_layout:add(calwidget)
+  right_layout:add(widget_display_r)
+  right_layout:add(spr5px)
 
-		right_layout:add(spr)
+  right_layout:add(spr)
 
-    -- [Calendar] --
-		right_layout:add(widget_cal)
-    right_layout:add(widget_display_l)
-    right_layout:add(calwidget)
-    right_layout:add(widget_display_r)
-    right_layout:add(spr5px)
- 
-		right_layout:add(spr)
+  -- [Clock] --
+  right_layout:add(widget_clock)
+  right_layout:add(widget_display_l)
+  right_layout:add(clockwidget)
+  right_layout:add(widget_display_r)
+  right_layout:add(spr5px)
 
-    -- [Clock] --
-		right_layout:add(widget_clock)
-    right_layout:add(widget_display_l)
-    right_layout:add(clockwidget)
-    right_layout:add(widget_display_r)
-    right_layout:add(spr5px)
+  right_layout:add(spr)
+  
+  right_layout:add(mylayoutbox[s])
 
-    right_layout:add(spr)
-    
-		right_layout:add(mylayoutbox[s])
+  -- Now bring it all together (with the tasklist in the middle)
+  local layout = wibox.layout.align.horizontal()
+  layout:set_left(left_layout)
+  layout:set_middle(mytasklist[s])
+  layout:set_right(right_layout)
 
-    -- Now bring it all together (with the tasklist in the middle)
-    local layout = wibox.layout.align.horizontal()
-    layout:set_left(left_layout)
-    layout:set_middle(mytasklist[s])
-    layout:set_right(right_layout)
-
-    mywibox[s]:set_bg(beautiful.panel)
-    mywibox[s]:set_widget(layout)
+  mywibox[s]:set_bg(beautiful.panel)
+  mywibox[s]:set_widget(layout)
 end
--- }}}
 
--- {{{ Mouse bindings
+-- [ Mouse bindings ] --
 root.buttons(awful.util.table.join(
-    awful.button({ }, 3, function () mymainmenu:toggle() end),
-    awful.button({ }, 4, awful.tag.viewnext),
-    awful.button({ }, 5, awful.tag.viewprev)
+  awful.button({ }, 3, function () mymainmenu:toggle() end),
+  awful.button({ }, 4, awful.tag.viewnext),
+  awful.button({ }, 5, awful.tag.viewprev)
 ))
--- }}}
 
--- {{{ Key bindings
+-- [ Key bindings ] --
 globalkeys = awful.util.table.join(
     awful.key({ modkey,           }, "Left",   awful.tag.viewprev       ),
     awful.key({ modkey,           }, "Right",  awful.tag.viewnext       ),
@@ -708,4 +604,4 @@ end)
 
 client.connect_signal("focus", function(c) c.border_color = beautiful.border_focus end)
 client.connect_signal("unfocus", function(c) c.border_color = beautiful.border_normal end)
--- }}}
+
