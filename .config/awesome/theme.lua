@@ -102,6 +102,9 @@ theme.widget_ram = menu .. "/widgets/widget_ram.png"
 -- [ CPU ] --
 theme.widget_cpu = menu .. "/widgets/widget_cpu.png"
 
+-- [ Uptime ] --
+theme.widget_uptime = menu .. "/widgets/uptime.png"
+
 -- [ Clock / Calendar ] --
 theme.widget_clock = menu .. "/widgets/widget_clock.png"
 theme.widget_cal   = menu .. "/widgets/widget_cal.png"

@@ -3,6 +3,7 @@
 -- dependencies
 local wibox = require("wibox")
 local awful = require("awful")
+local vicious = require("vicious")
 require("theme")
 local beautiful = require("beautiful")
 
@@ -12,11 +13,13 @@ cpuloadwidget_icon        = wibox.widget.imagebox()
 cpuloadwidget             = wibox.widget.textbox()
 cpuspeedwidget            = wibox.widget.textbox()
 cpuwidget                 = wibox.widget.background()
+cputempwidget             = wibox.widget.background()
 
 cpuloadwidget_icon:set_image(beautiful.cpuloadwidget_icon)
 cpuloadwidget_icon:set_resize(false)
 cpuloadwidget_icon_m      = wibox.layout.margin(cpuloadwidget_icon, 5, 0, 5, 0)
 cpuwidget:set_bgimage(beautiful.widget_display)
+cputempwidget:set_bgimage(beautiful.widget_display)
 
 widget_cpu = wibox.widget.imagebox()
 widget_cpu:set_image(beautiful.widget_cpu)
@@ -62,7 +65,7 @@ function update_cpuloadwidget()
       usage_percent = math.floor(diff_active/diff_total*100)
       cpu0_total    = total_new
       cpu0_active   = active_new
-      cpuloadwidget:set_text(usage_percent .. "%")
+      cpuloadwidget:set_text(usage_percent .. "% ")
     end
   end
   f:close()
@@ -94,4 +97,12 @@ cpuspeedwidgettimer:connect_signal("timeout", update_cpuspeedwidget)
 cpuspeedwidgettimer:start()
 
 cpuwidget:set_widget(cpuloadwidget)
+
+cputemp = wibox.widget.textbox()
+vicious.register(cputemp, vicious.widgets.thermal,
+  function (widget, args) 
+    return args[1] * 9 / 5 + 32 .. "°F"
+  end,37,"thermal_zone0")
+
+cputempwidget:set_widget(cputemp)
 

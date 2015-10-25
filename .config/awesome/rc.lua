@@ -12,6 +12,7 @@ local wibox = require("wibox")
 local beautiful = require("beautiful")
 local naughty = require("naughty")
 local menubar = require("menubar")
+local vicious = require("vicious")
 
 -- widgets
 require("volume")
@@ -137,6 +138,22 @@ widget_display_l = wibox.widget.imagebox()
 widget_display_l:set_image(beautiful.widget_display_l)
 widget_display_c = wibox.widget.imagebox()
 widget_display_c:set_image(beautiful.widget_display_c)
+
+-- weather
+-- local weatherwidget = wibox.widget.textbox()
+-- weather_t = awful.tooltip({ objects = { weatherwidget },})
+--
+-- vicious.register(weatherwidget, vicious.widgets.weather,
+--   function (widget, args)
+--     weather_t:set_text("City: " .. args["{city}"] .. "\n Wind: " .. args["{windkmh}"] .. "km/h " .. args["{wind}"] .. "\nSky: " .. args["{sky}"] .. "\nHumidity: " .. args["{humid]"] .. "%")
+--       return " Weather: " .. args["{tempc]"] .. "C | "
+--     end, 300, "VIDP")
+
+-- Widget Uptime
+uptime = wibox.widget.textbox()
+vicious.register( uptime, vicious.widgets.uptime, "$1d $2:$3", 61)
+uptime_icon = wibox.widget.imagebox()
+uptime_icon:set_image(beautiful.widget_uptime)
 
 -- [ Network Up/Down ] --
 netupwidget_icon      = wibox.widget.imagebox()
@@ -281,7 +298,15 @@ for s = 1, screen.count() do
   
   right_layout:add(spr)
 
-  -- [Net]--
+  -- [Uptime]--
+  right_layout:add(spr5px)
+  right_layout:add(uptime_icon)
+  right_layout:add(uptime)
+  right_layout:add(spr5px)
+
+  right_layout:add(spr)
+  
+	-- [Net]--
   right_layout:add(spr5px)
   right_layout:add(netup_icon)
   right_layout:add(netupwidget)
@@ -304,6 +329,7 @@ for s = 1, screen.count() do
   right_layout:add(widget_cpu)
   right_layout:add(widget_display_l)
   right_layout:add(cpuwidget)
+  right_layout:add(cputempwidget)
   right_layout:add(widget_display_r)
   right_layout:add(spr5px)
 
