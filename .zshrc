@@ -13,7 +13,7 @@ ZSH_THEME="byron"
 export VISUAL=vim
 export EDITOR=$VISUAL
 export CODESPACE=$HOME/code
-export WORKSPACE=$CODESPACE/demandbase
+export WORKSPACE=$CODESPACE/Demandbase
 
 # Uncomment the following line to use case-sensitive completion.
 # CASE_SENSITIVE="true"
@@ -126,15 +126,6 @@ MANPATH="$NPM_PACKAGES/share/man:$(manpath)"
 
 # The next line enables bash completion for gcloud.
 # source '$HOME/google-cloud-sdk/completion.bash.inc'
-
-# ================================================================
-# INITIALIZE boot2docker shell variables
-# ================================================================
-[ "$(command -v boot2docker)" ] \
-  && [ "$(ps ax | grep boot2docker-vm | grep -v "grep")" ] \
-    && $(boot2docker shellinit 2> /dev/null)
-
-[ "$(command -v docker-machine)" ] && eval "$(docker-machine env vbox)"
 
 # ================================================================
 # LOAD LOCAL ENV
