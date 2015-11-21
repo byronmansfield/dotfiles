@@ -1,13 +1,8 @@
 # Path to your oh-my-zsh installation.
 export ZSH=$HOME/.oh-my-zsh
 
-# Set name of the theme to load.
-# Look in ~/.oh-my-zsh/themes/
-# Optionally, if you set this to "random", it'll load a random theme each
-# time that oh-my-zsh is loaded.
-# ZSH_THEME="robbyrussell"
+# set theme
 ZSH_THEME="byron"
-# ZSH_THEME="msjche"    #kardan agnoster af-magic bira clean candy gentoo terminalparty
 
 # Set vim as default editor
 export VISUAL=vim
@@ -61,25 +56,12 @@ source $ZSH/oh-my-zsh.sh
 # USER CONFIGURATIONS
 # ================================================================
 
-export CHROME_BIN="/Applications/Google Chrome.app/Contents/MacOS/Google Chrome"
-
-# export MANPATH="/usr/local/man:$MANPATH"
-
-# You may need to manually set your language environment
-# export LANG=en_US.UTF-8
+export CHROME_BIN="/usr/bin/google-chrome-unstable"
 
 # Preferred editor for local and remote sessions
-# if [[ -n $SSH_CONNECTION ]]; then
-#   export EDITOR='vim'
-# else
-#   export EDITOR='mvim'
-# fi
-
-# Compilation flags
-# export ARCHFLAGS="-arch x86_64"
-
-# ssh
-# export SSH_KEY_PATH="~/.ssh/dsa_id"
+if [[ -n $SSH_CONNECTION ]]; then
+  export EDITOR='vim'
+fi
 
 # ================================================================
 # SET USER HOME BIN
@@ -96,26 +78,15 @@ export PATH="$PATH:$GOROOT/bin"
 export GOPATH=$HOME/gocode
 
 ## ================================================================
-# NODEJS
+# NODEJS & NPM
 # ================================================================
 if test -n "$(command -v npm)"; then
-	export NODE_PATH="/usr/local/lib/node_modules:$HOME/node_modules";
-	export NPM_PACKAGES="/usr/local/share/npm";
-	PATH="$PATH:/usr/local/lib/node_modules/npm/bin:$HOME/node_modules/.bin";
-	PATH="$PATH:$NPM_PACKAGES/bin"
+	export NODE_PATH="/usr/local/bin/node"
+	export NPM_PATH="/usr/local/bin/npm"
+	export NODE_MODULES="$HOME/node_modules"
+	export NPM_PACKAGES="$HOME/.npm-packages"
+  export PATH="$PATH:$NPM_PACKAGES/bin:$NODE_MODULES/.bin"
 fi
-
-# Unset manpath so we can inherit from /etc/manpath via the `manpath`
-# command
-unset MANPATH # delete if you already modified MANPATH elsewhere in your config
-MANPATH="$NPM_PACKAGES/share/man:$(manpath)"
-
-# ================================================================
-# RVM SETUP
-# ================================================================
-# Since switching from rvm to rbenv I have commented this out
-# export PATH="$PATH:$HOME/.rvm/bin" # Add RVM to PATH for scripting
-# [[ -s "$HOME/.rvm/scripts/rvm" ]] && source "$HOME/.rvm/scripts/rvm" # Load RVM into a shell session *as a function*
 
 # ================================================================
 # GOOGLE CLOUD SDK
@@ -143,7 +114,7 @@ MANPATH="$NPM_PACKAGES/share/man:$(manpath)"
 [[ -f ~/.work/.exports ]] && source ~/.work/.exports
 
 # set chef repo
-export CHEF_REPO=$HOME/code/demandbase/chef-repo
+export CHEF_REPO=$HOME/code/Demandbase/chef-repo
 
 # ================================================================
 # PATH
@@ -173,5 +144,7 @@ export PATH="$PATH:$HOME/.rbenv/bin"
 eval "$(rbenv init -)"
 
 # Load archey (if installed)
-# archey
-archey3
+if [ -x archey3 ]; then
+  archey3
+fi
+
