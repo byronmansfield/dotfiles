@@ -144,7 +144,7 @@ export PATH="$PATH:$HOME/.rbenv/bin"
 eval "$(rbenv init -)"
 
 # Load archey (if installed)
-if [ -x archey3 ]; then
+if test -n "$(command -v archey3)"; then
   archey3
 fi
 

@@ -32,10 +32,10 @@ URxvt.clipboard.pastecmd: xsel -ob
 ! Menlo for Powerline Fonts
 ! patched for powerline unicode, still looks thin
 URxvt*font: xft:Menlo for Powerline:pixelsize=13
-URxvt*imFont: xft:Menlo for Powerline:pixelsize=15
-URxvt*boldFont: xft:Menlo Bold for Powerline:pixelsize=15
+URxvt*imFont: xft:Menlo for Powerline:pixelsize=13
+URxvt*boldFont: xft:Menlo Bold for Powerline:pixelsize=13
 URxvt*italicFont: xft:Menlo Italic for Powerline:pixelsize=13
-URxvt*BoldItalicFont: xft:Menlo Bold Italic for Powerline:pixelsize=15
+URxvt*BoldItalicFont: xft:Menlo Bold Italic for Powerline:pixelsize=13
 
 ! DejaVu Mono Fonts
 ! Didn't like, way too wide, patched for powerline unicode
