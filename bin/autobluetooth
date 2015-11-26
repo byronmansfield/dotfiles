@@ -1,0 +1,32 @@
+#!/usr/bin/expect
+
+spawn ssh Trusty@localhost -Y
+expect {
+	"yes/no" {
+		send "yes\n"
+		exp_continue
+	}
+	"assword" {
+		send "xxxxxxx!\n"
+	}
+}
+expect $
+
+# Now we are in the controlled session, run bluetooth related commands.
+send "bluetoothctl\r"
+expect #
+send "power on\r"
+expect "yes"
+send "agent on\r"
+expect #
+send "default-agent\r"
+expect #
+send "connect 57:D3:98:0C:08:8D\r"
+expect "connection successful"
+send "exit\r"
+expect $
+
+# After execute the command in this ssh session, simply exit. 
+send "exit\r"
+expect $
+

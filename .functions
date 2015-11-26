@@ -2,37 +2,11 @@
 # FUNCTIONS
 # ================================================================
 
-# myIP address
-# function myip() {
-# 	echo "--------------- Network Information ---------------"
-#   ifconfig lo0 | grep 'inet ' | sed -e 's/:/ /' | awk '{print "lo0       : " $2}'
-# 	ifconfig en0 | grep 'inet ' | sed -e 's/:/ /' | awk '{print "en0 (IPv4): " $2 " " $3 " " $4 " " $5 " " $6}'
-# 	ifconfig en0 | grep 'inet6 ' | sed -e 's/ / /' | awk '{print "en0 (IPv6): " $2 " " $3 " " $4 " " $5 " " $6}'
-# 	ifconfig en1 | grep 'inet ' | sed -e 's/:/ /' | awk '{print "en1 (IPv4): " $2 " " $3 " " $4 " " $5 " " $6}'
-# 	ifconfig en1 | grep 'inet6 ' | sed -e 's/ / /' | awk '{print "en1 (IPv6): " $2 " " $3 " " $4 " " $5 " " $6}'
-# }
-
 myip() {
 	echo "--------------- Network Information ---------------"
 	
-	# for local
-	
 	ifconfig lo0 | grep 'inet ' | sed -e 's/:/ /' | awk '{print "lo0 local machine address:   " $2}'
 	ifconfig eno1 | grep 'inet ' | sed -e 's/:/ /' | awk '{print "en0 (IPv4) internal ip:      " $2}'
-	# ifconfig en0 | grep 'inet ' | sed -e 's/:/ /' | awk '{print "en0 (IPv4) internal ip:      " $2 " " $3 " " $4 " " $5 " " $6}'
-	# ifconfig en0 | grep 'inet6 ' | sed -e 's/ / /' | awk '{print "en0 (IPv6): " $2 " " $3 " " $4 " " $5 " " $6}'
-	# ifconfig en1 | grep 'inet ' | sed -e 's/:/ /' | awk '{print "en1 (IPv4): " $2 " " $3 " " $4 " " $5 " " $6}'
-	# ifconfig en1 | grep 'inet6 ' | sed -e 's/ / /' | awk '{print "en1 (IPv6): " $2 " " $3 " " $4 " " $5 " " $6}'
-
-	# for external
-
-	# newer system like arch
-	#ip addr | awk '/global/ {print $1,$2}' | cut -d\/ -f1
-	#ip addr | awk '/global/ {print $3,$4}'
-	#ip addr | awk '/ether/ {print $1,$2}'
-	#ip addr | awk '/scope link/ {print $1,$2}' | cut -d\/ -f1
-	
-	# older system like debian
 	ifconfig | awk '/inet addr/ {print $1,$2}' | awk -F: '{print $1,$2}'
 	ifconfig | awk '/Bcast/ {print $3}' | awk -F: '{print $1,$2}'
 	ifconfig | awk '/inet addr/ {print $4}' | awk -F: '{print $1,$2}'
@@ -40,22 +14,6 @@ myip() {
 	ifconfig | awk '/Scope:Link/ {print $1,$3}' | cut -d\/ -f1
 	echo "Current external IP:         "$(curl -s http://checkip.dyndns.org/ | grep -o "[[:digit:].]\+")
 	echo "---------------------------------------------------"
-}
-
-# turn hidden files on/off in Finder
-function hiddenOn() { 
-	defaults write com.apple.Finder AppleShowAllFiles YES ; 
-}
-function hiddenOff() { 
-	defaults write com.apple.Finder AppleShowAllFiles NO ; 
-}
-
-# hide desktop icons
-function hideDesktop() {
-	defaults write com.apple.finder CreateDesktop -bool false;killall Finder;say icons hidden
-}
-function showDesktop() {
-	defaults write com.apple.finder CreateDesktop -bool true;killall Finder;say icons visible
 }
 
 # postgres functions
@@ -329,5 +287,10 @@ function gh() {
   branch=${branch##refs/heads/}
   giturl=$giturl$branch
   open -a google\ chrome $giturl
+}
+
+# calls local script to auto connect to bluetooth headset
+function headset() {
+  autobluetooth && pavucontrol &  
 }
 
