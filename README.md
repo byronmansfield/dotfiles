@@ -15,8 +15,7 @@ For symlinking you can do the following:
 git clone https://github.com/byronmansfield/dotfiles.git $HOME/dotfiles
 ```
 
-2. Symlink all the files
-For brevity I'm not going to show all of these, rather just an example.
+2. Symlink all the files, for brevity I'm not going to show all of these, rather just an example.
 Hopefully I'll have a shell script soon that will do all this for you. 
 
 Example:
@@ -28,17 +27,18 @@ ln -s ~/dotfiles/.functions ~/.functions
 
 A short list of some of my favorite tools I use in my shell that I can't live without. I will probably grow this list as I grow as a developer and add in stuff from my other computers.
 
-* URXVT
+* URxvt
 * Tmux
 * Vim
 * ZSH
 * OH-MY-ZSH
+* Weechat
 
 ## Personal Configurations
 
 There are a few personalized configurations that I am really fond of and find helpful for my daily hacking
 
-* Tmux copy and paste
+* Tmux/URxvt copy and paste
 * Tmux ressurect
 * Z-shell's aliases
 * handy functions
@@ -49,13 +49,11 @@ There are a few personalized configurations that I am really fond of and find he
 Short list of tools I must have in my path
 
 * GO
+* Docker
 * Node + NPM
 * rbenv
 * chef
-* Docker
 
-# To-Do's
+Thats pretty much it. Take what you like, send a PR if you have any
+suggestions. Enjoy!
 
-- [ ] write bash script to ease setup
-- [ ] convert some of the function to shell scripts in $HOME/bin and include
-	them in repo

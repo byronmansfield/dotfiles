@@ -58,9 +58,8 @@ alias vimtricks="open -a google\ chrome https://gist.github.com/byronmansfield/a
 alias tmuxtricks="open -a google\ chrome https://gist.github.com/byronmansfield/f68e2ba0763cc410068b"
 alias archtricks="open -a google\ chrome https://gist.github.com/byronmansfield/5d1c34fca6834e0a3fe7"
 
-# Hide/show all desktop icons (useful when presenting)
-alias hidedesktop="defaults write com.apple.finder CreateDesktop -bool false && killall Finder"
-alias showdesktop="defaults write com.apple.finder CreateDesktop -bool true && killall Finder"
+# arch + awesome commands
+alias shutdown='shutdown -h now'
 
 ## Zsh Stuff
 alias eZ='vim ~/.zshrc'

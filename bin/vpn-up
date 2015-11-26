@@ -1,0 +1,9 @@
+#!/bin/bash
+
+set -euo pipefail
+IFS=$'\n\t'
+
+pon Demandbase
+route del default eno1
+route add default dev ppp0
+
