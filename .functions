@@ -291,6 +291,6 @@ function gh() {
 
 # calls local script to auto connect to bluetooth headset
 function headset() {
-  autobluetooth && pavucontrol &  
+  autobluetooth "$1" && pavucontrol &
 }
 
