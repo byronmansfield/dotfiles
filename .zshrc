@@ -180,5 +180,18 @@ export PATH="/usr/local/bin:/usr/bin:/bin:/usr/sbin:/sbin:$GOPATH/bin:$PATH"
 # ================================================================
 eval "$(rbenv init -)"
 
-# Load archey (if installed)
+# ================================================================
+# keychain
+# ================================================================
+eval $(keychain --nogui --eval --agents ssh id_rsa)
+
+# source the autocomplete for passwordstore
+source /usr/local/etc/bash_completion.d/password-store
+# source /usr/local/Cellar/pass/1.6.5/etc/bash_completion.d/password-store
+
+# Load archey
 archey
+
+# forgot what this is for
+export PATH="/usr/local/sbin:$PATH"
+

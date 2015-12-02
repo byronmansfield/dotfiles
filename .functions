@@ -71,10 +71,10 @@ function pgstatus() {
 
 # webdriver functions
 function wdstart() { 
-  ~/node_modules/.bin/webdriver-manager start ; 
+  webdriver-manager start ; 
 }
 function wdstop() { 
-  ~/Users/bmansfield/node_modules/.bin/webdriver-manager stop ; 
+  webdriver-manager stop ; 
 }
 
 # Simple calculator

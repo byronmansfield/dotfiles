@@ -136,6 +136,7 @@ alias perfmanhome='cd $WORKSPACE/perfman'
 alias apihome='cd $WORKSPACE/dashboard-api'
 alias chefhome='cd $WORKSPACE/chef-repo'
 alias cbooks='cd $WORKSPACE/chef-repo/cookbooks'
+alias tform='cd $WORKSPACE/terraform'
 alias personalcode='cd $CODESPACE/personal'
 alias practicecode='cd $CODESPACE/practice'
 
