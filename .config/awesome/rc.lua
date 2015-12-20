@@ -20,12 +20,6 @@ require("cpu")
 require("ram")
 require("time")
 
--- widgets
-require("volume")
-require("cpu")
-require("ram")
-require("time")
-
 -- error handling
 if awesome.startup_errors then
   naughty.notify({ preset = naughty.config.presets.critical,
