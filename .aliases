@@ -48,15 +48,14 @@ alias home='cd ~'
 alias path='echo $PATH'
 
 # open some apps
-alias chrome="open -a google\ chrome"
-alias chromium="open -a chromium"
+alias chrome="/usr/bin/google-chrome-unstable"
 
-alias passhelp="open -a google\ chrome http://git.zx2c4.com/password-store/about/"
-alias passtricks="open -a google\ chrome https://gist.github.com/byronmansfield/7757507cde32df6240af"
-alias gittricks="open -a google\ chrome https://gist.github.com/byronmansfield/abcfb7641cd02b96d61d"
-alias vimtricks="open -a google\ chrome https://gist.github.com/byronmansfield/a33de96c0ec764db1e42"
-alias tmuxtricks="open -a google\ chrome https://gist.github.com/byronmansfield/f68e2ba0763cc410068b"
-alias archtricks="open -a google\ chrome https://gist.github.com/byronmansfield/5d1c34fca6834e0a3fe7"
+alias passhelp="/usr/bin/google-chrome-unstable http://git.zx2c4.com/password-store/about/"
+alias passtricks="/usr/bin/google-chrome-unstable https://gist.github.com/byronmansfield/7757507cde32df6240af"
+alias gittricks="/usr/bin/google-chrome-unstable https://gist.github.com/byronmansfield/abcfb7641cd02b96d61d"
+alias vimtricks="/usr/bin/google-chrome-unstable https://gist.github.com/byronmansfield/a33de96c0ec764db1e42"
+alias tmuxtricks="/usr/bin/google-chrome-unstable https://gist.github.com/byronmansfield/f68e2ba0763cc410068b"
+alias archtricks="/usr/bin/google-chrome-unstable https://gist.github.com/byronmansfield/5d1c34fca6834e0a3fe7"
 
 # arch + awesome commands
 alias shutdown='shutdown -h now'
