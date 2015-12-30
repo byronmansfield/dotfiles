@@ -1,0 +1,56 @@
+#!/bin/bash
+
+set -euo pipefail
+IFS=$'\n\t'
+
+# help text for how to use
+function useage() {
+  echo "Welcome to PPTP VPN cli useage"
+  echo ""
+  echo "Useage:"
+  echo ""
+  echo "        vpn [flag]"
+  echo ""
+  echo "The flags are:"
+  echo ""
+  echo "    -u|--up     To turn on the VPN connection"
+  echo "    -d|--down   To turn off the VPN connection"
+  echo ""
+  echo "example: vpn -u"
+  echo ""
+  echo ""
+}
+
+# turn on PPTP vpn
+function on() {
+  pon Demandbase
+  route del default eno1
+  route add default dev ppp0
+}
+
+# turn off PPTP vpn
+function off() {
+  poff Demandbase
+  route del default ppp0
+  route add default dev eno1
+}
+
+# parse options
+while test $# -gt 0; do
+  case "$1" in
+    -h|--help)
+      useage
+      exit 0
+      ;;
+    -u|--up)
+      on
+      ;;
+    -d|--down)
+      off
+      ;;
+    \?)
+      echo "Invalid option: $1"
+      exit 0
+      ;;
+  esac
+done
