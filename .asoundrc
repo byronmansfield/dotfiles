@@ -1,26 +1,9 @@
-pcm.!default {
-	@func refer
-	name { @func concat 
-		strings [ "pcm."
-			{ @func getenv
-				vars [ ALSA_DEFAULT_PCM ]
-				default "pulse"
-			}
-		]
-	}
-}
-
-ctl.!default {
-	@func refer
-	name { @func concat 
-		strings [ "ctl."
-			{ @func getenv
-				vars [ ALSA_DEFAULT_CTL
-					ALSA_DEFAULT_PCM
-				]
-				default "pulse"
-			}
-		]
-	}
-}
-
+# pcm.!default {
+# 	type hw
+# 	card 0
+# }
+#
+# ctl.!default {
+# 	type hw
+# 	card 0
+# }
