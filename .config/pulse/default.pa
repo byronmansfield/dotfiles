@@ -22,20 +22,16 @@ load-module module-augment-properties
 ### Should be after module-*-restore but before module-*-detect
 load-module module-switch-on-port-available
 
+## adding this in attempt to fix my bluetooth issues
+# automatically switch to newly-connected devices
+load-module module-switch-on-connect
+
 ### Automatically load driver modules depending on the hardware available
 .ifexists module-udev-detect.so
-### Uncomminting this seems to make pavucontrol pick up on all available audio drivers
 load-module module-udev-detect
-### commenting these out seems to let pulseaudio daemon to start without failure
-# load-module module-alsa-sink device=dmix
-# load-module module-alsa-source device=dsnoop
 .else
 ### Use the static hardware detection module (for systems that lack udev support)
-### Uncomminting this seems to make pavucontrol pick up on all available audio drivers
 load-module module-detect
-### commenting these out seems to let pulseaudio daemon to start without failure
-# load-module module-alsa-sink device=dmix
-# load-module module-alsa-source device=dsnoop
 .endif
 
 ### Automatically connect sink and source if JACK server is present
