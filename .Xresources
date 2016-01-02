@@ -19,6 +19,10 @@ URxvt.iso14755: False
 URxvt.clipboard.copycmd:  xsel -ib
 URxvt.clipboard.pastecmd: xsel -ob
 
+! For highlight colors
+URxvt*highlightColor:       #999999
+URxvt*highlightTextColor:   #FFFFFF
+
 ! Fonts
 
 ! Hack Fonts
