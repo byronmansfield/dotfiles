@@ -148,5 +148,5 @@ alias perfmantest='ENV=staging API_URL=https://dashboard-api.staging.demandbase.
 alias apiup='ENV=dev bundle exec rackup'
 
 # knife
-alias ksearch='knife search' 
-alias klogin='knife ssh' 
+alias ksearch='knife search'
+alias klogin='knife ssh'
