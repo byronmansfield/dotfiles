@@ -1,19 +1,21 @@
-# Path to your oh-my-zsh installation.
+# oh-my-zsh settings
 export ZSH=$HOME/.oh-my-zsh
-
-# Set name of the theme to load.
-# Look in ~/.oh-my-zsh/themes/
-# Optionally, if you set this to "random", it'll load a random theme each
-# time that oh-my-zsh is loaded.
-# ZSH_THEME="robbyrussell"
 ZSH_THEME="byron"
-# ZSH_THEME="msjche"    #kardan agnoster af-magic bira clean candy gentoo terminalparty
+
+# language settings
+export LANG=en_US.UTF-8
+export LANGUAGE=en_US.UTF-8
+export LC_ALL=en_US.UTF-8
 
 # Set vim as default editor
 export VISUAL=vim
 export EDITOR=$VISUAL
 export CODESPACE=$HOME/code
 export WORKSPACE=$CODESPACE/demandbase
+
+# needed for various urxvt fixes
+TERM=xterm
+# stty erase '^?'
 
 # Uncomment the following line to use case-sensitive completion.
 # CASE_SENSITIVE="true"
@@ -65,16 +67,6 @@ export CHROME_BIN="/Applications/Google Chrome.app/Contents/MacOS/Google Chrome"
 
 # export MANPATH="/usr/local/man:$MANPATH"
 
-# You may need to manually set your language environment
-# export LANG=en_US.UTF-8
-
-# Preferred editor for local and remote sessions
-# if [[ -n $SSH_CONNECTION ]]; then
-#   export EDITOR='vim'
-# else
-#   export EDITOR='mvim'
-# fi
-
 # Compilation flags
 # export ARCHFLAGS="-arch x86_64"
 
@@ -95,7 +87,7 @@ export GOROOT=/usr/local/go
 export PATH="$PATH:$GOROOT/bin"
 export GOPATH=$HOME/gocode
 
-## ================================================================
+# ================================================================
 # NODEJS
 # ================================================================
 if test -n "$(command -v npm)"; then
@@ -111,29 +103,21 @@ unset MANPATH # delete if you already modified MANPATH elsewhere in your config
 MANPATH="$NPM_PACKAGES/share/man:$(manpath)"
 
 # ================================================================
-# RVM SETUP
-# ================================================================
-# Since switching from rvm to rbenv I have commented this out
-# export PATH="$PATH:$HOME/.rvm/bin" # Add RVM to PATH for scripting
-# [[ -s "$HOME/.rvm/scripts/rvm" ]] && source "$HOME/.rvm/scripts/rvm" # Load RVM into a shell session *as a function*
-
-# ================================================================
 # GOOGLE CLOUD SDK
 # ================================================================
-
-# The next line updates PATH for the Google Cloud SDK.
-# source '$HOME/google-cloud-sdk/path.bash.inc'
 
 # The next line enables bash completion for gcloud.
 # source '$HOME/google-cloud-sdk/completion.bash.inc'
 
-# ================================================================
-# INITIALIZE boot2docker shell variables
-# ================================================================
-[ "$(command -v boot2docker)" ] \
-  && [ "$(ps ax | grep boot2docker-vm | grep -v "grep")" ] \
-    && $(boot2docker shellinit 2> /dev/null)
+# The next line updates PATH for the Google Cloud SDK.
+source '/Users/bmansfield/google-cloud-sdk/path.zsh.inc'
 
+# The next line enables shell command completion for gcloud.
+source '/Users/bmansfield/google-cloud-sdk/completion.zsh.inc'
+
+# ================================================================
+# Initialize docker-machine shell variables
+# ================================================================
 [ "$(command -v docker-machine)" ] && eval "$(docker-machine env vbox)"
 
 # ================================================================
@@ -147,6 +131,9 @@ MANPATH="$NPM_PACKAGES/share/man:$(manpath)"
 
 # aws
 [[ -f ~/.work/.aws ]] && source ~/.work/.aws
+
+# github token for things like docker
+[[ -f ~/.github_token ]] && source ~/.github_token
 
 # other work related exports i need for projects
 [[ -f ~/.work/.exports ]] && source ~/.work/.exports
@@ -178,12 +165,19 @@ export PATH="/usr/local/bin:/usr/bin:/bin:/usr/sbin:/sbin:$GOPATH/bin:$PATH"
 # ================================================================
 # RBENV
 # ================================================================
+
+export RUBYOPTS="-E utf-8"
 eval "$(rbenv init -)"
 
 # ================================================================
-# keychain
+# keychain / passwordstore / gnupg
 # ================================================================
-eval $(keychain --nogui --eval --agents ssh id_rsa)
+
+eval $(keychain --nogui --eval --agents ssh,gpg id_rsa 217FD2E8)
+
+# default cache timeout of 600 seconds
+# default-cache-ttl 600
+# max-cache-ttl 7200
 
 # source the autocomplete for passwordstore
 source /usr/local/etc/bash_completion.d/password-store
