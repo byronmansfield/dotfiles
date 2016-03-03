@@ -1,8 +1,11 @@
 # Path to your oh-my-zsh installation.
 export ZSH=$HOME/.oh-my-zsh
-
-# set theme
 ZSH_THEME="byron"
+
+# language settings
+export LANG=en_US.UTF-8
+export LANGUAGE=en_US.UTF-8
+export LC_ALL=en_US.UTF-8
 
 # Set vim as default editor
 export VISUAL=vim
@@ -110,6 +113,9 @@ fi
 # aws
 [[ -f ~/.work/.aws ]] && source ~/.work/.aws
 
+# github token for docker
+[[ -f ~/.github_token ]] && source ~/.github_token
+
 # other work related exports i need for projects
 [[ -f ~/.work/.exports ]] && source ~/.work/.exports
 
@@ -140,8 +146,16 @@ export PATH="/usr/local/bin:/usr/bin:/bin:/usr/sbin:/sbin:$GOPATH/bin:$PATH"
 # ================================================================
 # RBENV
 # ================================================================
+
+export RUBYOPTS="-E utf-8"
 export PATH="$PATH:$HOME/.rbenv/bin"
 eval "$(rbenv init -)"
+
+# ================================================================
+# keychain / passwordstore / gnupg
+# ================================================================
+
+eval $(keychain --nogui --eval --agents ssh,gpg id_rsa 217FD2E8)
 
 # Load archey (if installed)
 if test -n "$(command -v archey3)"; then
