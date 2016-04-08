@@ -42,7 +42,6 @@ URxvt*italicFont: xft:Menlo Italic for Powerline:pixelsize=13
 URxvt*BoldItalicFont: xft:Menlo Bold Italic for Powerline:pixelsize=13
 
 ! DejaVu Mono Fonts
-! Didn't like, way too wide, patched for powerline unicode
 ! URxvt*font: xft:DejaVu Sans Mono Bold for Powerline:pixelsize=13
 ! URxvt*imFont: xft:DejaVu Sans Mono Bold for Powerline:pixelsize=15
 ! URxvt*boldFont: xft:DejaVu Sans Mono Bold for Powerline:pixelsize=15
