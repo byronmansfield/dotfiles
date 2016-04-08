@@ -436,7 +436,7 @@ globalkeys = awful.util.table.join(
     awful.key({ modkey },            "r",     function () mypromptbox[mouse.screen]:run() end),
 
     -- Caputre Screen Area
-    awful.key({ modkey, "Control" }, "p", function() awful.util.spawn("sh bin/capscr.sh") end),
+    awful.key({ modkey, "Shift" }, "p", function () awful.util.spawn("deepin-screenshot") end),
 
     awful.key({ modkey }, "x",
               function ()
@@ -546,6 +546,7 @@ awful.rules.rules = {
                      border_color = beautiful.border_normal,
                      focus = awful.client.focus.filter,
                      keys = clientkeys,
+                     size_hints_honor = false,
                      buttons = clientbuttons } },
     { rule = { class = "MPlayer" },
       properties = { floating = true } },
