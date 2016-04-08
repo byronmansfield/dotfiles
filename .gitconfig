@@ -51,3 +51,5 @@
 	versiontag = v
 [alias]
 	d = difftool
+[url "git@github.com:"]
+	insteadOf = https://github.com/
