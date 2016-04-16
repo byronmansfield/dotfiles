@@ -66,6 +66,9 @@ if [[ -n $SSH_CONNECTION ]]; then
   export EDITOR='vim'
 fi
 
+# for yubikey
+export SSH_AUTH_SOCK="$HOME/.gnupg/S.gpg-agent.ssh"
+
 # ================================================================
 # SET USER HOME BIN
 # ================================================================
