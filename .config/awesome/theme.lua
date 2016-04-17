@@ -28,13 +28,13 @@ keyboard        = config .. "/keyboard_girl.jpg"
 
 theme.wallpaper = keyboard
 
-theme.font      = "sans 8"
+theme.font      = "sans 12"
 
 theme.panel     = "png:" .. menu .. "/panel.png"
 
 -- [ Menu ] --
 
-theme.menu_height = 16
+theme.menu_height = 24
 theme.menu_width  = 160
 
 -- colors
