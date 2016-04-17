@@ -1,26 +1,38 @@
-# My own personal dotfiles repo for my Arch + Awesome set up
+# My own personal dotfiles repo for my Arch + Awesome set up on a Macbook Pro Laptop
 
 These are my personal dotfiles to help me sync them between computers and keep them versioned
 
 ## Installation
 
-This depends on if you want to symlink everything or if you want to just make
-your home directory your repo. 
+1. Initialize home dir to be repo
 
-For symlinking you can do the following:
-
-1. Clone repo to local home directory
-
-```bash
-git clone https://github.com/byronmansfield/dotfiles.git $HOME/dotfiles
+```shell
+git init
 ```
 
-2. Symlink all the files, for brevity I'm not going to show all of these, rather just an example.
-Hopefully I'll have a shell script soon that will do all this for you. 
+2. Add remote repo
 
 Example:
 ```shell
-ln -s ~/dotfiles/.functions ~/.functions
+git remote add origin git:github.com:byronmansfield/dotfiles.git
+```
+
+3. Switch to correct branch
+```shell
+git checkout arch-mbpro
+```
+
+4. Sync home dir with repo
+```shell
+git fetch --all
+git reset --hard origin/arch-mbpro
+```
+
+5. Add new files
+```shell
+git add -f .somefile
+git commit -m "Adds .somefile"
+git push
 ```
 
 ## Tools Used
@@ -30,14 +42,18 @@ A short list of some of my favorite tools I use in my shell that I can't live wi
 * URxvt
 * Tmux
 * Vim
-* ZSH
-* OH-MY-ZSH
+* ZSH / OH-MY-ZSH
+* gpg
+* openssh
+* docker
 * Weechat
+* password-store
 
 ## Personal Configurations
 
 There are a few personalized configurations that I am really fond of and find helpful for my daily hacking
 
+* awesome-wm keybindings
 * Tmux/URxvt copy and paste
 * Tmux ressurect
 * Z-shell's aliases
@@ -57,3 +73,6 @@ Short list of tools I must have in my path
 Thats pretty much it. Take what you like, send a PR if you have any
 suggestions. Enjoy!
 
+## To-Do
+
+I would like to leave a short list of MacBook Pro specific links I found helpful for the setup. Also a list of vital packages I should install asap.
