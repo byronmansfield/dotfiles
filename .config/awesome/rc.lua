@@ -15,7 +15,7 @@ local menubar = require("menubar")
 local vicious = require("vicious")
 
 -- widgets
-require("volume")
+-- require("volume")
 require("cpu")
 require("ram")
 require("time")
@@ -82,7 +82,7 @@ end
 -- [ Tags ] --
 tags = {}
 for s = 1, screen.count() do
-  tags[s] = awful.tag({ "     ", "     ", "     ", "     ", "     ", "     ", "     ", "     ", "     " }, s, layouts[1])
+  tags[s] = awful.tag({ "   ", "   ", "   ", "   ", "   ", "   ", "   ", "   ", "   " }, s, layouts[1])
 end
 
 -- [ Menu ] --
@@ -336,13 +336,13 @@ for s = 1, screen.count() do
   right_layout:add(spr)
   
   -- [Volume] --
-  right_layout:add(widget_volume)
-  right_layout:add(widget_display_l)
-  right_layout:add(volwidget)
-  right_layout:add(widget_display_r)
-  right_layout:add(spr5px)
+  -- right_layout:add(widget_volume)
+  -- right_layout:add(widget_display_l)
+  -- right_layout:add(volwidget)
+  -- right_layout:add(widget_display_r)
+  ---right_layout:add(spr5px)
 
-  right_layout:add(spr)
+  -- right_layout:add(spr)
 
   -- [Calendar] --
   right_layout:add(widget_cal)
