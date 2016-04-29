@@ -156,7 +156,7 @@ eval "$(rbenv init -)"
 # keychain / passwordstore / gnupg
 # ================================================================
 
-eval $(keychain --nogui --eval --agents ssh,gpg id_rsa 217FD2E8)
+# eval $(keychain --nogui --eval --agents ssh,gpg id_rsa 217FD2E8)
 
 # Load archey (if installed)
 if test -n "$(command -v archey3)"; then
