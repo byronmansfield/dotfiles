@@ -149,6 +149,17 @@ widget_display_c:set_image(beautiful.widget_display_c)
 --       return " Weather: " .. args["{tempc]"] .. "C | "
 --     end, 300, "VIDP")
 
+-- Battery Widget
+batwidget = awful.widget.progressbar()
+batwidget:set_width(8)
+batwidget:set_height(10)
+batwidget:set_vertical(true)
+batwidget:set_background_color("#494B4F")
+batwidget:set_border_color(nil)
+batwidget:set_color({ type = "linear", from = { 0, 0 }, to = { 0, 10 },
+		stops = { { 0, "#AECF96" }, { 0.5, "#88A175" }, { 1, "#FF5656" }}})
+vicious.register(batwidget, vicious.widgets.bat, "$2", 61, "BAT0")
+
 -- Widget Uptime
 uptime = wibox.widget.textbox()
 vicious.register( uptime, vicious.widgets.uptime, "$1d $2:$3", 61)
@@ -173,7 +184,7 @@ function update_netspeedwidgets()
   local curr_bytes_up = 0
   local net_up
   local net_down
-  
+
   for line in io.lines('/proc/net/dev') do
     local device,bytes_down,bytes_up = line:match('^[%s]?[%s]?[%s]?[%s]?([%w]+):[%s]?([%d]+)[%s]+[%d]+[%s]+[%d]+[%s]+[%d]+[%s]+[%d]+[%s]+[%d]+[%s]+[%d]+[%s]+[%d]+[%s]+([%d]+)[%s]')
     if device then
@@ -187,7 +198,7 @@ function update_netspeedwidgets()
   if (total_bytes_up == nil) then
     total_bytes_up = curr_bytes_up
   end
-  
+
   net_down = math.floor((((curr_bytes_down - total_bytes_down) / 1048576) * 10^2) + 0.5) / (10^2)
   net_up = math.floor((((curr_bytes_up - total_bytes_up) / 1048576) * 10^2) + 0.5) / (10^2)
   total_bytes_down = curr_bytes_down
@@ -218,7 +229,7 @@ mytaglist.buttons = awful.util.table.join(
 
 mytasklist = {}
 mytasklist.buttons = awful.util.table.join(
-  
+
   awful.button({ }, 1, function (c)
     if c == client.focus then
       c.minimized = true
@@ -235,7 +246,7 @@ mytasklist.buttons = awful.util.table.join(
       c:raise()
     end
   end),
-  
+
   awful.button({ }, 3, function ()
     if instance then
       instance:hide()
@@ -295,8 +306,10 @@ for s = 1, screen.count() do
 
   -- Widgets that are aligned to the right
   local right_layout = wibox.layout.fixed.horizontal()
-  
-  right_layout:add(spr)
+
+	right_layout:add(batwidget)
+
+	right_layout:add(spr)
 
   -- [Uptime]--
   right_layout:add(spr5px)
@@ -305,7 +318,7 @@ for s = 1, screen.count() do
   right_layout:add(spr5px)
 
   right_layout:add(spr)
-  
+
 	-- [Net]--
   right_layout:add(spr5px)
   right_layout:add(netup_icon)
@@ -315,7 +328,7 @@ for s = 1, screen.count() do
   right_layout:add(spr5px)
 
   right_layout:add(spr)
-  
+
   -- [Memory] --
   right_layout:add(widget_ram)
   right_layout:add(widget_display_l)
@@ -334,7 +347,7 @@ for s = 1, screen.count() do
   right_layout:add(spr5px)
 
   right_layout:add(spr)
-  
+
   -- [Volume] --
   -- right_layout:add(widget_volume)
   -- right_layout:add(widget_display_l)
@@ -361,7 +374,7 @@ for s = 1, screen.count() do
   right_layout:add(spr5px)
 
   right_layout:add(spr)
-  
+
   right_layout:add(mylayoutbox[s])
 
   -- Now bring it all together (with the tasklist in the middle)
@@ -447,13 +460,26 @@ globalkeys = awful.util.table.join(
               end),
     -- Menubar
     awful.key({ modkey }, "p", function() menubar.show() end),
+
+    -- volume control
     awful.key({ }, "XF86AudioRaiseVolume", function ()
       awful.util.spawn("amixer set Master 5%+") end),
     awful.key({ }, "XF86AudioLowerVolume", function ()
       awful.util.spawn("amixer set Master 5%-") end),
     awful.key({ }, "XF86AudioMute", function ()
-      awful.util.spawn("amixer sset Master toggle") end)
+      awful.util.spawn("amixer sset Master toggle") end),
 
+    -- screen brightness
+    -- awful.key({ }, "XF86MonBrightnessDown", function ()
+    --   awful.util.spawn("xbacklight -dec 10") end),
+    -- awful.key({ }, "XF86MonBrightnessUp", function ()
+    --   awful.util.spawn("xbacklight -inc 10") end),
+
+    -- keyboard backlighting
+    awful.key({ }, "XF86KbdBrightnessDown", function ()
+      awful.util.spawn("kbdlight down 10") end),
+    awful.key({ }, "XF86KbdBrightnessUp", function ()
+      awful.util.spawn("kbdlight up 10") end)
 )
 
 clientkeys = awful.util.table.join(

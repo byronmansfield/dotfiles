@@ -12,6 +12,8 @@ urxvt*urgentOnBell: True
 urxvt*visualBell: False
 urxvt*skipScroll: True
 URxvt*buffered: True
+! XTerm*terName: xterm-256color
+URxvt*termName: rxvt-unicode
 
 ! For better copy and paste
 URxvt.perl-ext-common: default,clipboard

@@ -11,7 +11,7 @@ export LC_ALL=en_US.UTF-8
 export VISUAL=vim
 export EDITOR=$VISUAL
 export CODESPACE=$HOME/code
-export WORKSPACE=$CODESPACE/Demandbase
+export WORKSPACE=$CODESPACE/demandbase
 
 # Uncomment the following line to use case-sensitive completion.
 # CASE_SENSITIVE="true"
@@ -116,12 +116,13 @@ fi
 
 # github token for docker
 [[ -f ~/.github_token ]] && source ~/.github_token
+export COMPOSE_HTTP_TIMEOUT=240
 
 # other work related exports i need for projects
 [[ -f ~/.work/.exports ]] && source ~/.work/.exports
 
 # set chef repo
-export CHEF_REPO=$HOME/code/Demandbase/chef-repo
+export CHEF_REPO=$HOME/code/demandbase/chef-repo
 
 # ================================================================
 # PATH
@@ -145,12 +146,11 @@ export PATH="/usr/local/bin:/usr/bin:/bin:/usr/sbin:/sbin:$GOPATH/bin:$PATH"
 [[ -f ~/.functions ]] && source ~/.functions
 
 # ================================================================
-# RBENV
+# RVM
 # ================================================================
 
 export RUBYOPTS="-E utf-8"
-export PATH="$PATH:$HOME/.rbenv/bin"
-eval "$(rbenv init -)"
+[[ -s "$HOME/.rvm/scripts/rvm" ]] && source "$HOME/.rvm/scripts/rvm"
 
 # ================================================================
 # keychain / passwordstore / gnupg
@@ -163,3 +163,4 @@ if test -n "$(command -v archey3)"; then
   archey3
 fi
 
+export PATH="$PATH:$HOME/.rvm/bin" # Add RVM to PATH for scripting

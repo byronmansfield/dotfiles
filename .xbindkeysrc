@@ -1,0 +1,33 @@
+# xbacklight and kbdlight (AUR) needed
+
+# audio
+"amixer set Master playback 5%+"
+    XF86AudioRaiseVolume
+
+"amixer set Master playback 5%-"
+    XF86AudioLowerVolume
+
+"amixer set Master toggle"
+    XF86AudioMute
+
+# backlight
+"sudo /home/bmansfield/bin/mon_up"
+    m:0x0 + c:233
+    XF86MonBrightnessUp
+"sudo /home/bmansfield/bin/mon_down"
+    m:0x0 + c:232
+    XF86MonBrightnessDown
+
+# backlight that didn't work
+# "xbacklight -dec 10"
+#   XF86MonBrightnessDown
+
+# "xbacklight -inc 10"
+#   XF86MonBrightnessUp
+
+# keyboard backlight
+"kbdlight up"
+  XF86KbdBrightnessUp
+
+"kbdlight down"
+  XF86KbdBrightnessDown

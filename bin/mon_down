@@ -1,0 +1,8 @@
+#!/bin/bash
+
+interval=100
+brightness=`cat "/sys/class/backlight/gmux_backlight/brightness"`
+level=`expr $brightness - $interval`
+if [ "$level" -gt "99" ] ; then
+    echo "$level" > "/sys/class/backlight/gmux_backlight/brightness"
+fi

@@ -1,0 +1,27 @@
+#! /usr/bin/bash
+
+# udev runs as root so we need to tell it how to connect to X server
+export DISPLAY=:0
+export XAUTHORITY=/home/bmansfield/.Xauthority
+
+# Find out device graphics card path
+cardPath=/sys/$(udevadm info -q path -n /dev/dri/card0)
+
+# Detect if monitor is connected and if so the monitor ID
+conHdmi=$(xrandr | sed -n '/HDMI-0 connected/p')
+shaHdmi=$(sha1sum $cardPath/card0-HDMI-A-1/edid | cut -f1 -d " ")
+
+# check if connected and run xrandr based on status
+if [ -n "$conHdmi" ]; then
+  if [ "$shaHdmi" = "xxxxxxxxxxx" ]; then   # Office Middle Monitor
+    xrandr --output eDP1 --auto --output HDMI-0 --auto --right-of eDP1
+  else                                      # Must be a projector
+    xrandr --output eDP1 --auto --output HDMI-0 --same-as eDP1
+  fi
+else
+  xrandr --output eDP1 --auto --output HDMI-0 --off
+fi
+
+if [ $# -eq 0 ]; then
+  echo 'awesome.restart()' | awesome-client
+fi
