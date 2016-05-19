@@ -59,6 +59,8 @@ source $ZSH/oh-my-zsh.sh
 # USER CONFIGURATIONS
 # ================================================================
 
+xmodmap ~/.Xmodmap
+
 export CHROME_BIN="/usr/bin/google-chrome-unstable"
 
 # Preferred editor for local and remote sessions
