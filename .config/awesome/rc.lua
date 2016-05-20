@@ -15,10 +15,11 @@ local menubar = require("menubar")
 local vicious = require("vicious")
 
 -- widgets
--- require("volume")
+require("volume")
 require("cpu")
 require("ram")
 require("time")
+require("battery")
 
 -- error handling
 if awesome.startup_errors then
@@ -149,18 +150,31 @@ widget_display_c:set_image(beautiful.widget_display_c)
 --       return " Weather: " .. args["{tempc]"] .. "C | "
 --     end, 300, "VIDP")
 
--- Battery Widget
+-- [ Battery Widget ] --
+
+-- progress bar
 batwidget = awful.widget.progressbar()
 batwidget:set_width(8)
 batwidget:set_height(10)
 batwidget:set_vertical(true)
 batwidget:set_background_color("#494B4F")
 batwidget:set_border_color(nil)
-batwidget:set_color({ type = "linear", from = { 0, 0 }, to = { 0, 10 },
-		stops = { { 0, "#AECF96" }, { 0.5, "#88A175" }, { 1, "#FF5656" }}})
+batwidget:set_color({
+  type = "linear",
+  from = { 0, 0 }, to = { 0, 10 },
+	stops = {
+    { 0, "#AECF96" },
+    { 0.5, "#88A175" },
+    { 1, "#FF5656" }
+  }
+})
 vicious.register(batwidget, vicious.widgets.bat, "$2", 61, "BAT0")
 
--- Widget Uptime
+-- text percent + time
+mybattery = wibox.widget.textbox()
+vicious.register(mybattery, vicious.widgets.bat, function (widget, args) return args[2] .. "%  " .. args[3] end, 1, 'BAT0')
+
+-- [ Widget Uptime ] --
 uptime = wibox.widget.textbox()
 vicious.register( uptime, vicious.widgets.uptime, "$1d $2:$3", 61)
 uptime_icon = wibox.widget.imagebox()
@@ -307,11 +321,16 @@ for s = 1, screen.count() do
   -- Widgets that are aligned to the right
   local right_layout = wibox.layout.fixed.horizontal()
 
+  -- [ Battery ] --
 	right_layout:add(batwidget)
+  right_layout:add(spr5px)
+  right_layout:add(spr5px)
+  right_layout:add(mybattery)
+  right_layout:add(spr5px)
 
 	right_layout:add(spr)
 
-  -- [Uptime]--
+  -- [ Uptime ] --
   right_layout:add(spr5px)
   right_layout:add(uptime_icon)
   right_layout:add(uptime)
@@ -319,7 +338,7 @@ for s = 1, screen.count() do
 
   right_layout:add(spr)
 
-	-- [Net]--
+	-- [ Net ] --
   right_layout:add(spr5px)
   right_layout:add(netup_icon)
   right_layout:add(netupwidget)
@@ -329,7 +348,7 @@ for s = 1, screen.count() do
 
   right_layout:add(spr)
 
-  -- [Memory] --
+  -- [ Memory ] --
   right_layout:add(widget_ram)
   right_layout:add(widget_display_l)
   right_layout:add(ramwidget)
@@ -338,7 +357,7 @@ for s = 1, screen.count() do
 
   right_layout:add(spr)
 
-  -- [CPU] --
+  -- [ CPU ] --
   right_layout:add(widget_cpu)
   right_layout:add(widget_display_l)
   right_layout:add(cpuwidget)
@@ -348,16 +367,16 @@ for s = 1, screen.count() do
 
   right_layout:add(spr)
 
-  -- [Volume] --
-  -- right_layout:add(widget_volume)
-  -- right_layout:add(widget_display_l)
-  -- right_layout:add(volwidget)
-  -- right_layout:add(widget_display_r)
-  ---right_layout:add(spr5px)
+  -- [ Volume ] --
+  right_layout:add(widget_volume)
+  right_layout:add(widget_display_l)
+  right_layout:add(volwidget)
+  right_layout:add(widget_display_r)
+  right_layout:add(spr5px)
 
-  -- right_layout:add(spr)
+  right_layout:add(spr)
 
-  -- [Calendar] --
+  -- [ Calendar ] --
   right_layout:add(widget_cal)
   right_layout:add(widget_display_l)
   right_layout:add(calwidget)
@@ -366,7 +385,7 @@ for s = 1, screen.count() do
 
   right_layout:add(spr)
 
-  -- [Clock] --
+  -- [ Clock ] --
   right_layout:add(widget_clock)
   right_layout:add(widget_display_l)
   right_layout:add(clockwidget)
@@ -470,10 +489,10 @@ globalkeys = awful.util.table.join(
       awful.util.spawn("amixer sset Master toggle") end),
 
     -- screen brightness
-    -- awful.key({ }, "XF86MonBrightnessDown", function ()
-    --   awful.util.spawn("xbacklight -dec 10") end),
-    -- awful.key({ }, "XF86MonBrightnessUp", function ()
-    --   awful.util.spawn("xbacklight -inc 10") end),
+    awful.key({ }, "XF86MonBrightnessDown", function ()
+      awful.util.spawn("xbacklight -dec 10") end),
+    awful.key({ }, "XF86MonBrightnessUp", function ()
+      awful.util.spawn("xbacklight -inc 10") end),
 
     -- keyboard backlighting
     awful.key({ }, "XF86KbdBrightnessDown", function ()
