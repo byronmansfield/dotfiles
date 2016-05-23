@@ -1,4 +1,4 @@
-pointer = 1 2 3 5 4 6 7 8 9 10 11 12
+pointer = 1 2 3 4 5 6 7 8 9 10 11 12
 
 keycode 160 = XF86AudioMute
 keycode 176 = XF86AudioRaiseVolume
