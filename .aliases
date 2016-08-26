@@ -75,6 +75,7 @@ alias e='vim'
 alias V='source ~/.vimrc'
 
 ## Tmux
+alias tmux='tmux -2'
 alias eT='vim ~/.tmux.conf'
 
 ## Aliases
