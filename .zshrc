@@ -13,9 +13,7 @@ export EDITOR=$VISUAL
 export CODESPACE=$HOME/code
 export WORKSPACE=$CODESPACE/demandbase
 
-# needed for various urxvt fixes
-TERM=xterm
-# stty erase '^?'
+export TERM="xterm"
 
 # Uncomment the following line to use case-sensitive completion.
 # CASE_SENSITIVE="true"
@@ -55,17 +53,14 @@ DISABLE_AUTO_TITLE="true"
 # Custom plugins may be added to ~/.oh-my-zsh/custom/plugins/
 # Example format: plugins=(rails git textmate ruby lighthouse)
 # Add wisely, as too many plugins slow down shell startup.
-plugins=(git tmux docker)
+plugins=(git docker)
 
 source $ZSH/oh-my-zsh.sh
 
 # ================================================================
 # USER CONFIGURATIONS
 # ================================================================
-
 export CHROME_BIN="/Applications/Google Chrome.app/Contents/MacOS/Google Chrome"
-
-# export MANPATH="/usr/local/man:$MANPATH"
 
 # Compilation flags
 # export ARCHFLAGS="-arch x86_64"
@@ -103,54 +98,16 @@ unset MANPATH # delete if you already modified MANPATH elsewhere in your config
 MANPATH="$NPM_PACKAGES/share/man:$(manpath)"
 
 # ================================================================
-# GOOGLE CLOUD SDK
+# AWS
 # ================================================================
-
-# The next line enables bash completion for gcloud.
-# source '$HOME/google-cloud-sdk/completion.bash.inc'
-
-# The next line updates PATH for the Google Cloud SDK.
-source '/Users/bmansfield/google-cloud-sdk/path.zsh.inc'
-
-# The next line enables shell command completion for gcloud.
-source '/Users/bmansfield/google-cloud-sdk/completion.zsh.inc'
-
-# ================================================================
-# Initialize docker-machine shell variables
-# ================================================================
-[ "$(command -v docker-machine)" ] && eval "$(docker-machine env vbox)"
-
-# ================================================================
-# LOAD LOCAL ENV
-# ================================================================
-[ -f "${HOME}"/.env ] && . $HOME/.env
-
-# ================================================================
-# WORK STUFF
-# ================================================================
-
-# aws
-[[ -f ~/.work/.aws ]] && source ~/.work/.aws
-
-# github token for things like docker
-[[ -f ~/.github_token ]] && source ~/.github_token
-
-# other work related exports i need for projects
-[[ -f ~/.work/.exports ]] && source ~/.work/.exports
-
-# set chef repo
-export CHEF_REPO=$HOME/code/demandbase/chef-repo
+[[ -f ~/.aws/config ]] && source ~/.aws/config
 
 # ================================================================
 # PATH
 # ================================================================
-
 export PATH="/usr/local/bin:/usr/bin:/bin:/usr/sbin:/sbin:$GOPATH/bin:$PATH"
-
-# Set personal aliases, overriding those provided by oh-my-zsh libs,
-# plugins, and themes. Aliases can be placed here, though oh-my-zsh
-# users are encouraged to define aliases within the ZSH_CUSTOM folder.
-# For a full list of active aliases, run `alias`.
+export PATH="/usr/local/sbin:$PATH"
+export PATH="/Applications/CMake.app/Contents/bin:$PATH"
 
 # ================================================================
 # ALIASES
@@ -162,30 +119,5 @@ export PATH="/usr/local/bin:/usr/bin:/bin:/usr/sbin:/sbin:$GOPATH/bin:$PATH"
 # ================================================================
 [[ -f ~/.functions ]] && source ~/.functions
 
-# ================================================================
-# RBENV
-# ================================================================
-
-export RUBYOPTS="-E utf-8"
-eval "$(rbenv init -)"
-
-# ================================================================
-# keychain / passwordstore / gnupg
-# ================================================================
-
-eval $(keychain --nogui --eval --agents ssh,gpg id_rsa 217FD2E8)
-
-# default cache timeout of 600 seconds
-# default-cache-ttl 600
-# max-cache-ttl 7200
-
-# source the autocomplete for passwordstore
-source /usr/local/etc/bash_completion.d/password-store
-# source /usr/local/Cellar/pass/1.6.5/etc/bash_completion.d/password-store
-
 # Load archey
 archey
-
-# forgot what this is for
-export PATH="/usr/local/sbin:$PATH"
-

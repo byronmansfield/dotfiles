@@ -331,3 +331,7 @@ function gh() {
   open -a google\ chrome $giturl
 }
 
+# Copy's lastpass master password to clipboard
+function lp() {
+  cat ~/.lastpass | pbcopy
+}
