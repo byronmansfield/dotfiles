@@ -53,7 +53,7 @@ DISABLE_AUTO_TITLE="true"
 # Custom plugins may be added to ~/.oh-my-zsh/custom/plugins/
 # Example format: plugins=(rails git textmate ruby lighthouse)
 # Add wisely, as too many plugins slow down shell startup.
-plugins=(git docker)
+plugins=(git docker gnu-utils)
 
 source $ZSH/oh-my-zsh.sh
 
@@ -66,7 +66,7 @@ export CHROME_BIN="/Applications/Google Chrome.app/Contents/MacOS/Google Chrome"
 # export ARCHFLAGS="-arch x86_64"
 
 # ssh
-# export SSH_KEY_PATH="~/.ssh/dsa_id"
+export SSH_KEY_PATH="~/.ssh/id_rsa"
 
 # ================================================================
 # SET USER HOME BIN
@@ -119,5 +119,14 @@ export PATH="/Applications/CMake.app/Contents/bin:$PATH"
 # ================================================================
 [[ -f ~/.functions ]] && source ~/.functions
 
-# Load archey
+# ================================================================
+# Run Archey
+# ================================================================
 archey
+
+# ================================================================
+# GNU commands
+# ================================================================
+# run gnu-utils zsh plugin function to symlink native OSX commands to brew
+# installed GNU coreutils and findutils
+hash -r
