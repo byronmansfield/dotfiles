@@ -1,6 +1,6 @@
 # oh-my-zsh settings
 export ZSH=$HOME/.oh-my-zsh
-ZSH_THEME="byron"
+ZSH_THEME="robbyrussell"
 
 # language settings
 export LANG=en_US.UTF-8
@@ -53,7 +53,7 @@ DISABLE_AUTO_TITLE="true"
 # Custom plugins may be added to ~/.oh-my-zsh/custom/plugins/
 # Example format: plugins=(rails git textmate ruby lighthouse)
 # Add wisely, as too many plugins slow down shell startup.
-plugins=(git docker gnu-utils)
+plugins=(git)
 
 source $ZSH/oh-my-zsh.sh
 
@@ -118,15 +118,3 @@ export PATH="/Applications/CMake.app/Contents/bin:$PATH"
 # FUNCTIONS
 # ================================================================
 [[ -f ~/.functions ]] && source ~/.functions
-
-# ================================================================
-# Run Archey
-# ================================================================
-archey
-
-# ================================================================
-# GNU commands
-# ================================================================
-# run gnu-utils zsh plugin function to symlink native OSX commands to brew
-# installed GNU coreutils and findutils
-hash -r
