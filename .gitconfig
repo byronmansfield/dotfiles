@@ -1,6 +1,7 @@
 [user]
 	name = Byron Mansfield
 	email = byron@byronmansfield.com
+	signingkey = 54E5673E
 [push]
 	default = simple
 [core]
