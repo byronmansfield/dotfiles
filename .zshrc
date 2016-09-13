@@ -13,6 +13,9 @@ export EDITOR=$VISUAL
 export CODESPACE=$HOME/code
 export WORKSPACE=$CODESPACE/demandbase
 
+# set display for x forwarding
+export DISPLAY=:0.0
+
 # needed for various urxvt fixes
 TERM=xterm
 # stty erase '^?'
@@ -118,7 +121,7 @@ source '/Users/bmansfield/google-cloud-sdk/completion.zsh.inc'
 # ================================================================
 # Initialize docker-machine shell variables
 # ================================================================
-[ "$(command -v docker-machine)" ] && eval "$(docker-machine env vbox)"
+# [ "$(command -v docker-machine)" ] && eval "$(docker-machine env vbox)"
 
 # ================================================================
 # LOAD LOCAL ENV
@@ -173,11 +176,10 @@ eval "$(rbenv init -)"
 # keychain / passwordstore / gnupg
 # ================================================================
 
-eval $(keychain --nogui --eval --agents ssh,gpg id_rsa 217FD2E8)
-
-# default cache timeout of 600 seconds
-# default-cache-ttl 600
-# max-cache-ttl 7200
+# eval $(keychain --nogui --eval --agents ssh,gpg id_rsa 217FD2E8)
+# export GPGKEY="217FD2E8"
+# export GPG_AGENT_INFO
+# export GPG_TTY=$(tty)
 
 # source the autocomplete for passwordstore
 source /usr/local/etc/bash_completion.d/password-store
@@ -188,4 +190,3 @@ archey
 
 # forgot what this is for
 export PATH="/usr/local/sbin:$PATH"
-
