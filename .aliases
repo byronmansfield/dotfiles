@@ -114,6 +114,7 @@ alias fetch='git fetch'
 alias setup='git branch --set-upstream-to=origin/$(current_branch)'
 alias pull='git pull'
 alias push='git push origin $(current_branch)'
+alias fnp='git fetch && git pull'
 alias reset='git reset HEAD'
 alias resethard='git reset HEAD --hard'
 alias status='git status'
@@ -150,3 +151,6 @@ alias apiup='ENV=dev bundle exec rackup'
 # knife
 alias ksearch='knife search'
 alias klogin='knife ssh'
+
+# alias tmux to use 256 color
+alias tmux="TERM=screen-256color-bce tmux"
