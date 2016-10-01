@@ -39,8 +39,13 @@ alias sl=ls # often screw this up
 
 alias afind='ack-grep -il'
 
-# bundle exec
+# bundle/berks stuff
 alias be='bundle exec'
+alias bi='bundle install'
+alias bu='bundle update'
+alias bki='berks install'
+alias bkud='berks update'
+alias bkul='berks upload'
 
 # Other
 alias C='clear'
@@ -141,6 +146,9 @@ alias cbooks='cd $WORKSPACE/chef-repo/cookbooks'
 alias tform='cd $WORKSPACE/terraform'
 alias personalcode='cd $CODESPACE/personal'
 alias practicecode='cd $CODESPACE/practice'
+
+# aws
+alias search_instances="ruby $HOME/code/demandbase/aws-scripts/search_instances.rb"
 
 # perfman
 alias perfmanstage='ENV=staging API_URL=https://dashboard-api.staging.demandbase.com AUTH_URL=https://auth.staging.demandbase.co GD_API=https://bi.demandbase.com grunt serve:staging'
