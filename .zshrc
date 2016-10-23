@@ -145,21 +145,26 @@ export PATH="/usr/local/bin:/usr/bin:/bin:/usr/sbin:/sbin:$GOPATH/bin:$PATH"
 [[ -f ~/.functions ]] && source ~/.functions
 
 # ================================================================
+# RVM
+# ================================================================
+[[ -s "$HOME/.rvm/scripts/rvm" ]] && source "$HOME/.rvm/scripts/rvm" # Load RVM into a shell session *as a function*
+export PATH="$PATH:$HOME/.rvm/bin" # Add RVM to PATH for scripting
+
+# ================================================================
 # RBENV
 # ================================================================
 
-export RUBYOPTS="-E utf-8"
-export PATH="$PATH:$HOME/.rbenv/bin"
-eval "$(rbenv init -)"
+# export RUBYOPTS="-E utf-8"
+# export PATH="$PATH:$HOME/.rbenv/bin"
+# eval "$(rbenv init -)"
 
 # ================================================================
 # keychain / passwordstore / gnupg
 # ================================================================
 
-# eval $(keychain --nogui --eval --agents ssh,gpg id_rsa 217FD2E8)
+eval $(keychain --nogui --eval --agents ssh,gpg id_rsa 217FD2E8)
 
 # Load archey (if installed)
 if test -n "$(command -v archey3)"; then
   archey3
 fi
-
