@@ -14,6 +14,7 @@ export CODESPACE=$HOME/code
 export WORKSPACE=$CODESPACE/demandbase
 
 export TERM="xterm"
+export DISPLAY=:0 # for X11
 
 # Uncomment the following line to use case-sensitive completion.
 # CASE_SENSITIVE="true"
@@ -103,11 +104,18 @@ MANPATH="$NPM_PACKAGES/share/man:$(manpath)"
 [[ -f ~/.aws/config ]] && source ~/.aws/config
 
 # ================================================================
+# ImageMagick
+# ================================================================
+export MAGICK_HOME="$HOME/bin/ImageMagick-7.0.3"
+
+# ================================================================
 # PATH
 # ================================================================
 export PATH="/usr/local/bin:/usr/bin:/bin:/usr/sbin:/sbin:$GOPATH/bin:$PATH"
 export PATH="/usr/local/sbin:$PATH"
 export PATH="/Applications/CMake.app/Contents/bin:$PATH"
+export PATH="$MAGICK_HOME/bin:$PATH"
+export DYLD_LIBRARY_PATH="$MAGICK_HOME/lib/"
 
 # ================================================================
 # ALIASES
