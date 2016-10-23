@@ -13,8 +13,13 @@ export EDITOR=$VISUAL
 export CODESPACE=$HOME/code
 export WORKSPACE=$CODESPACE/demandbase
 
+# set display for X11 things
+export DISPLAY=:0.0
+
+# term
 export TERM="xterm"
-export DISPLAY=:0 # for X11
+TERM=xterm # needed for various urxvt fixes
+# stty erase '^?'
 
 # Uncomment the following line to use case-sensitive completion.
 # CASE_SENSITIVE="true"
@@ -54,20 +59,23 @@ DISABLE_AUTO_TITLE="true"
 # Custom plugins may be added to ~/.oh-my-zsh/custom/plugins/
 # Example format: plugins=(rails git textmate ruby lighthouse)
 # Add wisely, as too many plugins slow down shell startup.
-plugins=(git docker gnu-utils)
+plugins=(git tmux docker)
 
 source $ZSH/oh-my-zsh.sh
 
 # ================================================================
 # USER CONFIGURATIONS
 # ================================================================
+
 export CHROME_BIN="/Applications/Google Chrome.app/Contents/MacOS/Google Chrome"
+
+# export MANPATH="/usr/local/man:$MANPATH"
 
 # Compilation flags
 # export ARCHFLAGS="-arch x86_64"
 
 # ssh
-export SSH_KEY_PATH="~/.ssh/id_rsa"
+# export SSH_KEY_PATH="~/.ssh/dsa_id"
 
 # ================================================================
 # SET USER HOME BIN
@@ -99,9 +107,43 @@ unset MANPATH # delete if you already modified MANPATH elsewhere in your config
 MANPATH="$NPM_PACKAGES/share/man:$(manpath)"
 
 # ================================================================
-# AWS
+# GOOGLE CLOUD SDK
 # ================================================================
-[[ -f ~/.aws/config ]] && source ~/.aws/config
+
+# The next line enables bash completion for gcloud.
+# source '$HOME/google-cloud-sdk/completion.bash.inc'
+
+# The next line updates PATH for the Google Cloud SDK.
+source '/Users/bmansfield/google-cloud-sdk/path.zsh.inc'
+
+# The next line enables shell command completion for gcloud.
+source '/Users/bmansfield/google-cloud-sdk/completion.zsh.inc'
+
+# ================================================================
+# Initialize docker-machine shell variables
+# ================================================================
+# [ "$(command -v docker-machine)" ] && eval "$(docker-machine env vbox)"
+
+# ================================================================
+# LOAD LOCAL ENV
+# ================================================================
+[ -f "${HOME}"/.env ] && . $HOME/.env
+
+# ================================================================
+# WORK STUFF
+# ================================================================
+
+# aws
+[[ -f ~/.work/.aws ]] && source ~/.work/.aws
+
+# github token for things like docker
+[[ -f ~/.github_token ]] && source ~/.github_token
+
+# other work related exports i need for projects
+[[ -f ~/.work/.exports ]] && source ~/.work/.exports
+
+# set chef repo
+export CHEF_REPO=$HOME/code/demandbase/chef-repo
 
 # ================================================================
 # ImageMagick
@@ -111,6 +153,7 @@ export MAGICK_HOME="$HOME/bin/ImageMagick-7.0.3"
 # ================================================================
 # PATH
 # ================================================================
+
 export PATH="/usr/local/bin:/usr/bin:/bin:/usr/sbin:/sbin:$GOPATH/bin:$PATH"
 export PATH="/usr/local/sbin:$PATH"
 export PATH="/Applications/CMake.app/Contents/bin:$PATH"
@@ -128,13 +171,27 @@ export DYLD_LIBRARY_PATH="$MAGICK_HOME/lib/"
 [[ -f ~/.functions ]] && source ~/.functions
 
 # ================================================================
-# Run Archey
+# RBENV
 # ================================================================
-archey
+
+export RUBYOPTS="-E utf-8"
+eval "$(rbenv init -)"
 
 # ================================================================
-# GNU commands
+# keychain / passwordstore / gnupg
 # ================================================================
-# run gnu-utils zsh plugin function to symlink native OSX commands to brew
-# installed GNU coreutils and findutils
-hash -r
+
+# eval $(keychain --nogui --eval --agents ssh,gpg id_rsa 217FD2E8)
+# export GPGKEY="217FD2E8"
+# export GPG_AGENT_INFO
+# export GPG_TTY=$(tty)
+
+# source the autocomplete for passwordstore
+source /usr/local/etc/bash_completion.d/password-store
+# source /usr/local/Cellar/pass/1.6.5/etc/bash_completion.d/password-store
+
+# Load archey
+archey
+
+# forgot what this is for
+export PATH="/usr/local/sbin:$PATH"
