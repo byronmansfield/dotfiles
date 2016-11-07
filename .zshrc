@@ -16,6 +16,9 @@ export WORKSPACE=$CODESPACE/demandbase
 # set display for X11 things
 export DISPLAY=:0.0
 
+# grep options
+export GREP_OPTIONS='--color=auto --exclude-dir=.git'
+
 # term
 export TERM="xterm"
 TERM=xterm # needed for various urxvt fixes
@@ -114,10 +117,10 @@ MANPATH="$NPM_PACKAGES/share/man:$(manpath)"
 # source '$HOME/google-cloud-sdk/completion.bash.inc'
 
 # The next line updates PATH for the Google Cloud SDK.
-source '/Users/bmansfield/google-cloud-sdk/path.zsh.inc'
+# source '/Users/bmansfield/google-cloud-sdk/path.zsh.inc'
 
 # The next line enables shell command completion for gcloud.
-source '/Users/bmansfield/google-cloud-sdk/completion.zsh.inc'
+# source '/Users/bmansfield/google-cloud-sdk/completion.zsh.inc'
 
 # ================================================================
 # Initialize docker-machine shell variables
@@ -175,7 +178,7 @@ export DYLD_LIBRARY_PATH="$MAGICK_HOME/lib/"
 # ================================================================
 
 export RUBYOPTS="-E utf-8"
-eval "$(rbenv init -)"
+# eval "$(rbenv init -)"
 
 # ================================================================
 # keychain / passwordstore / gnupg
@@ -187,7 +190,7 @@ eval "$(rbenv init -)"
 # export GPG_TTY=$(tty)
 
 # source the autocomplete for passwordstore
-source /usr/local/etc/bash_completion.d/password-store
+# source /usr/local/etc/bash_completion.d/password-store
 # source /usr/local/Cellar/pass/1.6.5/etc/bash_completion.d/password-store
 
 # Load archey
