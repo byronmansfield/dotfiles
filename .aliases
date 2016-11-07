@@ -163,3 +163,7 @@ alias klogin='knife ssh'
 
 # alias tmux to use 256 color
 alias tmux="TERM=screen-256color-bce tmux"
+
+# copy lastpass master password to clipboard because i'm lazy
+alias lp="pbcopy > ~/.lastpass"
+alias lastpass="pbcopy > ~/.lastpass"
