@@ -1,7 +1,33 @@
 #!/bin/bash
 
-# configs
+#
+#     Screen (Desktop) Video and Audio Recording Script
+#
+#     Author: Byron Mansfield byron@byronmansfield.com
+#
+# Script for running ffmpeg to record your desktop along with audio in a
+# youtube compatible format.
+# Requires you have ffmpeg installed and working and trap for screen detection
+# You will need to make sure that pulse or alsa is configured properly then
+# adjust the $AUDIO_* values to match yours audio configuration
+# You can find out more about your pusle audio settings by printing out the
+# source via: `pactl list sources`
+# make sure script is executable and in your $PATH
+#
+# Example usage: `./screen_record`
+#
+# Click on the screen you want to record (incase you have multiple monitors),
+# give it a second to initialize, and you should be recording. Once you are done
+# recording use `q` instead of `ctrl c` this will make a file called
+# `screencast-XXXXX.mkv` in what ever directory you set $SCREEN_RECORDING_DIR
+# to be.
+#
+# Enjoy
+#
+
+# Configs
 NAME=screencast-$(date +%Y%m%d%H%M)
+SCREEN_RECORDING_DIR=${HOME}/Videos/screen_recording
 FPS=15
 THREADS=3
 AUDIO_DRIVER="pulse"
@@ -11,7 +37,7 @@ AUDIO_RATE=44100
 # prompt user
 echo "Click the window to capture and get ready!"
 
-# screen grap
+# screen grab
 tmpfile=/tmp/screengrab.tmp.$$
 trap 'touch $tmpfile; rm -f $tmpfile' 0
 
@@ -28,12 +54,15 @@ SIZE="${width}x${height}"
 POS="${left},${top}"
 echo "Position= ${POS}; Size=${SIZE}"
 
-# start recording
+# Start recording
 sleep 2
 ffmpeg -y -f ${AUDIO_DRIVER} -ac 1 -ar ${AUDIO_RATE} -i ${AUDIO_DEVICE} \
   -f x11grab -r ${FPS} -s ${SIZE} -i ${DISPLAY-0:0}+${POS} \
-  -vcodec libx264 -preset ultrafast -crf 18 -pix_fmt yuv420p ${NAME}.mkv
+  -vcodec libx264 -preset ultrafast -crf 18 -pix_fmt yuv420p ${SCREEN_RECORDING_DIR}/${NAME}.mkv
 
-#echo Merge audio+video and encode to webm for YouTube? && read
+if [ $? -eq 0 ]; then
+  echo "Recording Complete"
+else
+  echo "Recording was not successful"
+fi
 
-# ffmpeg -i $NAME-tmp.mp4 -i $NAME-tmp.wav -acodec libvorbis -ab 128k -ac 2 -vcodec libvpx -qscale 8 -me_method full -mbd rd -flags +gmc+qpel+mv4 -trellis 1 -threads $THREADS $NAME-final.mkv
