@@ -13,6 +13,9 @@ export EDITOR=$VISUAL
 export CODESPACE=$HOME/code
 export WORKSPACE=$CODESPACE/Demandbase
 
+# Grep options
+export GREP_OPTIONS='--color=auto --exclude-dir=.git'
+
 # Uncomment the following line to use case-sensitive completion.
 # CASE_SENSITIVE="true"
 
