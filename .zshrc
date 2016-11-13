@@ -88,10 +88,10 @@ export GOPATH=$HOME/gocode
 # NODEJS & NPM
 # ================================================================
 if test -n "$(command -v npm)"; then
-	export NODE_PATH="/usr/local/bin/node"
-	export NPM_PATH="/usr/local/bin/npm"
-	export NODE_MODULES="$HOME/node_modules"
-	export NPM_PACKAGES="$HOME/.npm-packages"
+  export NODE_PATH="/usr/local/bin/node"
+  export NPM_PATH="/usr/local/bin/npm"
+  export NODE_MODULES="$HOME/node_modules"
+  export NPM_PACKAGES="$HOME/.npm-packages"
   export PATH="$PATH:$NPM_PACKAGES/bin:$NODE_MODULES/.bin"
 fi
 
