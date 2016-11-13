@@ -4,23 +4,22 @@ These are my personal dotfiles to help me sync them between computers and keep t
 
 ## Installation
 
-This depends on if you want to symlink everything or if you want to just make
-your home directory your repo. 
+I usually make this my home directory and then ignore everything by default in
+the `.gitignore`. This makes it so you have to `git add -f <some-file>`
 
-For symlinking you can do the following:
-
-1. Clone repo to local home directory
+You can clone repo to local home directory
 
 ```bash
-git clone https://github.com/byronmansfield/dotfiles.git $HOME/dotfiles
+git clone https://github.com/byronmansfield/dotfiles.git $HOME
 ```
 
-2. Symlink all the files, for brevity I'm not going to show all of these, rather just an example.
-Hopefully I'll have a shell script soon that will do all this for you. 
+Or, alternatly you can
 
-Example:
-```shell
-ln -s ~/dotfiles/.functions ~/.functions
+```bash
+git init
+git remote set-url origin https://github.com/byronmansfield/dotfiles.git
+git pull
+git checkout arch
 ```
 
 ## Tools Used
@@ -48,12 +47,17 @@ There are a few personalized configurations that I am really fond of and find he
 
 Short list of tools I must have in my path
 
-* GO
+* GOlang
 * Docker
 * Node + NPM
-* rbenv
+* rvm
 * chef
 
 Thats pretty much it. Take what you like, send a PR if you have any
 suggestions. Enjoy!
+
+# Other
+
+I know there are some vim things listed here, checkout my [dotvim](https://github.com/byronmansfield/dotvim) repo for the
+complete list of my vim interface
 
