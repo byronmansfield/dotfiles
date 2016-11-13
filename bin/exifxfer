@@ -1,0 +1,19 @@
+#!/bin/bash
+
+# strict mode
+set -euo pipefail
+IFS=$'\n\t'
+
+# global vars
+
+# expects src and dest images to be same length and in correct order
+srcimages=( "IMG_20160201_092140.jpg" "IMG_20160201_092140.jpg" "" )
+destimages=( "IMG_20160201_094106.jpg" "IMG_20160201_092135.jpg" "" )
+
+# loop over all images and perform gps exif data xfer via exiftool
+for ((i=1; i<=${#srcimages[*]}; i++))
+do
+	# exiftool xfer listed tags from image $1 to image $2
+	exiftool -TagsFromFile ${srcimages[$i]} -GPSDateStamp -GPSTimeStamp -GPSLatitude -GPSLatitudeRef -GPSLongitude -GPSLongitudeRef ${destimages[$i]}
+done
+
