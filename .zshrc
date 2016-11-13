@@ -24,6 +24,10 @@ export TERM="xterm"
 TERM=xterm # needed for various urxvt fixes
 # stty erase '^?'
 
+# Some flags to help with compilation from source for el capitan
+export CPPFLAGS="-I/usr/local/opt/openssl/include"
+export LDFLAGS="-L/usr/local/opt/openssl/lib"
+
 # Uncomment the following line to use case-sensitive completion.
 # CASE_SENSITIVE="true"
 
