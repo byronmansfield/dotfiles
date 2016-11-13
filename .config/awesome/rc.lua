@@ -75,7 +75,15 @@ local layouts =
 -- [ Wallpaper ] --
 if beautiful.wallpaper then
   for s = 1, screen.count() do
-    gears.wallpaper.maximized(beautiful.wallpaper, s, true)
+    if s == 1 then
+      gears.wallpaper.maximized(beautiful.wallpapercenter, s, true)
+    elseif s == 2 then
+      gears.wallpaper.maximized(beautiful.wallpaperleft, s, true)
+    elseif s == 3 then
+      gears.wallpaper.maximized(beautiful.wallpaperright, s, true)
+    else
+      gears.wallpaper.maximized(beautiful.wallpaper, s, true)
+    end
   end
 end
 
@@ -173,7 +181,7 @@ function update_netspeedwidgets()
   local curr_bytes_up = 0
   local net_up
   local net_down
-  
+
   for line in io.lines('/proc/net/dev') do
     local device,bytes_down,bytes_up = line:match('^[%s]?[%s]?[%s]?[%s]?([%w]+):[%s]?([%d]+)[%s]+[%d]+[%s]+[%d]+[%s]+[%d]+[%s]+[%d]+[%s]+[%d]+[%s]+[%d]+[%s]+[%d]+[%s]+([%d]+)[%s]')
     if device then
@@ -187,7 +195,7 @@ function update_netspeedwidgets()
   if (total_bytes_up == nil) then
     total_bytes_up = curr_bytes_up
   end
-  
+
   net_down = math.floor((((curr_bytes_down - total_bytes_down) / 1048576) * 10^2) + 0.5) / (10^2)
   net_up = math.floor((((curr_bytes_up - total_bytes_up) / 1048576) * 10^2) + 0.5) / (10^2)
   total_bytes_down = curr_bytes_down
@@ -218,7 +226,7 @@ mytaglist.buttons = awful.util.table.join(
 
 mytasklist = {}
 mytasklist.buttons = awful.util.table.join(
-  
+
   awful.button({ }, 1, function (c)
     if c == client.focus then
       c.minimized = true
@@ -235,7 +243,7 @@ mytasklist.buttons = awful.util.table.join(
       c:raise()
     end
   end),
-  
+
   awful.button({ }, 3, function ()
     if instance then
       instance:hide()
