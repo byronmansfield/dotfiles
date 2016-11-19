@@ -1,6 +1,6 @@
 #!/bin/bash
 
-xclip -in -selection c ${HOME}/.lastpass
+pbcopy < ${HOME}/.lastpass
 
 if [ $? -eq 0 ]; then
 	echo "Copied lastpass master password to clipboard successfully"
