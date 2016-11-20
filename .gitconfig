@@ -57,3 +57,5 @@
 	conflictstyle = diff3
 [mergetool]
 	prompt = false
+[init]
+	templatedir = ~/.git_template

@@ -67,6 +67,9 @@ alias archtricks="open -a google\ chrome https://gist.github.com/byronmansfield/
 alias hidedesktop="defaults write com.apple.finder CreateDesktop -bool false && killall Finder"
 alias showdesktop="defaults write com.apple.finder CreateDesktop -bool true && killall Finder"
 
+# ctags
+alias ctags="`brew --prefix`/bin/ctags"
+
 ## Zsh Stuff
 alias eZ='vim ~/.zshrc'
 alias eOMZ='vim ~/.oh-my-zsh/themes/msjche.zsh-theme'
@@ -149,17 +152,6 @@ alias practicecode='cd $CODESPACE/practice'
 
 # aws
 alias search_instances="ruby $HOME/code/demandbase/aws-scripts/search_instances.rb"
-
-# perfman
-alias perfmanstage='ENV=staging API_URL=https://dashboard-api.staging.demandbase.com AUTH_URL=https://auth.staging.demandbase.co GD_API=https://bi.demandbase.com grunt serve:staging'
-alias perfmantest='ENV=staging API_URL=https://dashboard-api.staging.demandbase.com AUTH_URL=https://auth.staging.demandbase.co GD_API=https://bi.demandbase.com grunt test:spec'
-
-# dashboard api
-alias apiup='ENV=dev bundle exec rackup'
-
-# knife
-alias ksearch='knife search'
-alias klogin='knife ssh'
 
 # alias tmux to use 256 color
 alias tmux="TERM=screen-256color-bce tmux"
