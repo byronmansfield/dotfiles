@@ -20,8 +20,8 @@ export DISPLAY=:0.0
 export GREP_OPTIONS='--color=auto --exclude-dir=.git'
 
 # term
-export TERM="xterm"
-TERM=xterm # needed for various urxvt fixes
+export TERM="xterm-256color-italic"
+# TERM=xterm # needed for various urxvt fixes
 # stty erase '^?'
 
 # Some flags to help with compilation from source for el capitan
