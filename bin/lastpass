@@ -1,0 +1,9 @@
+#!/bin/bash
+
+pbcopy < ${HOME}/.lastpass
+
+if [ $? -eq 0 ]; then
+	echo "Copied lastpass master password to clipboard successfully"
+else
+	echo "Something went wrong, it did not copy your lastpass master password to your cliboard successfully"
+fi

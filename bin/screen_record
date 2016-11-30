@@ -1,0 +1,68 @@
+#!/bin/bash
+
+#
+#     Screen (Desktop) Video and Audio Recording Script
+#
+#     Author: Byron Mansfield byron@byronmansfield.com
+#
+# Script for running ffmpeg to record your desktop along with audio in a
+# youtube compatible format.
+# Requires you have ffmpeg installed and working and trap for screen detection
+# You will need to make sure that pulse or alsa is configured properly then
+# adjust the $AUDIO_* values to match yours audio configuration
+# You can find out more about your pusle audio settings by printing out the
+# source via: `pactl list sources`
+# make sure script is executable and in your $PATH
+#
+# Example usage: `./screen_record`
+#
+# Click on the screen you want to record (incase you have multiple monitors),
+# give it a second to initialize, and you should be recording. Once you are done
+# recording use `q` instead of `ctrl c` this will make a file called
+# `screencast-XXXXX.mkv` in what ever directory you set $SCREEN_RECORDING_DIR
+# to be.
+#
+# Enjoy
+#
+
+# Configs
+NAME=screencast-$(date +%Y%m%d%H%M)
+SCREEN_RECORDING_DIR=${HOME}/Videos/screen_recording
+FPS=15
+THREADS=3
+AUDIO_DRIVER="pulse"
+AUDIO_DEVICE="alsa_input.usb-C-Media_Electronics_Inc._USB_PnP_Sound_Device-00.analog-mono"
+AUDIO_RATE=44100
+
+# prompt user
+echo "Click the window to capture and get ready!"
+
+# screen grab
+tmpfile=/tmp/screengrab.tmp.$$
+trap 'touch $tmpfile; rm -f $tmpfile' 0
+
+# geometry of screen
+xwininfo > $tmpfile 2>/dev/null
+left=$(grep 'Absolute upper-left X:' $tmpfile | awk '{print $4}');
+top=$(grep 'Absolute upper-left Y:' $tmpfile | awk '{print $4}');
+width=$(grep 'Width:' $tmpfile | awk '{print $2}');
+height=$(grep 'Height:' $tmpfile | awk '{print $2}');
+geom="-geometry ${width}x${height}+${left}+${top}"
+echo "Geometry: ${geom}"
+
+SIZE="${width}x${height}"
+POS="${left},${top}"
+echo "Position= ${POS}; Size=${SIZE}"
+
+# Start recording
+sleep 2
+ffmpeg -y -f ${AUDIO_DRIVER} -ac 1 -ar ${AUDIO_RATE} -i ${AUDIO_DEVICE} \
+  -f x11grab -r ${FPS} -s ${SIZE} -i ${DISPLAY-0:0}+${POS} \
+  -vcodec libx264 -preset ultrafast -crf 18 -pix_fmt yuv420p ${SCREEN_RECORDING_DIR}/${NAME}.mkv
+
+if [ $? -eq 0 ]; then
+  echo "Recording Complete"
+else
+  echo "Recording was not successful"
+fi
+

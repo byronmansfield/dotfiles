@@ -13,12 +13,20 @@ export EDITOR=$VISUAL
 export CODESPACE=$HOME/code
 export WORKSPACE=$CODESPACE/demandbase
 
-# set display for x forwarding
+# set display for X11 things
 export DISPLAY=:0.0
 
-# needed for various urxvt fixes
-TERM=xterm
+# grep options
+export GREP_OPTIONS='--color=auto --exclude-dir=.git'
+
+# term
+export TERM="xterm-256color-italic"
+# TERM=xterm # needed for various urxvt fixes
 # stty erase '^?'
+
+# Some flags to help with compilation from source for el capitan
+export CPPFLAGS="-I/usr/local/opt/openssl/include"
+export LDFLAGS="-L/usr/local/opt/openssl/lib"
 
 # Uncomment the following line to use case-sensitive completion.
 # CASE_SENSITIVE="true"
@@ -113,10 +121,10 @@ MANPATH="$NPM_PACKAGES/share/man:$(manpath)"
 # source '$HOME/google-cloud-sdk/completion.bash.inc'
 
 # The next line updates PATH for the Google Cloud SDK.
-source '/Users/bmansfield/google-cloud-sdk/path.zsh.inc'
+# source '/Users/bmansfield/google-cloud-sdk/path.zsh.inc'
 
 # The next line enables shell command completion for gcloud.
-source '/Users/bmansfield/google-cloud-sdk/completion.zsh.inc'
+# source '/Users/bmansfield/google-cloud-sdk/completion.zsh.inc'
 
 # ================================================================
 # Initialize docker-machine shell variables
@@ -145,15 +153,19 @@ source '/Users/bmansfield/google-cloud-sdk/completion.zsh.inc'
 export CHEF_REPO=$HOME/code/demandbase/chef-repo
 
 # ================================================================
+# ImageMagick
+# ================================================================
+export MAGICK_HOME="$HOME/bin/ImageMagick-7.0.3"
+
+# ================================================================
 # PATH
 # ================================================================
 
 export PATH="/usr/local/bin:/usr/bin:/bin:/usr/sbin:/sbin:$GOPATH/bin:$PATH"
-
-# Set personal aliases, overriding those provided by oh-my-zsh libs,
-# plugins, and themes. Aliases can be placed here, though oh-my-zsh
-# users are encouraged to define aliases within the ZSH_CUSTOM folder.
-# For a full list of active aliases, run `alias`.
+export PATH="/usr/local/sbin:$PATH"
+export PATH="/Applications/CMake.app/Contents/bin:$PATH"
+export PATH="$MAGICK_HOME/bin:$PATH"
+export DYLD_LIBRARY_PATH="$MAGICK_HOME/lib/"
 
 # ================================================================
 # ALIASES
@@ -170,7 +182,7 @@ export PATH="/usr/local/bin:/usr/bin:/bin:/usr/sbin:/sbin:$GOPATH/bin:$PATH"
 # ================================================================
 
 export RUBYOPTS="-E utf-8"
-eval "$(rbenv init -)"
+# eval "$(rbenv init -)"
 
 # ================================================================
 # keychain / passwordstore / gnupg
@@ -182,7 +194,7 @@ eval "$(rbenv init -)"
 # export GPG_TTY=$(tty)
 
 # source the autocomplete for passwordstore
-source /usr/local/etc/bash_completion.d/password-store
+# source /usr/local/etc/bash_completion.d/password-store
 # source /usr/local/Cellar/pass/1.6.5/etc/bash_completion.d/password-store
 
 # Load archey
