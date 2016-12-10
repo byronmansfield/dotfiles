@@ -94,7 +94,9 @@ alias A='source ~/.aliases'
 alias eF='vim ~/.functions'
 alias F='source ~/.functions'
 
-## Git
+#########
+## Git ##
+#########
 
 # The current branch name
 # Usage example: git pull origin $(current_branch)
@@ -114,6 +116,7 @@ function current_branch() {
 alias g='git'
 alias add='git add'
 alias addall='git add --all'
+alias commit='git commit -m'
 alias branch='git branch'
 alias gba='git branch -a'
 alias gitremote='git branch --remote'
@@ -137,6 +140,22 @@ alias tag='git tag -a -m'
 alias pushtags='git push --tags'
 alias deletetag='git tag -d'
 alias pushdeletedtag='push origin :refs/tags/'
+
+#-------------------- [ Docker ] --------------------#
+
+alias dkr='docker'
+alias images='docker images'
+alias containers='docker ps -a'
+alias container='docker run -it --rm --entrypoint /bin/bash trusty'
+alias cleanimages='docker rmi -f $(docker images | grep "^<none>" | awk "{print $3}")'
+alias clnimgs='docker rmi -f $(docker images | grep "^<none>" | awk "{print $3}")'
+alias rmimgs='docker rmi -f $(docker images | grep "^<none>" | awk "{print $3}")'
+alias rmi='docker rmi -f $(docker images | grep "^<none>" | awk "{print $3}")'
+alias cleancontainers='docker rm $(docker ps -a | grep "days ago" | awk '"'"'{print $1}'"'"')'
+alias clncntrs='docker rm $(docker ps -a | grep "days ago" | awk '"'"'{print $1}'"'"')'
+alias rmcntrs='docker rm $(docker ps -a | grep "days ago" | awk '"'"'{print $1}'"'"')'
+alias cadvisor='sudo docker run --volume=/:/rootfs:ro --volume=/var/run:/var/run:rw --volume=/sys:/sys:ro --volume=/var/lib/docker/:/var/lib/docker:ro --publish=8080:8080 --detach=true --name=cadvisor google/cadvisor:latest'
+alias cadvsr='sudo docker run --volume=/:/rootfs:ro --volume=/var/run:/var/run:rw --volume=/sys:/sys:ro --volume=/var/lib/docker/:/var/lib/docker:ro --publish=8080:8080 --detach=true --name=cadvisor google/cadvisor:latest'
 
 #-------------------- [ DB Projects ] --------------------#
 

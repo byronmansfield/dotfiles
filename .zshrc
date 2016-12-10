@@ -13,11 +13,11 @@ export EDITOR=$VISUAL
 export CODESPACE=$HOME/code
 export WORKSPACE=$CODESPACE/demandbase
 
-# set display for X11 things
-export DISPLAY=:0.0
-
 # grep options
 export GREP_OPTIONS='--color=auto --exclude-dir=.git'
+
+# set display for x forwarding
+export DISPLAY=:0.0
 
 # term
 export TERM="xterm-256color-italic"
@@ -123,9 +123,6 @@ MANPATH="$NPM_PACKAGES/share/man:$(manpath)"
 # The next line updates PATH for the Google Cloud SDK.
 # source '/Users/bmansfield/google-cloud-sdk/path.zsh.inc'
 
-# The next line enables shell command completion for gcloud.
-# source '/Users/bmansfield/google-cloud-sdk/completion.zsh.inc'
-
 # ================================================================
 # Initialize docker-machine shell variables
 # ================================================================
@@ -151,6 +148,9 @@ MANPATH="$NPM_PACKAGES/share/man:$(manpath)"
 
 # set chef repo
 export CHEF_REPO=$HOME/code/demandbase/chef-repo
+
+# rancher
+[[ -f ~/.rancher/config ]] && source ~/.rancher/config
 
 # ================================================================
 # ImageMagick
@@ -178,11 +178,13 @@ export DYLD_LIBRARY_PATH="$MAGICK_HOME/lib/"
 [[ -f ~/.functions ]] && source ~/.functions
 
 # ================================================================
-# RBENV
+# RBENV | RVM (Ruby Version Manager)
 # ================================================================
 
 export RUBYOPTS="-E utf-8"
-# eval "$(rbenv init -)"
+export PATH="$PATH:$HOME/.rvm/bin" # Add RVM to PATH for scripting
+
+[[ -s "$HOME/.rvm/scripts/rvm" ]] && source "$HOME/.rvm/scripts/rvm"
 
 # ================================================================
 # keychain / passwordstore / gnupg
@@ -200,5 +202,6 @@ export RUBYOPTS="-E utf-8"
 # Load archey
 archey
 
-# forgot what this is for
+# forgot why it was needed to add this at the end
 export PATH="/usr/local/sbin:$PATH"
+
