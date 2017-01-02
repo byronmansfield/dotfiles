@@ -13,6 +13,10 @@ alias -- -='cd -'
 # Super user
 alias _='sudo'
 alias please='sudo'
+alias oops='sudo !!'
+
+# make files executable
+alias ax='chmod a+x'
 
 # alias g='grep -in'
 
@@ -36,16 +40,14 @@ alias l='ls -lah'
 alias ll='ls -lh'
 alias la='ls -lAh'
 alias sl=ls # often screw this up
+alias return='cd "$OLDPWD"'
 
 alias afind='ack-grep -il'
 
-# bundle/berks stuff
+# bundle stuff
 alias be='bundle exec'
 alias bi='bundle install'
 alias bu='bundle update'
-alias bki='berks install'
-alias bkud='berks update'
-alias bkul='berks upload'
 
 # Other
 alias C='clear'
@@ -149,6 +151,8 @@ alias pushdeletedtag='push origin :refs/tags/'
 alias dkr='docker'
 alias images='docker images'
 alias containers='docker ps -a'
+alias dps='docker ps'
+alias dpsa='docker ps -a'
 alias container='docker run -it --rm --entrypoint /bin/bash trusty'
 alias cleanimages='docker rmi -f $(docker images | grep "^<none>" | awk "{print $3}")'
 alias clnimgs='docker rmi -f $(docker images | grep "^<none>" | awk "{print $3}")'
@@ -160,24 +164,28 @@ alias rmcntrs='docker rm $(docker ps -a | grep "days ago" | awk '"'"'{print $1}'
 alias cadvisor='sudo docker run --volume=/:/rootfs:ro --volume=/var/run:/var/run:rw --volume=/sys:/sys:ro --volume=/var/lib/docker/:/var/lib/docker:ro --publish=8080:8080 --detach=true --name=cadvisor google/cadvisor:latest'
 alias cadvsr='sudo docker run --volume=/:/rootfs:ro --volume=/var/run:/var/run:rw --volume=/sys:/sys:ro --volume=/var/lib/docker/:/var/lib/docker:ro --publish=8080:8080 --detach=true --name=cadvisor google/cadvisor:latest'
 
-#-------------------- [ DB Projects ] --------------------#
-
 # cd's
-alias workcode='cd $CODESPACE/demandbase'
-alias perfmanhome='cd $WORKSPACE/perfman'
-alias apihome='cd $WORKSPACE/dashboard-api'
-alias chefhome='cd $WORKSPACE/chef-repo'
-alias cbooks='cd $WORKSPACE/chef-repo/cookbooks'
-alias tform='cd $WORKSPACE/terraform'
+alias up1='cd ..'
+alias up2='cd ../..'
+alias up3='cd ../../..'
 alias personalcode='cd $CODESPACE/personal'
 alias practicecode='cd $CODESPACE/practice'
-
-# aws
-alias search_instances="ruby $HOME/code/demandbase/aws-scripts/search_instances.rb"
 
 # alias tmux to use 256 color
 alias tmux="TERM=screen-256color-bce tmux"
 
 # copy lastpass master password to clipboard because i'm lazy
-alias lp="./bin/lastpass"
+# alias lp="./bin/lastpass"
 alias lastpass="./bin/lastpass"
+
+# unzip and compress with tar
+alias tgx='tar -zxvf'
+alias tbx='tar -jxvf'
+alias tcx='tar -zcvf'
+
+# find files with no known users
+alias findorphens='find / -nouser -ls'
+
+# links stuff
+alias lsusb='system_profiler SPUSBDataType'
+alias lsblk='diskutil list'
