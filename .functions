@@ -14,9 +14,9 @@
 
 myip() {
 	echo "--------------- Network Information ---------------"
-	
+
 	# for local
-	
+
 	ifconfig lo0 | grep 'inet ' | sed -e 's/:/ /' | awk '{print "lo0 local machine address:   " $2}'
 	ifconfig en0 | grep 'inet ' | sed -e 's/:/ /' | awk '{print "en0 (IPv4) internal ip:      " $2}'
 	# ifconfig en0 | grep 'inet ' | sed -e 's/:/ /' | awk '{print "en0 (IPv4) internal ip:      " $2 " " $3 " " $4 " " $5 " " $6}'
@@ -31,7 +31,7 @@ myip() {
 	#ip addr | awk '/global/ {print $3,$4}'
 	#ip addr | awk '/ether/ {print $1,$2}'
 	#ip addr | awk '/scope link/ {print $1,$2}' | cut -d\/ -f1
-	
+
 	# older system like debian
 	ifconfig | awk '/inet addr/ {print $1,$2}' | awk -F: '{print $1,$2}'
 	ifconfig | awk '/Bcast/ {print $3}' | awk -F: '{print $1,$2}'
@@ -43,11 +43,11 @@ myip() {
 }
 
 # turn hidden files on/off in Finder
-function hiddenOn() { 
-	defaults write com.apple.Finder AppleShowAllFiles YES ; 
+function hiddenOn() {
+	defaults write com.apple.Finder AppleShowAllFiles YES ;
 }
-function hiddenOff() { 
-	defaults write com.apple.Finder AppleShowAllFiles NO ; 
+function hiddenOff() {
+	defaults write com.apple.Finder AppleShowAllFiles NO ;
 }
 
 # hide desktop icons
@@ -59,22 +59,22 @@ function showDesktop() {
 }
 
 # postgres functions
-function pgstart() { 
+function pgstart() {
   pg_ctl -D /usr/local/var/postgres -l /usr/local/var/postgres/server.log start;
 }
-function pgstop() { 
+function pgstop() {
   pg_ctl -D /usr/local/var/postgres stop -m fast ;
 }
-function pgstatus() { 
+function pgstatus() {
   pg_ctl -D /usr/local/var/postgres status ;
 }
 
 # webdriver functions
-function wdstart() { 
-  webdriver-manager start ; 
+function wdstart() {
+  webdriver-manager start ;
 }
-function wdstop() { 
-  webdriver-manager stop ; 
+function wdstop() {
+  webdriver-manager stop ;
 }
 
 # Simple calculator
@@ -98,8 +98,6 @@ function calc() {
 # A better git clone
 # clones a repository, cds into it, and opens it in my editor.
 #
-# Note: subl is already setup as a shortcut to Sublime. Replace with your own editor if different
-# 
 # - arg 1 - url|username|repo remote endpoint, username on github, or name of
 #           repository.
 # - arg 2 - (optional) name of repo
@@ -146,7 +144,7 @@ function clone {
 # simple git log
 # usage glr v0.2.2 v0.2.3
 function glr() {
-	git log $1 $2 --pretty=format:'* %h %s' --date=short --no-merges 
+	git log $1 $2 --pretty=format:'* %h %s' --date=short --no-merges
 }
 
 # git log with per-commit cmd-clickable GitHub URLs (iTerm)
@@ -255,16 +253,6 @@ function m() {
 	fi
 }
 
-# `s` with no arguments opens the current directory in Sublime Text, otherwise
-# opens the given location
-function s() {
-	if [ $# -eq 0 ]; then
-		subl .
-	else
-		subl "$@"
-	fi
-}
-
 # `v` with no arguments opens the current directory in Vim, otherwise opens the
 # given location
 function v() {
@@ -287,7 +275,7 @@ function o() {
 
 # Create animated GIFs from any video
 # Uses http://gist.github.com/SlexAxton/4989674
-gifify() {
+function gifify() {
   if [[ -n "$1" ]]; then
     if [[ $2 == '--good' ]]; then
       ffmpeg -i $1 -r 10 -vcodec png out-static-%05d.png
@@ -334,4 +322,14 @@ function gh() {
 # Copy's lastpass master password to clipboard
 function lp() {
   cat ~/.lastpass | pbcopy
+}
+
+# Check most used in history
+function mostused() {
+  history | awk '{print $2}' | sort | uniq -c | sort -nr | head;
+}
+
+# better new dir
+function newdir() {
+  makdir -p "$@" && eval cd "$@";
 }
