@@ -1,7 +1,7 @@
 [user]
 	name = Byron Mansfield
 	email = byron@byronmansfield.com
-	signingkey = 54E5673E
+	signingkey = 72F8EAFA
 [push]
 	default = simple
 [core]
@@ -44,12 +44,6 @@
 [filter "media"]
 	clean = git-media-clean %f
 	smudge = git-media-smudge %f
-[gitflow "prefix"]
-	feature = feature-
-	release = release-
-	hotfix = hotfix-
-	support = support-
-	versiontag = v
 [alias]
 	d = difftool
 [merge]
@@ -59,3 +53,5 @@
 	prompt = false
 [init]
 	templatedir = ~/.git_template
+[gpg]
+	program = /usr/local/bin/gpg
