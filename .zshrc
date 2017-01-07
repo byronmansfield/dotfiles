@@ -82,7 +82,7 @@ export CHROME_BIN="/Applications/Google Chrome.app/Contents/MacOS/Google Chrome"
 # export ARCHFLAGS="-arch x86_64"
 
 # ssh
-# export SSH_KEY_PATH="~/.ssh/dsa_id"
+export SSH_KEY_PATH="~/.ssh/id_rsa"
 
 # ================================================================
 # SET USER HOME BIN
@@ -140,18 +140,6 @@ MANPATH="$NPM_PACKAGES/share/man:$(manpath)"
 # aws
 [[ -f ~/.work/.aws ]] && source ~/.work/.aws
 
-# github token for things like docker
-[[ -f ~/.github_token ]] && source ~/.github_token
-
-# other work related exports i need for projects
-[[ -f ~/.work/.exports ]] && source ~/.work/.exports
-
-# set chef repo
-export CHEF_REPO=$HOME/code/demandbase/chef-repo
-
-# rancher
-[[ -f ~/.rancher/config ]] && source ~/.rancher/config
-
 # ================================================================
 # ImageMagick
 # ================================================================
@@ -178,26 +166,13 @@ export DYLD_LIBRARY_PATH="$MAGICK_HOME/lib/"
 [[ -f ~/.functions ]] && source ~/.functions
 
 # ================================================================
-# RBENV | RVM (Ruby Version Manager)
+# keychain / GnuPG
 # ================================================================
 
-export RUBYOPTS="-E utf-8"
-export PATH="$PATH:$HOME/.rvm/bin" # Add RVM to PATH for scripting
-
-[[ -s "$HOME/.rvm/scripts/rvm" ]] && source "$HOME/.rvm/scripts/rvm"
-
-# ================================================================
-# keychain / passwordstore / gnupg
-# ================================================================
-
-# eval $(keychain --nogui --eval --agents ssh,gpg id_rsa 217FD2E8)
-# export GPGKEY="217FD2E8"
-# export GPG_AGENT_INFO
-# export GPG_TTY=$(tty)
-
-# source the autocomplete for passwordstore
-# source /usr/local/etc/bash_completion.d/password-store
-# source /usr/local/Cellar/pass/1.6.5/etc/bash_completion.d/password-store
+eval $(keychain --nogui --eval --agents ssh --inherit any id_rsa)
+export GPGKEY="72F8EAFA"
+export GPG_AGENT_INFO
+export GPG_TTY=$(tty)
 
 # Load archey
 archey
