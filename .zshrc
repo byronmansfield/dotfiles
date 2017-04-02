@@ -27,6 +27,7 @@ export TERM="xterm-256color-italic"
 # Some flags to help with compilation from source for el capitan
 export CPPFLAGS="-I/usr/local/opt/openssl/include"
 export LDFLAGS="-L/usr/local/opt/openssl/lib"
+export USE_SYSTEM_LIBCLANG=ON
 
 # Uncomment the following line to use case-sensitive completion.
 # CASE_SENSITIVE="true"
@@ -88,7 +89,7 @@ export SSH_KEY_PATH="~/.ssh/id_rsa"
 # SET USER HOME BIN
 # ================================================================
 if [ -d "$HOME/bin" ]; then
-	export PATH="$HOME/bin:$PATH"
+  export PATH="$HOME/bin:$PATH"
 fi
 
 # ================================================================
@@ -102,10 +103,10 @@ export GOPATH=$HOME/gocode
 # NODEJS
 # ================================================================
 if test -n "$(command -v npm)"; then
-	export NODE_PATH="/usr/local/lib/node_modules:$HOME/node_modules";
-	export NPM_PACKAGES="/usr/local/share/npm";
-	PATH="$PATH:/usr/local/lib/node_modules/npm/bin:$HOME/node_modules/.bin";
-	PATH="$PATH:$NPM_PACKAGES/bin"
+  export NODE_PATH="/usr/local/lib/node_modules:$HOME/node_modules";
+  export NPM_PACKAGES="/usr/local/share/npm";
+  PATH="$PATH:/usr/local/lib/node_modules/npm/bin:$HOME/node_modules/.bin";
+  PATH="$PATH:$NPM_PACKAGES/bin"
 fi
 
 # Unset manpath so we can inherit from /etc/manpath via the `manpath`
@@ -143,7 +144,7 @@ MANPATH="$NPM_PACKAGES/share/man:$(manpath)"
 # ================================================================
 # ImageMagick
 # ================================================================
-export MAGICK_HOME="$HOME/bin/ImageMagick-7.0.3"
+export MAGICK_HOME="$HOME/bin/ImageMagick-7.0.5"
 
 # ================================================================
 # PATH
@@ -151,6 +152,7 @@ export MAGICK_HOME="$HOME/bin/ImageMagick-7.0.3"
 
 export PATH="/usr/local/bin:/usr/bin:/bin:/usr/sbin:/sbin:$GOPATH/bin:$PATH"
 export PATH="/usr/local/sbin:$PATH"
+export PATH="$(brew --prefix coreutils)/libexec/gnubin:/usr/local/bin:$PATH"
 export PATH="/Applications/CMake.app/Contents/bin:$PATH"
 export PATH="$MAGICK_HOME/bin:$PATH"
 export DYLD_LIBRARY_PATH="$MAGICK_HOME/lib/"
@@ -166,7 +168,7 @@ export DYLD_LIBRARY_PATH="$MAGICK_HOME/lib/"
 [[ -f ~/.functions ]] && source ~/.functions
 
 # ================================================================
-# keychain / GnuPG
+# funtoo.org keychain / GnuPG
 # ================================================================
 
 eval $(keychain --nogui --eval --agents ssh --inherit any id_rsa)
@@ -174,8 +176,8 @@ export GPGKEY="72F8EAFA"
 export GPG_AGENT_INFO
 export GPG_TTY=$(tty)
 
-# Load archey
-archey
+# Load archey (if installed)
+[[ `type archey 2> /dev/null` && $UID != 0 ]] && archey
 
 # forgot why it was needed to add this at the end
 export PATH="/usr/local/sbin:$PATH"
