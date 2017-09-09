@@ -4,20 +4,33 @@ These are my personal dotfiles to help me sync them between computers and keep t
 
 ## Installation
 
-1. Clone repo to local home directory
-
+1. Initialize blank git repo
 ```bash
-git clone https://github.com/byronmansfield/dotfiles.git $HOME/dotfiles
+git init
 ```
 
-2. Symlink all the files
-For brevity I'm not going to show all of these, rather just an example.
-Hopefully I'll have a shell script soon that will do all this for you. 
-
-Example:
-```shell
-ln -s ~/dotfiles/.functions ~/.functions
+2. Add remote
+```bash
+git remote add origin git@github.com:byronmansfield/dotfiles.git
 ```
+
+3. Fetch Origin
+```bash
+git fetch origin trusty
+```
+
+4. Reset local to head of desired branch
+"This helps us overwrite the local files that might already exist. You may want to skip this step and use something like `git stash` if you don't want to overwrite the existing local files. These steps are written under the assumption you are setting up a new machine or container and don't care about the defails"
+```bash
+git reset --hard origin/trusty
+```
+
+5. Pull the actual code from remote
+```bash
+git pull origin trusty
+```
+
+That's it. Enjoy!
 
 ## Tools Used
 
@@ -47,8 +60,3 @@ Short list of tools I must have in my path
 * rbenv
 * Docker
 
-# To-Do's
-
-- [ ] write shell script to handle symlinking all the files
-- [ ] convert some of the function to shell scripts in $HOME/bin and include
-	them in repo
