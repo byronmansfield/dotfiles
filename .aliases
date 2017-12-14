@@ -149,6 +149,7 @@ alias pushdeletedtag='push origin :refs/tags/'
 #-------------------- [ Docker ] --------------------#
 
 alias dkr='docker'
+alias imgs='docker images'
 alias images='docker images'
 alias containers='docker ps -a'
 alias dps='docker ps'
@@ -173,10 +174,6 @@ alias practicecode='cd $CODESPACE/practice'
 
 # alias tmux to use 256 color
 alias tmux="TERM=screen-256color-bce tmux"
-
-# copy lastpass master password to clipboard because i'm lazy
-# alias lp="./bin/lastpass"
-alias lastpass="./bin/lastpass"
 
 # unzip and compress with tar
 alias tgx='tar -zxvf'
