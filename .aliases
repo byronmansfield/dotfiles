@@ -73,28 +73,28 @@ alias showdesktop="defaults write com.apple.finder CreateDesktop -bool true && k
 alias ctags="`brew --prefix`/bin/ctags"
 
 ## Zsh Stuff
-alias eZ='vim ~/.zshrc'
-alias eOMZ='vim ~/.oh-my-zsh/themes/msjche.zsh-theme'
-alias Z='source ~/.zshrc'
-alias eL='vim ~/.zlogin'
-alias L='source ~/.zlogin'
+alias eZ="vim ${HOME}/.zshrc"
+alias eOMZ="vim ${HOME}/.oh-my-zsh/themes/msjche.zsh-theme"
+alias Z="source ${HOME}/.zshrc"
+alias eL="vim ${HOME}/.zlogin"
+alias L="source ${HOME}/.zlogin"
 
 ## Vim Stuff
-alias eV='vim ~/.vimrc'
-alias e='vim'
-alias V='source ~/.vimrc'
+alias eV="vim ${HOME}/.vim/vimrc"
+alias e="vim"
+alias V="source ${HOME}/.vim/vimrc"
 
 ## Tmux
-alias tmux='tmux -2'
-alias eT='vim ~/.tmux.conf'
+alias tmux="tmux -2"
+alias eT="vim ${HOME}/.tmux.conf"
 
 ## Aliases
-alias eA='vim ~/.aliases'
-alias A='source ~/.aliases'
+alias eA="vim ${HOME}/.aliases"
+alias A="source ${HOME}/.aliases"
 
 ## Functions
-alias eF='vim ~/.functions'
-alias F='source ~/.functions'
+alias eF="vim ${HOME}/.functions"
+alias F="source ${HOME}/.functions"
 
 #########
 ## Git ##
