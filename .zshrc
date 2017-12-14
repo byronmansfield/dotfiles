@@ -92,6 +92,9 @@ if [ -d "$HOME/bin" ]; then
   export PATH="$HOME/bin:$PATH"
 fi
 
+# netrunner
+export PATH="$PATH:/User/bmansfield/bin/netrunner"
+
 # ================================================================
 # GO
 # ================================================================
@@ -135,11 +138,14 @@ MANPATH="$NPM_PACKAGES/share/man:$(manpath)"
 [ -f "${HOME}"/.env ] && . $HOME/.env
 
 # ================================================================
-# WORK STUFF
+# AWS
 # ================================================================
 
-# aws
-[[ -f ~/.work/.aws ]] && source ~/.work/.aws
+# add aws cli to path
+export PATH="$PATH:$HOME/Library/Python/2.7/bin/"
+
+# source aws env file
+[[ -f ~/.aws/env ]] && source ~/.aws/env
 
 # ================================================================
 # ImageMagick
@@ -175,6 +181,8 @@ eval $(keychain --nogui --eval --agents ssh --inherit any id_rsa)
 export GPGKEY="72F8EAFA"
 export GPG_AGENT_INFO
 export GPG_TTY=$(tty)
+
+source /usr/local/etc/bash_completion.d/password-store
 
 # Load archey (if installed)
 [[ `type archey 2> /dev/null` && $UID != 0 ]] && archey
