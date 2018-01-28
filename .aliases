@@ -165,6 +165,11 @@ alias rmcntrs='docker rm $(docker ps -a | grep "days ago" | awk '"'"'{print $1}'
 alias cadvisor='sudo docker run --volume=/:/rootfs:ro --volume=/var/run:/var/run:rw --volume=/sys:/sys:ro --volume=/var/lib/docker/:/var/lib/docker:ro --publish=8080:8080 --detach=true --name=cadvisor google/cadvisor:latest'
 alias cadvsr='sudo docker run --volume=/:/rootfs:ro --volume=/var/run:/var/run:rw --volume=/sys:/sys:ro --volume=/var/lib/docker/:/var/lib/docker:ro --publish=8080:8080 --detach=true --name=cadvisor google/cadvisor:latest'
 
+# browser containers
+alias ffctnr='docker run -it -v /tmp/.X11-unix:/tmp/.X11-unix -e DISPLAY=$(ifconfig en0 | grep inet | awk '"'"'$1=="inet" {print $2}'"'"'):0 --privileged jess/firefox'
+alias chromectnr='docker run -it -v /tmp/.X11-unix:/tmp/.X11-unix -e DISPLAY=$(ifconfig en0 | grep inet | awk '"'"'$1=="inet" {print $2}'"'"'):0 --privileged jess/chrome'
+alias torctnr='docker run -it -v /tmp/.X11-unix:/tmp/.X11-unix -e DISPLAY=$(ifconfig en0 | grep inet | awk '"'"'$1=="inet" {print $2}'"'"'):0 --privileged jess/tor-browser'
+
 # cd's
 alias up1='cd ..'
 alias up2='cd ../..'
