@@ -69,9 +69,6 @@ alias archtricks="open -a google\ chrome https://gist.github.com/byronmansfield/
 alias hidedesktop="defaults write com.apple.finder CreateDesktop -bool false && killall Finder"
 alias showdesktop="defaults write com.apple.finder CreateDesktop -bool true && killall Finder"
 
-# ctags
-alias ctags="`brew --prefix`/bin/ctags"
-
 ## Zsh Stuff
 alias eZ="vim ${HOME}/.zshrc"
 alias eOMZ="vim ${HOME}/.oh-my-zsh/themes/msjche.zsh-theme"
@@ -191,3 +188,6 @@ alias findorphens='find / -nouser -ls'
 # links stuff
 alias lsusb='system_profiler SPUSBDataType'
 alias lsblk='diskutil list'
+
+# matrix for fun
+alias matrix='unimatrix'
