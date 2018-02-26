@@ -1,5 +1,5 @@
 # oh-my-zsh settings
-export ZSH=$HOME/.oh-my-zsh
+export ZSH=${HOME}/.oh-my-zsh
 ZSH_THEME="byron"
 
 # language settings
@@ -7,27 +7,25 @@ export LANG=en_US.UTF-8
 export LANGUAGE=en_US.UTF-8
 export LC_ALL=en_US.UTF-8
 
-# Set vim as default editor
-export VISUAL=vim
-export EDITOR=$VISUAL
-export CODESPACE=$HOME/code
-export WORKSPACE=$CODESPACE/demandbase
-
-# grep options
-export GREP_OPTIONS='--color=auto --exclude-dir=.git'
-
 # set display for x forwarding
 export DISPLAY=:0.0
 
 # term
 export TERM="xterm-256color-italic"
-# TERM=xterm # needed for various urxvt fixes
-# stty erase '^?'
 
-# Some flags to help with compilation from source for el capitan
+# Some flags to help with compilation from source
 export CPPFLAGS="-I/usr/local/opt/openssl/include"
 export LDFLAGS="-L/usr/local/opt/openssl/lib"
 export USE_SYSTEM_LIBCLANG=ON
+export PKG_CONFIG_PATH="/usr/X11/lib/pkgconfig"
+export MANPATH="/usr/local/man:/usr/share/man:${MANPATH}"
+
+# Compilation flags
+# export ARCHFLAGS="-arch x86_64"
+
+# Set vim as default editor
+export VISUAL=vim
+export EDITOR=${VISUAL}
 
 # Uncomment the following line to use case-sensitive completion.
 # CASE_SENSITIVE="true"
@@ -67,7 +65,7 @@ DISABLE_AUTO_TITLE="true"
 # Custom plugins may be added to ~/.oh-my-zsh/custom/plugins/
 # Example format: plugins=(rails git textmate ruby lighthouse)
 # Add wisely, as too many plugins slow down shell startup.
-plugins=(git tmux docker)
+plugins=(git docker pass)
 
 source $ZSH/oh-my-zsh.sh
 
@@ -75,12 +73,9 @@ source $ZSH/oh-my-zsh.sh
 # USER CONFIGURATIONS
 # ================================================================
 
+export CODESPACE=${HOME}/code
+export DOCKERFILES=${CODESPACE}/dockerfiles
 export CHROME_BIN="/Applications/Google Chrome.app/Contents/MacOS/Google Chrome"
-
-# export MANPATH="/usr/local/man:$MANPATH"
-
-# Compilation flags
-# export ARCHFLAGS="-arch x86_64"
 
 # ssh
 export SSH_KEY_PATH="~/.ssh/id_rsa"
@@ -101,6 +96,13 @@ export PATH="$PATH:/User/bmansfield/bin/netrunner"
 export GOROOT=/usr/local/go
 export PATH="$PATH:$GOROOT/bin"
 export GOPATH=$HOME/gocode
+export GOOS="darwin"
+export GOARCH="amd64"
+
+# ================================================================
+# RVM
+# ================================================================
+[[ -s "$HOME/.rvm/scripts/rvm" ]] && source "$HOME/.rvm/scripts/rvm" # Load RVM into a shell session *as a function*
 
 # ================================================================
 # NODEJS
@@ -112,30 +114,10 @@ if test -n "$(command -v npm)"; then
   PATH="$PATH:$NPM_PACKAGES/bin"
 fi
 
-# Unset manpath so we can inherit from /etc/manpath via the `manpath`
-# command
-unset MANPATH # delete if you already modified MANPATH elsewhere in your config
-MANPATH="$NPM_PACKAGES/share/man:$(manpath)"
-
-# ================================================================
-# GOOGLE CLOUD SDK
-# ================================================================
-
-# The next line enables bash completion for gcloud.
-# source '$HOME/google-cloud-sdk/completion.bash.inc'
-
-# The next line updates PATH for the Google Cloud SDK.
-# source '/Users/bmansfield/google-cloud-sdk/path.zsh.inc'
-
-# ================================================================
-# Initialize docker-machine shell variables
-# ================================================================
-# [ "$(command -v docker-machine)" ] && eval "$(docker-machine env vbox)"
-
 # ================================================================
 # LOAD LOCAL ENV
 # ================================================================
-[ -f "${HOME}"/.env ] && . $HOME/.env
+[ -f "${HOME}"/.env ] && source ${HOME}/.env
 
 # ================================================================
 # AWS
@@ -161,7 +143,8 @@ export PATH="/usr/local/sbin:$PATH"
 export PATH="$(brew --prefix coreutils)/libexec/gnubin:/usr/local/bin:$PATH"
 export PATH="/Applications/CMake.app/Contents/bin:$PATH"
 export PATH="$MAGICK_HOME/bin:$PATH"
-export DYLD_LIBRARY_PATH="$MAGICK_HOME/lib/"
+export PATH="$PATH:$HOME/.rvm/bin" # Add RVM to PATH for scripting
+# export DYLD_LIBRARY_PATH="$MAGICK_HOME/lib/"
 
 # ================================================================
 # ALIASES
@@ -178,14 +161,12 @@ export DYLD_LIBRARY_PATH="$MAGICK_HOME/lib/"
 # ================================================================
 
 eval $(keychain --nogui --eval --agents ssh --inherit any id_rsa)
-export GPGKEY="72F8EAFA"
+export GPGKEY="217FD2E8"
 export GPG_AGENT_INFO
 export GPG_TTY=$(tty)
 
-source /usr/local/etc/bash_completion.d/password-store
-
 # Load archey (if installed)
-[[ `type archey 2> /dev/null` && $UID != 0 ]] && archey
+# [[ `type archey 2> /dev/null` && $UID != 0 ]] && archey
 
 # forgot why it was needed to add this at the end
 export PATH="/usr/local/sbin:$PATH"
