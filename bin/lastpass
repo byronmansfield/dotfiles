@@ -1,9 +1,36 @@
 #!/bin/bash
 
-pbcopy < ${HOME}/.lastpass
+# Global vars
+_HOME=/Users/bmansfield
+FILE=.lastpass.gpg
+SLEEP=45
 
-if [ $? -eq 0 ]; then
-	echo "Copied lastpass master password to clipboard successfully"
-else
-	echo "Something went wrong, it did not copy your lastpass master password to your cliboard successfully"
-fi
+# clear the clipboard
+_clear_clipboard() {
+  sleep ${SLEEP}
+  pbcopy < /dev/null
+  tput bel
+}
+
+# copy the password from gpg
+_copy_pw() {
+  cat ${_HOME}/${FILE} | gpg -d --quiet | pbcopy
+}
+
+# main function
+main() {
+  _copy_pw
+
+  if [ $? -eq 0 ]; then
+    echo "Copied lastpass master password to clipboard successfully. Will clean in ${SLEEP} seconds."
+
+    # run in background so we can exit the script immediately
+    _clear_clipboard &
+    exit 0
+  else
+    echo "Something went wrong, the lastpass master password did NOT successfully get saved to your cliboard successfully"
+  fi
+}
+
+main
+
