@@ -35,7 +35,7 @@ else
 fi
 
 # List direcory contents
-alias la='ls -lAh | grep -v total'
+# alias la='ls -lAh | grep -v total'
 alias lsa='ls -lAh'
 alias l='ls -lah'
 alias ll='ls -lh'
