@@ -193,24 +193,6 @@ end tell
 EOF
 }
 
-# Install Grunt plugins and add them as `devDependencies` to `package.json`
-# Usage: `gi contrib-watch contrib-uglify zopfli`
-function gi() {
-	npm install --save-dev ${*/#/grunt-}
-}
-
-# Install Gulp plugins and add them as `devDependencies` to `package.json`
-# Usage: `gp uglify clean cache csso`
-function gp() {
-	npm install --save-dev ${*/#/gulp-}
-}
-
-# Install Yeoman generators
-# Usage: `yi webapp gruntfile angular`
-function yi() {
-	npm install --save-dev ${*/#/generator-}
-}
-
 # `m` with no arguments opens the current directory in TextMate, otherwise
 # opens the given location
 function m() {
@@ -285,11 +267,6 @@ function gh() {
   branch=${branch##refs/heads/}
   giturl=$giturl$branch
   open -a google\ chrome $giturl
-}
-
-# Copy's lastpass master password to clipboard
-function lp() {
-  cat ~/.lastpass | pbcopy
 }
 
 # Check most used in history
