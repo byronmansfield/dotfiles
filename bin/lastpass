@@ -1,7 +1,11 @@
 #!/bin/bash
 
+# strict mode
+set -euo pipefail
+set +x
+
 # Global vars
-_HOME=/Users/bmansfield
+HOME=${HOME:=/Users/bmansfield}
 FILE=.lastpass.gpg
 SLEEP=45
 
@@ -14,7 +18,7 @@ _clear_clipboard() {
 
 # copy the password from gpg
 _copy_pw() {
-  cat ${_HOME}/${FILE} | gpg -d --quiet | pbcopy
+  cat ${HOME}/${FILE} | gpg -d --quiet | pbcopy
 }
 
 # main function
