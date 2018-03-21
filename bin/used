@@ -1,0 +1,212 @@
+#!/bin/bash
+
+#
+# ./used
+#
+# Used script for displaying size of directories
+#
+# Written and maintained by Byron Mansfield <byron@byronmansfield.com>
+#
+
+# strict mode
+set -euo pipefail
+set +x
+
+# Global variables
+USER=${USER:=`whoami`}
+HOME=${HOME:=/Users/$USER}
+VERSION=0.1.0
+
+# Help text
+help() {
+  echo "Usage: ./used [OPTIONS]... [OPTIONS=VALUE]..."
+  echo "Command line tool to tell you the size of each directory"
+  echo ""
+  echo "Options:"
+  echo "  -a, --all            Print size of every directory"
+  echo "  -s, --sort           Print size of every directory in descending order"
+  echo "  -d code, -d=code, --dir=code"
+  echo "                       Print size of directory passed (i.e. 'code')"
+  echo "  -h, --help           Display the help text"
+  echo "  -v, --version        Output the version information"
+  echo ""
+  exit 0
+}
+
+# Print script Version
+version() {
+  echo "./used version ${VERSION}"
+  exit 0
+}
+
+# Print size of every directory
+all() {
+
+  local OLDIFS=${IFS}
+  IFS=$(echo -en "\n\b")
+
+  local directories=(`find ${HOME} -maxdepth 1 -mindepth 1 -type d -printf '%f\n'`)
+
+  echo -e "Size \t   Directory"
+
+  for d in "${directories[@]}"; do
+    if [ ${d} != "Library" ]; then
+      du -sh ${HOME}/${d}
+    fi
+  done
+
+  IFS=${OLDIFS}
+
+}
+
+# Print size of passed directory
+dir() {
+
+  echo ""
+  echo "Calculating size of ${HOME}/${1}"
+  echo "This can take a second"
+  echo "Please wait ..."
+  echo ""
+
+  du -sh ${HOME}/${1}
+}
+
+# creates a sorted list from largest to smallest
+sorted() {
+
+  echo ""
+  echo "Collecting all directories and size information"
+  echo "Depending on the size, this may take a little"
+  echo ""
+
+  local OLDIFS=${IFS}
+  IFS=$(echo -en "\n\b")
+
+  declare -A DIRS
+  local directories=(`find ${HOME} -maxdepth 1 -mindepth 1 -type d -printf '%f\n'`)
+
+  # populate an associative array that we can sort later
+  for d in "${directories[@]}"; do
+
+    if [ ${d} != "Library" ]; then
+      local all=`du -sh ${HOME}/${d}`
+      local _dir=${HOME}/${d}
+
+      IFS=${OLDIFS}
+      local size=`echo "${all}" | awk -F' ' '{print $1}'`
+      IFS=$(echo -en "\n\b")
+
+      DIRS[$size]=${_dir}
+    fi
+
+  done
+
+  echo "Done collecting information about directories"
+  echo "Sorting directories"
+  echo ""
+
+  echo -e "Size \t   Directory"
+
+  # sort the associative array
+  for s in "${!DIRS[@]}"; do
+    echo -e $s ' \t ' ${DIRS["$s"]}
+  done |
+  sort -rh
+
+  IFS=${OLDIFS}
+
+}
+
+# Main entrypoint function
+main() {
+
+  if [ $# -lt 1 ]; then
+    echo "no arguments were passed"
+    help
+  fi
+
+  while [ $# -gt 0 ]; do
+    case $1 in
+
+      # typical bash script flags
+      -h | --help)
+        help
+        ;;
+      -v | --version)
+        version
+        ;;
+
+      # basic simple long or short ones
+      -a | --all)
+        all
+        ;;
+
+      -s | --sort)
+        sorted
+        ;;
+
+      # short args that require a second value be passed
+      -d | -d=*)
+        if [ -z $2 ]; then
+          directory="${1#*=}"
+        else
+          directory="$2"
+        fi
+        dir ${directory}
+        ;;
+
+      -d)
+        echo "$1 requires an argument" >&2
+        exit 1
+        ;;
+
+      # long args that require a second value be passed
+      --dir=*)
+        directory="${1#*=}"
+        dir ${directory}
+        ;;
+
+      --dir)
+        echo "$1 requires an argument with format of $1=[value]" >&2
+        exit 1
+        ;;
+
+      --*)
+        echo "error, unknown log flag $1"
+        help
+        exit 1
+        ;;
+      -?)
+        echo "error, unknown short flag $1"
+        help
+        exit 1
+        ;;
+
+      # Split apart combined short options
+      -*)
+        split=$1
+        echo "split is ${split}"
+        shift
+
+        set -- $(echo "$split" | cut -c 2- | sed 's/./-& /g') "$@"
+
+        for arg in "$@"; do
+          echo "arg is ${arg}"
+        done
+
+        continue
+        ;;
+      *)
+        echo "Unknown argument $1"
+        help
+        exit 1
+        ;;
+    esac
+
+    shift
+
+  done
+
+}
+
+main "$@"
