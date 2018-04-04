@@ -13,13 +13,13 @@ myip() {
 # better ls command
 function la() {
   if [ $# -eq 0 ]; then
-    ls -lAh | grep -v total
-    if [ `ls -lAh | grep -v total | wc -l` -eq 0 ]; then
+    ls -lAh --color=auto | grep -v total
+    if [ `ls -lAh --color=auto | grep -v total | wc -l` -eq 0 ]; then
       echo "Empty directory"
     fi
   else
-    ls -lAh "$@" | grep -v total
-    if [ `ls -lAh "$@" | grep -v total | wc -l` -eq 0 ]; then
+    ls -lAh --color=auto "$@" | grep -v total
+    if [ `ls -lAh --color=auto "$@" | grep -v total | wc -l` -eq 0 ]; then
       echo "Empty directory"
     fi
   fi

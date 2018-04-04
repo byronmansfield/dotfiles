@@ -36,6 +36,7 @@ fi
 
 # List direcory contents
 # alias la='ls -lAh | grep -v total'
+alias ls='ls --color=auto'
 alias lsa='ls -lAh'
 alias l='ls -lah'
 alias ll='ls -lh'
