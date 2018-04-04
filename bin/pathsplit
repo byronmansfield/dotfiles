@@ -1,0 +1,13 @@
+#!/bin/bash
+
+_split() {
+  local IFS=:
+  local foo
+  set -f 			# Disable glob expansion
+  foo=( $@ ) 	# Deliberately unquoted
+  set +f
+  printf '%d\n' "${#foo[@]}"
+  printf '%s\n' "${foo[@]}"
+}
+
+_split `echo "${PATH}"`
