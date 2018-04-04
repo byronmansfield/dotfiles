@@ -120,6 +120,11 @@ fi
 [ -f "${HOME}"/.env ] && source ${HOME}/.env
 
 # ================================================================
+# LOAD WORK ENV
+# ================================================================
+[ -f "${HOME}"/.work ] && source ${HOME}/.work
+
+# ================================================================
 # AWS
 # ================================================================
 
@@ -130,6 +135,20 @@ export PATH="$PATH:$HOME/Library/Python/2.7/bin/"
 [[ -f ~/.aws/env ]] && source ~/.aws/env
 
 # ================================================================
+# Google Cloud
+# ================================================================
+
+# Add Google Cloud SDK to PATH
+if [ -f '/usr/local/bin/path.zsh.inc' ]; then
+  source '/usr/local/bin/path.zsh.inc';
+fi
+
+# Enables shell command completion for gcloud
+if [ -f '/usr/local/bin/completion.zsh.inc' ]; then
+  source '/usr/local/bin/completion.zsh.inc';
+fi
+
+# ================================================================
 # ImageMagick
 # ================================================================
 export MAGICK_HOME="$HOME/bin/ImageMagick-7.0.5"
@@ -138,9 +157,8 @@ export MAGICK_HOME="$HOME/bin/ImageMagick-7.0.5"
 # PATH
 # ================================================================
 
-export PATH="/usr/local/bin:/usr/bin:/bin:/usr/sbin:/sbin:$GOPATH/bin:$PATH"
-export PATH="/usr/local/sbin:$PATH"
-export PATH="$(brew --prefix coreutils)/libexec/gnubin:/usr/local/bin:$PATH"
+export PATH="/usr/local/bin:/usr/bin:/bin:/usr/local/sbin:/usr/sbin:/sbin:$GOPATH/bin:$PATH"
+export PATH="$(brew --prefix coreutils)/libexec/gnubin:$PATH"
 export PATH="/Applications/CMake.app/Contents/bin:$PATH"
 export PATH="$MAGICK_HOME/bin:$PATH"
 export PATH="$PATH:$HOME/.rvm/bin" # Add RVM to PATH for scripting
@@ -160,7 +178,7 @@ export PATH="$PATH:$HOME/.rvm/bin" # Add RVM to PATH for scripting
 # funtoo.org keychain / GnuPG
 # ================================================================
 
-eval $(keychain --nogui --eval --agents ssh --inherit any id_rsa)
+eval $(keychain --nogui --eval --agents ssh --inherit any id_rsa id_rsa_pp)
 export GPGKEY="217FD2E8"
 export GPG_AGENT_INFO
 export GPG_TTY=$(tty)
@@ -169,5 +187,5 @@ export GPG_TTY=$(tty)
 # [[ `type archey 2> /dev/null` && $UID != 0 ]] && archey
 
 # forgot why it was needed to add this at the end
-export PATH="/usr/local/sbin:$PATH"
+# export PATH="/usr/local/sbin:$PATH"
 
