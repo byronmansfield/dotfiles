@@ -35,8 +35,8 @@ else
 fi
 
 # List direcory contents
-# alias la='ls -lAh | grep -v total'
 alias ls='ls --color=auto'
+alias la='ls -lAh --color=always | grep --color=never -v total'
 alias lsa='ls -lAh'
 alias l='ls -lah'
 alias ll='ls -lh'
@@ -153,7 +153,8 @@ alias images='docker images'
 alias containers='docker ps -a'
 alias dps='docker ps'
 alias dpsa='docker ps -a'
-alias container='docker run -it --rm --entrypoint /bin/bash trusty'
+alias container='docker run -it ubuntu:14.04 /bin/bash'
+alias ctnr='docker run -it ubuntu:14.04 /bin/bash'
 alias cleanimages='docker rmi -f $(docker images | grep "^<none>" | awk "{print $3}")'
 alias clnimgs='docker rmi -f $(docker images | grep "^<none>" | awk "{print $3}")'
 alias rmimgs='docker rmi -f $(docker images | grep "^<none>" | awk "{print $3}")'
