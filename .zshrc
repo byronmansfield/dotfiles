@@ -100,6 +100,14 @@ export GOOS="darwin"
 export GOARCH="amd64"
 
 # ================================================================
+# PIP
+# ================================================================
+
+# auto complete for pip
+# function is in .functions
+compctl -K _pip_completion pip
+
+# ================================================================
 # RVM
 # ================================================================
 [[ -s "$HOME/.rvm/scripts/rvm" ]] && source "$HOME/.rvm/scripts/rvm" # Load RVM into a shell session *as a function*
@@ -129,7 +137,7 @@ fi
 # ================================================================
 
 # add aws cli to path
-export PATH="$PATH:$HOME/Library/Python/2.7/bin/"
+export PATH="$PATH:$HOME/Library/Python/2.7/bin"
 
 # source aws env file
 [[ -f ~/.aws/env ]] && source ~/.aws/env
@@ -186,6 +194,5 @@ export GPG_TTY=$(tty)
 # Load archey (if installed)
 # [[ `type archey 2> /dev/null` && $UID != 0 ]] && archey
 
-# forgot why it was needed to add this at the end
-# export PATH="/usr/local/sbin:$PATH"
+
 

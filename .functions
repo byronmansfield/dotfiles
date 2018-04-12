@@ -11,19 +11,19 @@ myip() {
 }
 
 # better ls command
-function la() {
-  if [ $# -eq 0 ]; then
-    ls -lAh --color=auto | grep -v total
-    if [ `ls -lAh --color=auto | grep -v total | wc -l` -eq 0 ]; then
-      echo "Empty directory"
-    fi
-  else
-    ls -lAh --color=auto "$@" | grep -v total
-    if [ `ls -lAh --color=auto "$@" | grep -v total | wc -l` -eq 0 ]; then
-      echo "Empty directory"
-    fi
-  fi
-}
+# function la() {
+#   if [ $# -eq 0 ]; then
+#     ls -lAh --color=auto | grep -v total
+#     if [ `ls -lAh --color=auto | grep -v total | wc -l` -eq 0 ]; then
+#       echo "Empty directory"
+#     fi
+#   else
+#     ls -lAh --color=auto "$@" | grep -v total
+#     if [ `ls -lAh --color=auto "$@" | grep -v total | wc -l` -eq 0 ]; then
+#       echo "Empty directory"
+#     fi
+#   fi
+# }
 
 # turn hidden files on/off in Finder
 function hiddenOn() {
@@ -282,6 +282,17 @@ function gh() {
   branch=${branch##refs/heads/}
   giturl=$giturl$branch
   open -a google\ chrome $giturl
+}
+
+# used for pip completion
+# two part - other is in zshrc
+function _pip_completion() {
+  local words cword
+  read -Ac words
+  read -cn cword
+  reply=( $( COMP_WORDS="$words[*]" \
+             COMP_CWORD=$(( cword-1 )) \
+             PIP_AUTO_COMPLETE=1 $words[1] ) )
 }
 
 # Check most used in history
