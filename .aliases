@@ -166,9 +166,9 @@ alias cadvisor='sudo docker run --volume=/:/rootfs:ro --volume=/var/run:/var/run
 alias cadvsr='sudo docker run --volume=/:/rootfs:ro --volume=/var/run:/var/run:rw --volume=/sys:/sys:ro --volume=/var/lib/docker/:/var/lib/docker:ro --publish=8080:8080 --detach=true --name=cadvisor google/cadvisor:latest'
 
 # browser containers
-alias ffctnr='docker run -it -v /tmp/.X11-unix:/tmp/.X11-unix -e DISPLAY=$(ifconfig en0 | grep inet | awk '"'"'$1=="inet" {print $2}'"'"'):0 --privileged jess/firefox'
-alias chromectnr='docker run -it -v /tmp/.X11-unix:/tmp/.X11-unix -e DISPLAY=$(ifconfig en0 | grep inet | awk '"'"'$1=="inet" {print $2}'"'"'):0 --privileged jess/chrome'
-alias torctnr='docker run -it -v /tmp/.X11-unix:/tmp/.X11-unix -e DISPLAY=$(ifconfig en0 | grep inet | awk '"'"'$1=="inet" {print $2}'"'"'):0 --privileged jess/tor-browser'
+alias ffctnr='IP=$(ifconfig | grep '"'"'inet '"'"' | grep -Fv 127 | grep 192 | awk '"'"'{print $2}'"'"'); export DISPLAY=$IP; xhost +; xhost + $IP; docker run -i -v /tmp/.X11-unix:/tmp/.X11-unix -e DISPLAY=$IP:0 --privileged jess/firefox'
+alias chromectnr='IP=$(ifconfig | grep '"'"'inet '"'"' | grep -Fv 127 | grep 192 | awk '"'"'{print $2}'"'"'); export DISPLAY=$IP; xhost +; xhost + $IP; docker run -i -v /tmp/.X11-unix:/tmp/.X11-unix -e DISPLAY=$IP:0 --privileged jess/chrome'
+alias torctnr='IP=$(ifconfig | grep '"'"'inet '"'"' | grep -Fv 127 | grep 192 | awk '"'"'{print $2}'"'"'); export DISPLAY=$IP; xhost +; xhost + $IP; docker run -i -v /tmp/.X11-unix:/tmp/.X11-unix -e DISPLAY=$IP:0 --privileged jess/tor-browser'
 
 # other containers
 alias dvpn='docker run -d --cap-add=NET_ADMIN -p 8112:8112 -p 8118:8118 -p 58846:58846 -p 58946:58946 -v ~/Downloads:/data -v ~/.config/deluge:/config -v ${DOCKERFILES}/arch-delugevpn/config/openvpn:/config/openvpn -e VPN_ENABLED=yes -e VPN_USER=${IPVANISH_USER} -e VPN_PASS=${IPVANISH_PASS} -e VPN_PROV=custom -e STRICT_PORT_FORWARD=yes -e ENABLE_PRIVOXY=no -e LAN_NETWORK=192.168.1.0/24 -eNAME_SERVERS=209.222.18.222,37.235.1.174,8.8.8.8,209.222.18.218,37.235.1.177,8.8.4.4 -e DEBUG=false -e UMASK=000 -e PUID=501 -e PGID=20 bmansfield/delugevpn'
