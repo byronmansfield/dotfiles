@@ -1,0 +1,10 @@
+#!/bin/bash
+
+set -eu
+
+main() {
+  ut=$(uptime | awk '{print $3""substr($4,1,1)" "$5}' | sed 's/.$//')
+  echo "Machine has been up ${ut}"
+}
+
+main
