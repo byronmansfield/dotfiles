@@ -1,0 +1,277 @@
+#!/bin/bash
+
+#
+# A script to swap out env vars for things such as aws and rancher
+#
+
+# strict mode
+set -euo pipefail
+set +x
+
+# Global variables
+VERSION="0.0.1"
+
+# Set variable from env var if env var is set, otherwise default to provided
+USER=${USER:=`whoami`}
+
+# Help output
+help() {
+  echo "Usage: ./switch [OPTIONS]... [OPTIONS=VALUE]..."
+  echo "A command line tool to switch personal and work stuff"
+  echo ""
+  echo "Options:"
+  echo "  -w, --work           Set to work creds"
+  echo "  -p, --personal       Set to personal creds"
+  echo "  -c, --current        Prints out which mode you are in"
+  echo "  -s, --switch         Toggles the mode you are in"
+  echo ""
+  echo "  -e [work|personal], -e=[work|personal],"
+  echo "  --env [work|personal], --env=[work|personal]"
+  echo "                       Set creds to passed value"
+  echo ""
+  echo "  -h, --help           Display the help text"
+  echo "  -v, --version        Output the version information"
+  echo ""
+  exit 0
+}
+
+# version command to print version information
+version() {
+  echo "./switch version ${VERSION}"
+  exit 0
+}
+
+# set work
+_work() {
+
+  echo "Swapping AWS creds to work creds"
+  echo ""
+
+  # swap aws creds file
+  if [ ! -f ${HOME}/.aws/credentials.personal ]; then
+    mv ${HOME}/.aws/credentials ${HOME}/.aws/credentials.personal
+    if [ -f ${HOME}/.aws/credentials.work ]; then
+      mv ${HOME}/.aws/credentials.work ${HOME}/.aws/credentials
+    else
+      echo "It looks like you may be in personal mode already because I can not locate your work aws creds file"
+    fi
+  else
+    echo "It looks like you may be in work mode already because your personal aws creds file already exists"
+  fi
+
+
+  # swap aws env file
+  if [ ! -f ${HOME}/.aws/env.personal ]; then
+    mv ${HOME}/.aws/env ${HOME}/.aws/env.personal
+    if [ -f ${HOME}/.aws/env.work ]; then
+      mv ${HOME}/.aws/env.work ${HOME}/.aws/env
+    else
+      echo "It looks like you may be in personal mode already because I can not locate your work aws env file"
+    fi
+  else
+    echo "It looks like you may be in work mode already because your personal aws env file already exists"
+  fi
+
+  # source the new env vars
+  echo "Sourcing your new work env vars now"
+  echo ""
+  source ${HOME}/.aws/env
+
+  exit 0
+}
+
+# set personal
+_personal() {
+
+  echo "Swapping AWS creds to personal creds"
+  echo ""
+
+  # swap aws creds file
+  if [ ! -f ${HOME}/.aws/credentials.work ]; then
+    mv ${HOME}/.aws/credentials ${HOME}/.aws/credentials.work
+    if [ -f ${HOME}/.aws/credentials.personal ]; then
+      mv ${HOME}/.aws/credentials.personal ${HOME}/.aws/credentials
+    else
+      echo "It looks like you may be in work mode already because I can not locate your personal aws creds file"
+    fi
+  else
+    echo "It looks like you may be in personal mode already because your work aws creds file already exists"
+  fi
+
+  # swap aws env file
+  if [ ! -f ${HOME}/.aws/env.work ]; then
+    mv ${HOME}/.aws/env ${HOME}/.aws/env.work
+    if [ -f ${HOME}/.aws/env.personal ]; then
+      mv ${HOME}/.aws/env.personal ${HOME}/.aws/env
+    else
+      echo "It looks like you may be in work mode already because I can not locate your personal aws env file"
+    fi
+  else
+    echo "It looks like you may be in personal mode already because your work aws env file already exists"
+  fi
+
+  # source the new env vars
+  echo "Sourcing your new personal env vars now"
+  echo ""
+  source ${HOME}/.aws/env
+
+  exit 0
+}
+
+# return which mode you are currently in
+_current() {
+  if [[ -f ${HOME}/.aws/env.work && -f ${HOME}/.aws/credentials.work ]]; then
+    echo "You are in personal mode"
+  else
+    echo "You are in work mode"
+  fi
+
+  exit 0
+}
+
+# switch mode to opposite of current
+_switch() {
+  if [[ -f ${HOME}/.aws/env.work && -f ${HOME}/.aws/credentials.work ]]; then
+    echo "You are in personal mode"
+    echo ""
+    echo "Switching you to work mode"
+    echo ""
+    _work
+  else
+    echo "You are in work mode"
+    echo ""
+    echo "Switching you to personal mode"
+    echo ""
+    _personal
+  fi
+
+  exit 0
+}
+
+# main entry point function
+main() {
+
+  if [ $# -lt 1 ]; then
+    echo "no arguments were passed"
+    help
+  fi
+
+  while [ $# -gt 0 ]; do
+    case $1 in
+
+      # typical bash script flags
+      -h | --help)
+        help
+        ;;
+      -v | --version)
+        version
+        ;;
+      -w | --work)
+        _work
+        shift
+        ;;
+      -p | --personal)
+        _personal
+        shift
+        ;;
+      -c | --current)
+        _current
+        shift
+        ;;
+      -s | --switch)
+        _switch
+        shift
+        ;;
+      # short args that require a second value be passed
+      -e | -e=*)
+        if [ -z $2 ]; then
+          env="${1#*=}"
+        else
+          env="$2"
+        fi
+        if [ $env -eq "work" ]; then
+          _work
+        elif [ $env -eq "personal" ]; then
+          _personal
+        else
+          echo "I'm sorry, I am not familiar with $1 credentials"
+          echo "Please check your spelling and try again"
+          exit 1
+        fi
+        ;;
+      # long args that require a second value be passed
+      --env=*)
+        env="${1#*=}"
+        if [ $env -eq "work" ]; then
+          _work
+        elif [ $env -eq "personal" ]; then
+          _personal
+        else
+          echo "I'm sorry, I am not familiar with $1 credentials"
+          echo "Please check your spelling and try again"
+          exit 1
+        fi
+        ;;
+      # Special cases
+      --)
+        echo "I'm sorry, I am not familiar with $1 passed flag"
+        exit 1
+        ;;
+      --*)
+        # error unknown (long) option $1
+        echo "I'm sorry, I am not familiar with $1 passed flag"
+        exit 1
+        ;;
+      -?)
+        # error unknown (short) option $1
+        echo "I'm sorry, I am not familiar with $1 passed flag"
+        exit 1
+        ;;
+
+      # FUN STUFF HERE:
+      # Split apart combined short options
+      -*)
+
+        #
+        # You can catch anything other than defined ones and thrown and error and message and exit out like this, which is easy and straight forward
+        #
+        # echo "unknown option: $1" >&2; exit 1;;
+        #
+        # Or you can do something more creative like handling combined flags.
+        # The issue is if you have combined flags along with an unknown one, it is still going to try and parse it.
+        # Alternatively you can try to brute force it with a long ugly if else statement that includes checking for every single flag.
+        # Unless there is a better way I have not found yet.
+        # If you want to combine the flags you can do so like this:
+        #
+
+        split=$1
+        echo "split is ${split}"
+        shift
+
+        echo ""
+        echo "arg count before is $#"
+        echo ""
+
+        set -- $(echo "$split" | cut -c 2- | sed 's/./-& /g') "$@"
+
+        echo "arg count after is $#"
+        echo ""
+
+        for arg in "$@"; do
+          echo "arg is ${arg}"
+        done
+
+        continue
+        ;;
+
+      # Done with options
+      *)
+        echo "Unknown argument $1"
+        exit 1
+        ;;
+    esac
+  done
+}
+
+main "$@"
+
