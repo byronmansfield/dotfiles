@@ -101,7 +101,7 @@ calc() {
 #     .. cd dots
 #     .. vim .
 
-clone {
+clone() {
   local username="byronmansfield"
 
   local url=$1;
