@@ -11,7 +11,7 @@ myip() {
 }
 
 # better ls command
-# function la() {
+# la() {
 #   if [ $# -eq 0 ]; then
 #     ls -lAh --color=auto | grep -v total
 #     if [ `ls -lAh --color=auto | grep -v total | wc -l` -eq 0 ]; then
@@ -26,42 +26,42 @@ myip() {
 # }
 
 # turn hidden files on/off in Finder
-function hiddenOn() {
+hiddenOn() {
 	defaults write com.apple.Finder AppleShowAllFiles YES ;
 }
-function hiddenOff() {
+hiddenOff() {
 	defaults write com.apple.Finder AppleShowAllFiles NO ;
 }
 
 # hide desktop icons
-function hideDesktop() {
+hideDesktop() {
 	defaults write com.apple.finder CreateDesktop -bool false;killall Finder;say icons hidden
 }
-function showDesktop() {
+showDesktop() {
 	defaults write com.apple.finder CreateDesktop -bool true;killall Finder;say icons visible
 }
 
 # postgres functions
-function pgstart() {
+pgstart() {
   pg_ctl -D /usr/local/var/postgres -l /usr/local/var/postgres/server.log start;
 }
-function pgstop() {
+pgstop() {
   pg_ctl -D /usr/local/var/postgres stop -m fast ;
 }
-function pgstatus() {
+pgstatus() {
   pg_ctl -D /usr/local/var/postgres status ;
 }
 
 # webdriver functions
-function wdstart() {
+wdstart() {
   webdriver-manager start ;
 }
-function wdstop() {
+wdstop() {
   webdriver-manager stop ;
 }
 
 # Simple calculator
-function calc() {
+calc() {
 	local result=""
 	result="$(printf "scale=10;$*\n" | bc --mathlib | tr -d '\\\n')"
 	#                       └─ default (when `--mathlib` is used) is 20
@@ -101,7 +101,7 @@ function calc() {
 #     .. cd dots
 #     .. vim .
 
-function clone {
+clone {
   local username="byronmansfield"
 
   local url=$1;
@@ -126,12 +126,12 @@ function clone {
 
 # simple git log
 # usage glr v0.2.2 v0.2.3
-function glr() {
+glr() {
 	git log $1 $2 --pretty=format:'* %h %s' --date=short --no-merges
 }
 
 # git log with per-commit cmd-clickable GitHub URLs (iTerm)
-function gf() {
+gf() {
   local remote="$(git remote -v | awk '/^origin.*\(push\)$/ {print $2}')"
   [ "$remote" ] || return
   local user_repo="$(echo "$remote" | perl -pe 's/.*://;s/\.git$//')"
@@ -144,7 +144,7 @@ AWK
 }
 
 # Syntax-highlight JSON strings or files
-function json() {
+json() {
 	if [ -p /dev/stdin ]; then
 		# piping, e.g. `echo '{"foo":42}' | json`
 		python -mjson.tool | pygmentize -l javascript
@@ -155,7 +155,7 @@ function json() {
 }
 
 # get gzipped size
-function gz() {
+gz() {
 	echo "orig size    (bytes): "
 	cat "$1" | wc -c
 	echo "gzipped size (bytes): "
@@ -163,14 +163,14 @@ function gz() {
 }
 
 # All the dig info
-function digga() {
+digga() {
 	dig +nocmd "$1" any +multiline +noall +answer
 }
 
 # Add note to Notes.app (OS X 10.8)
 # Usage: `note 'title' 'body'` or `echo 'body' | note`
 # Title is optional
-function note() {
+note() {
 	local title
 	local body
 	if [ -t 0 ]; then
@@ -192,7 +192,7 @@ EOF
 
 # Add reminder to Reminders.app (OS X 10.8)
 # Usage: `remind 'foo'` or `echo 'foo' | remind`
-function remind() {
+remind() {
 	local text
 	if [ -t 0 ]; then
 		text="$1" # argument
@@ -210,7 +210,7 @@ EOF
 
 # `m` with no arguments opens the current directory in TextMate, otherwise
 # opens the given location
-function m() {
+m() {
 	if [ $# -eq 0 ]; then
 		mate .
 	else
@@ -220,7 +220,7 @@ function m() {
 
 # `v` with no arguments opens the current directory in Vim, otherwise opens the
 # given location
-function v() {
+v() {
 	if [ $# -eq 0 ]; then
 		vim .
 	else
@@ -230,7 +230,7 @@ function v() {
 
 # `o` with no arguments opens current directory, otherwise opens the given
 # location
-function o() {
+o() {
 	if [ $# -eq 0 ]; then
 		open .
 	else
@@ -240,7 +240,7 @@ function o() {
 
 # Create animated GIFs from any video
 # Uses http://gist.github.com/SlexAxton/4989674
-function gifify() {
+gifify() {
   if [[ -n "$1" ]]; then
     if [[ $2 == '--good' ]]; then
       ffmpeg -i $1 -r 10 -vcodec png out-static-%05d.png
@@ -255,7 +255,7 @@ function gifify() {
 }
 
 # GitHub URL for current repo.
-function gurl() {
+gurl() {
   local remotename="${@:-origin}"
   local remote="$(git remote -v | awk '/^'"$remotename"'.*\(push\)$/ {print $2}')"
   [ "$remote" ] || return
@@ -264,7 +264,7 @@ function gurl() {
 }
 
 # open last commit in GitHub, in the browser.
-function gfu() {
+gfu() {
   local n="${@:-1}"
   n=$((n-1))
   open $(git log -n 1 --skip=$n --pretty=oneline | awk "{printf \"$(gurl)/commit/%s\", substr(\$1,1,7)}")
@@ -273,7 +273,7 @@ function gfu() {
 # Opens the github page for the current git repository in your browser
 # git@github.com:jasonneylon/dotfiles.git
 # https://github.com/jasonneylon/dotfiles/
-function gh() {
+gh() {
   giturl=$(git config --get remote.origin.url)
   giturl=${giturl/git\@github\.com\:/https://github.com/}
   giturl=${giturl/\.git/\/tree/}
@@ -286,7 +286,7 @@ function gh() {
 
 # used for pip completion
 # two part - other is in zshrc
-function _pip_completion() {
+_pip_completion() {
   local words cword
   read -Ac words
   read -cn cword
@@ -296,11 +296,11 @@ function _pip_completion() {
 }
 
 # Check most used in history
-function mostused() {
+mostused() {
   history | awk '{print $2}' | sort | uniq -c | sort -nr | head;
 }
 
 # better new dir
-function newdir() {
+newdir() {
   makdir -p "$@" && eval cd "$@";
 }
